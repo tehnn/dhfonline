@@ -130,7 +130,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     <td>
                                         <?php
                                         if(!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active" title="'.$row[pcu_receive].'">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }

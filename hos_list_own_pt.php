@@ -42,7 +42,7 @@ require 'condb.php';
 from patient_hos pt 
 LEFT JOIN amp amp on pt.send_to_amp = amp.code
 LEFT JOIN receive rc on rc.pid = pt.pid
-where pt.office_own='$pcucode'";
+where pt.office_own='$pcucode' order by pt.datetime_send DESC";
         $result = mysql_query($sql);
         $num_all_case = mysql_num_rows($result);
         ?>
@@ -114,7 +114,7 @@ where pt.office_own='$pcucode'";
                                     <td>
                                         <?php
                                         if (!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active" title="'.$row[pcu_receive].'">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
