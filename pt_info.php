@@ -15,15 +15,15 @@ session_start();
                 a[data-role="button"]{
                     display: none;
                 }
-               
+
                 ul[data-role="listview"]{
                     background-color: white;
-                    
+
                 }
                 li[data-role="fieldcontain"]{
                     color: black;
-                     
-                     
+
+
                 }
             }
         </style>
@@ -42,12 +42,12 @@ session_start();
                     <li data-role="fieldcontain">
                         <img src="img_ic/people.png">
                         <h2>นายสมศักดิ์ เลิสคน,33ป 6ด</h2>
-                        <p><strong>เริ่มป่วย:2014-02-13,รับรักษา:2014-02-14</strong></p>
-                         <p><strong>แจ้งcase:2014-02-15,รับcase:2014-02-15</strong></p>
-                        <p>cid:3650000234556,hn:00223333</p>
-                        <p>ส่งจาก:รพ.นครไทย</p>  
-                        <p>หน่วยงานรับ:รพ.สต.นครชุม</p>
-                                            
+                        <h3>cid:3650000234556,hn:00223333</h3>
+                        <h3>เริ่มป่วย:2014-02-13,รับรักษา:2014-02-14</h3>
+                        <h3>แจ้งcase:2014-02-15 23:00:01,รับcase:2014-02-15 12:00:01</h3>                       
+                        <h3>ส่งจาก:รพ.นครไทย,รับโดย:รพ.สต.นครชุม</h3>  
+
+
                         <h4>
                             วันสอบสวน : 
                             <?php
