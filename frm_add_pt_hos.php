@@ -119,7 +119,7 @@ require 'condb.php'
                         </li>
                         <li data-role="fieldcontain">
                             <label for="cid">เลข 13 หลัก:</label>
-                            <input type="text" name="cid" id="cid" data-clear-btn="true">
+                            <input type="text" name="cid" id="cid" data-clear-btn="true" maxlength="13">
                         </li>
                         <li data-role="fieldcontain">
                             <label for="sex">เพศ:</label>

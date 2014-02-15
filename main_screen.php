@@ -37,6 +37,27 @@ require 'condb.php';
 
     </head> 
     <body> 
+        <?php
+        $sql = "select rc.pcu_receive,count(ph.pid) as sob,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+u.pcucode,u.off_name,u.amp from patient_hos pt
+LEFT JOIN user u on pt.office_own = u.pcucode
+LEFT JOIN receive rc on pt.pid = rc.pid
+LEFT JOIN patient_home ph on pt.pid = ph.pid
+where pt.send_to_amp=u.amp and u.pcucode='$pcucode'
+GROUP BY pt.pid
+order by pt.datetime_send DESC";
+        $result_all = mysql_query($sql);
+        $num_all_case = mysql_num_rows($result_all);
+
+        $sql = "select pid from patient_hos pt
+LEFT JOIN user u on pt.send_to_amp = u.amp
+where pt.send_to_amp = u.amp
+and u.pcucode = '$pcucode'
+and date(pt.datetime_send) = CURDATE()";
+        $result_today = mysql_query($sql);
+        $num_today_case = mysql_num_rows($result_today);
+        ?>
+
         <div data-role="page">
             <div data-role="header" data-position="fixed" data-theme="f">
                 <a href="#" data-icon="gear">Setting</a>
@@ -45,11 +66,11 @@ require 'condb.php';
 
             </div><!-- /header -->
             <div data-role="content" data-theme="f">
-                 <?php require 'office_title.php'; ?>
+                <?php require 'office_title.php'; ?>
 
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                         ผู้ป่วยรวมทั้งหมด จำนวน  5 ราย วันนี้  2 ราย
+                        ผู้ป่วยรวมทั้งหมด จำนวน  <?= $num_all_case ?> ราย วันนี้  <?= $num_today_case ?> ราย
                     </div>  
                 </div>
 
@@ -102,28 +123,34 @@ require 'condb.php';
                         </thead>
                         <tbody>
 
-                            <tr>
-                                <td><span class="status-metro status-active">รับแล้ว</span></td>
-                                <td>2</td>
-                                <td> <a href="pt_info.php?pid=111" rel="external">ด.ช.วัฒนศักดิ์ เล็กแจ้ง</a></td>
-                                <td>33ป,2ด</td>
-                                <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>
-                                <td>2013-02-11</td>
-                                <td>รพ.สมเด็จพระยุพราชนครไทย</td>
-                                <td>2013-02-12 23:09:09</td>
-                            </tr>
-                          
-                            <tr>
-                                <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
-                                <td>1</td>
-                                <td> <a href="pt_info.php?pid=111" rel="external">ด.ช.อลงกรณ์ เล็กแจ้ง</a></td>
-                                <td>13ป,11ด</td>
-                                <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>
-                                <td>2013-02-10</td>
-                                <td>รพ.สมเด็จพระยุพราชนครไทย</td>
-                                <td>2013-02-12 23:19:09</td>
-                            </tr>
-                           
+                            <?php
+                            while ($row = mysql_fetch_array($result_all)) {
+                                ?>
+                                <tr>
+                                    <td>
+                                        <?php
+                                        if(!empty($row[pcu_receive])) {
+                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
+                                        } else {
+                                            echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
+                                        }
+                                        ?>
+                                    </td>
+                                    <td><?= $row[sob] ?></td>
+                                    <td>
+                                        <a href="pt_info.php?pid=<?= $row[pid] ?>" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
+                                    </td>
+                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[date_found] ?></td>
+                                    <td><?= $row[off_name] ?></td>
+                                    <td><?= $row[datetime_send] ?></td>
+                                </tr>
+
+                                <?php
+                            }
+                            ?>
+
 
                         </tbody>
                         <tfoot>
@@ -158,16 +185,16 @@ require 'condb.php';
                             $('table.demo').trigger('footable_filter', {filter: $('#filter').val()});
                         });
 
-                       
+
                     });
                 </script>
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f"  class="ui-bar">
-               <?php
+                <?php
                 require 'menu_foot.php';
-                require 'txt_foot.php'; 
-               ?>
+                require 'txt_foot.php';
+                ?>
             </div>
         </div>  <!-- end page -->
 

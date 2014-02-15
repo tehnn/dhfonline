@@ -36,7 +36,15 @@ require 'condb.php';
         <script src="bootjs/demos.js" type="text/javascript"></script>
 
     </head> 
-    <body> 
+    <body>         
+        <?php
+        $sql = "select pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
+from patient_hos pt LEFT JOIN amp amp 
+on pt.send_to_amp = amp.code
+ where pt.office_own='$pcucode'";
+        $result = mysql_query($sql);
+        $num_all_case = mysql_num_rows($result);
+        ?>
         <div data-role="page">
             <div data-role="header" data-position="fixed" data-theme="f">
                 <a href="main_screen.php" rel="external" data-icon="back">Back</a>
@@ -48,7 +56,7 @@ require 'condb.php';
                 <?php require 'office_title.php'; ?>
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                        ส่ง case แล้ว  จำนวน  5 ราย
+                        ส่ง case แล้ว  จำนวน  <?= $num_all_case ?> ราย
                     </div>  
                 </div>
 
@@ -75,10 +83,7 @@ require 'condb.php';
                             <tr>
                                 <th >
                                     สถานะ
-                                </th>
-                                <th data-hide="phone,tablet">
-                                    ครั้ง
-                                </th>
+                                </th>                               
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล,อายุ
                                 </th>
@@ -86,7 +91,7 @@ require 'condb.php';
                                     อายุ
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    ที่อยู่
+                                    ที่อยู่ขณะป่วย
                                 </th>
                                 <th data-hide="phone,tablet">
                                     วันรับรักษา
@@ -101,32 +106,41 @@ require 'condb.php';
                         </thead>
                         <tbody>  
                             <!-- select from patient_hos -->
-                            <tr>
-                                <td><span class="status-metro status-active">รับแล้ว</span></td>
-                                <td>2</td>
-                                <td> <a href="pt_info.php?pid=111&hos_own=y" rel="external">ด.ช.วัฒนศักดิ์ เล็กแจ้ง</a></td>
-                                <td>33ป,2ด</td>
-                                <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>
-                                <td>2013-02-11</td>
-                                <td>รพ.สมเด็จพระยุพราชนครไทย</td>
-                                <td>2013-02-12 23:09:09</td>
-                            </tr>
-                            <tr>
-                                <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
-                                <td>0</td>
-                                <td> <a href="pt_info.php?pid=111&hos_own=y" rel="external">ด.ช.คมกฤษ เล็กแจ้ง</a></td>
-                                <td>3ป,11ด</td>
-                                <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>
-                                <td>2013-02-12</td>
-                                <td>รพ.สมเด็จพระยุพราชนครไทย</td>
-                                <td>2013-02-11 22:09:09</td>
-                            </tr>
+                            <?php
+                            while ($row = mysql_fetch_array($result)) {
+                                ?>
+                                <tr>
+                                    <?php
+                                    if (!empty($row[amp_receive_date])) {
+                                        ?>
+                                        <td><span class="status-metro status-active">รับแล้ว</span></td>
+
+                                        <?php
+                                    } else {
+                                        ?>
+                                        <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
+                                        <?php
+                                    }
+                                    ?>
+
+                                    <td> 
+                                        <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
+                                    </td>
+                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[date_found] ?></td>
+                                    <td><?= $row[amp_name] ?></td>
+                                    <td><?= $row[datetime_send] ?></td>
+                                </tr>
+                                <?php
+                            }
+                            ?>
 
 
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="8">
+                                <td colspan="7">
                                     <div class="pagination"></div>
                                 </td>
                             </tr>

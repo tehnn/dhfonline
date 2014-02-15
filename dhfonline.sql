@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50051
 File Encoding         : 65001
 
-Date: 2014-02-16 00:14:38
+Date: 2014-02-16 03:50:10
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1665,7 +1665,7 @@ CREATE TABLE `patient_cut` (
 -- ----------------------------
 DROP TABLE IF EXISTS `patient_home`;
 CREATE TABLE `patient_home` (
-  `pid` varchar(50) NOT NULL,
+  `pid` varchar(255) NOT NULL,
   `office_own` varchar(255) default NULL,
   `user_do` varchar(25) NOT NULL,
   `office_do` varchar(25) NOT NULL default '',
@@ -1692,6 +1692,7 @@ CREATE TABLE `patient_home` (
 -- ----------------------------
 -- Records of patient_home
 -- ----------------------------
+INSERT INTO `patient_home` VALUES ('11251140216112233', null, '', '', '2014-02-16 03:08:52', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
 
 -- ----------------------------
 -- Table structure for `patient_hos`
@@ -1709,7 +1710,7 @@ CREATE TABLE `patient_hos` (
   `cid` varchar(13) default NULL,
   `sex` varchar(4) default NULL,
   `bdate` date default NULL,
-  `occupat` varchar(2) default NULL,
+  `occupat` varchar(255) default NULL,
   `school` varchar(100) default NULL,
   `date_ill` date default NULL,
   `date_found` date default NULL,
@@ -1717,39 +1718,36 @@ CREATE TABLE `patient_hos` (
   `addr_home` varchar(255) default NULL,
   `code506` varchar(25) NOT NULL,
   `icd10` varchar(25) default NULL,
-  `pt_type` varchar(25) default NULL COMMENT 'ผู้ป่วยนอก/ใน',
-  `pt_status` varchar(25) default NULL COMMENT 'สถานะผู้ป่วย รักษาอยู่ หาย ตาย',
   `note_text` varchar(255) default NULL,
   `img_pt` varchar(255) default NULL,
   `sender` varchar(255) default NULL,
-  `send_to_amp` varchar(5) default NULL COMMENT '5 หลัก สสอ.',
-  `amp_receive_date` datetime default NULL COMMENT '5 หลัก สสอ.',
-  `send_to_pcu` varchar(5) default NULL COMMENT '5 หลัก รพสต',
-  `pcu_receive_date` datetime default NULL,
+  `send_to_amp` varchar(4) default NULL COMMENT '5 หลัก สสอ.',
   `is_cut` varchar(1) default NULL,
-  PRIMARY KEY  (`office_own`,`datetime_send`,`hn`)
+  PRIMARY KEY  (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of patient_hos
 -- ----------------------------
+INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-15 01:29:47', '92334', '1125114021692334', 'นาย', 'อุเทน', 'จาดยางโทน', '3650100810887', '1', '2014-02-16', 'รั', '', '2014-02-16', '2014-02-15', '25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก', 'เช่นเดียวกับขณะป่วย', '26', 'ไม่ทราบ', 'ไข้ 3 วันก่อนมา รพ. ไม่ได้เดินทางไปไหน', '11251140216923341383142_590729910996934_753720864_', 'นานี', '6501', null);
+INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-15 01:33:00', '112233', '11251140216112233', 'นาง', 'สง่า', 'จาดยางโทน', '3650100810887', '2', '2014-02-16', 'รับราชการ', '', '2014-02-15', '2014-02-14', '25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก', 'เช่นเดียวกับขณะป่วย', '66', 'ไม่ทราบ', 'ไข้ 3 วันก่อนมา รพ. ไม่ได้เดินทางไปไหน', '112511402161122331383142_590729910996934_753720864_n.png', 'นานี', '6503', null);
+INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-16 01:43:46', '2345', '112511402162345', 'นาง', 'สง่า', 'จาดยางโทน', '3650100810887', '2', '2009-10-29', 'รับราชการ', '', '0000-00-00', '2014-02-17', '25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก', 'เช่นเดียวกับขณะป่วย', '66', 'ไม่ทราบ', 'ไข้ 3 วันก่อนมา รพ. ไม่ได้เดินทางไปไหน\r\nไปลำปางมา\r\nเพิ่งกลับ', '1125114021623451383142_590729910996934_753720864_n.png', 'นานี', '6503', null);
 
 -- ----------------------------
 -- Table structure for `receive`
 -- ----------------------------
 DROP TABLE IF EXISTS `receive`;
 CREATE TABLE `receive` (
-  `pid` varchar(50) NOT NULL default '',
-  `pcu_send` varchar(5) default NULL,
-  `datetime_send` datetime default NULL,
+  `pid` varchar(255) NOT NULL default '',
   `pcu_receive` varchar(5) NOT NULL default '',
   `datetime_receive` datetime default NULL,
-  PRIMARY KEY  (`pid`,`pcu_receive`)
+  PRIMARY KEY  (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of receive
 -- ----------------------------
+INSERT INTO `receive` VALUES ('11251140216112233', '11252', '2014-02-16 03:05:33');
 
 -- ----------------------------
 -- Table structure for `tmb`
@@ -1873,8 +1871,8 @@ CREATE TABLE `user` (
   `off_type` varchar(10) character set tis620 collate tis620_bin default NULL,
   `off_name` varchar(100) character set tis620 collate tis620_bin default NULL,
   `prov` varchar(2) character set tis620 collate tis620_bin default NULL,
-  `amp` varchar(2) character set tis620 collate tis620_bin default NULL,
-  `tmb` varchar(2) character set tis620 collate tis620_bin default NULL,
+  `amp` varchar(4) character set tis620 collate tis620_bin default NULL,
+  `tmb` varchar(6) character set tis620 collate tis620_bin default NULL,
   `level` varchar(255) default NULL,
   `permit` varchar(1) default NULL,
   `login_count` int(11) default NULL,
@@ -1885,208 +1883,208 @@ CREATE TABLE `user` (
 -- ----------------------------
 -- Records of user
 -- ----------------------------
-INSERT INTO `user` VALUES ('u65000', 'p65000', '00051', null, '01', 'สสจ.พิษณุโลก', '65', '01', '00', 'pro', 'y', '5', '2014-02-14 22:38:53');
-INSERT INTO `user` VALUES ('u65010', 'p65010', '00688', null, '02', 'อ.เมือง', '65', '01', '00', 'amp', 'y', '1', null);
-INSERT INTO `user` VALUES ('u65020', 'p65020', '00689', null, '02', 'อ.นครไทย', '65', '02', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65030', 'p65030', '00690', null, '02', 'อ.ชาติตระการ', '65', '03', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65040', 'p65040', '00691', null, '02', 'อ.บางระกำ', '65', '04', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65050', 'p65050', '00692', null, '02', ' อ.บางกระทุ่ม', '65', '05', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65060', 'p65060', '00693', null, '02', 'อ.พรหมพิราม', '65', '06', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65070', 'p65070', '00694', null, '02', 'อ.วัดโบสถ์', '65', '07', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65080', 'p65080', '00695', null, '02', 'อ.วังทอง', '65', '08', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u65090', 'p65090', '00696', null, '02', 'อ.เนินมะปราง', '65', '09', '00', 'amp', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07476', 'p07476', '07476', null, '18', 'รพ.สต.วังน้ำคู้', '65', '01', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07477', 'p07477', '07477', null, '18', 'รพ.สต.งิ้วงาม', '65', '01', '20', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07478', 'p07478', '07478', null, '18', 'รพ.สต.วัดจันทร์', '65', '01', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07479', 'p07479', '07479', null, '18', 'รพ.สต.วัดพริก', '65', '01', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07480', 'p07480', '07480', null, '18', 'รพ.สต.บ้านเสาหิน', '65', '01', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07481', 'p07481', '07481', null, '18', 'รพ.สต.ท่าทอง', '65', '01', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07482', 'p07482', '07482', null, '18', 'รพ.สต.ท่าโพธิ์', '65', '01', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07483', 'p07483', '07483', null, '18', 'รพ.สต.สมอแข', '65', '01', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07484', 'p07484', '07484', null, '18', 'รพ.สต.ดอนทอง', '65', '01', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07485', 'p07485', '07485', null, '18', 'รพ.สต.บ้านป่า', '65', '01', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07486', 'p07486', '07486', null, '18', 'รพ.สต.ปากโทก', '65', '01', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07487', 'p07487', '07487', null, '18', 'รพ.สต.หัวรอ', '65', '01', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07488', 'p07488', '07488', null, '18', 'รพ.สต.จอมทอง', '65', '01', '12', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07489', 'p07489', '07489', null, '18', 'รพ.สต.บ้านจอมทอง', '65', '01', '12', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07490', 'p07490', '07490', null, '18', 'รพ.สต.บ้านกร่าง', '65', '01', '13', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07491', 'p07491', '07491', null, '18', 'รพ.สต.บ้านคลอง', '65', '01', '14', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07492', 'p07492', '07492', null, '18', 'รพ.สต.พลายชุมพล', '65', '01', '15', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07493', 'p07493', '07493', null, '18', 'รพ.สต.มะขามสูง', '65', '01', '16', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07494', 'p07494', '07494', null, '18', 'รพ.สต.อรัญญิก', '65', '01', '17', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07495', 'p07495', '07495', null, '18', 'รพ.สต.บึงพระ', '65', '01', '18', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07496', 'p07496', '07496', null, '18', 'รพ.สต.ไผ่ขอดอน', '65', '01', '19', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07497', 'p07497', '07497', null, '18', 'รพ.สต.บ้านนาจาน', '65', '02', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07498', 'p07498', '07498', null, '18', 'รพ.สต.หนองกะท้าว', '65', '02', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07499', 'p07499', '07499', null, '18', 'รพ.สต.บ้านบางยางพัฒนา', '65', '02', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07500', 'p07500', '07500', null, '18', 'รพ.สต.บ้านแยง', '65', '02', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07501', 'p07501', '07501', null, '18', 'รพ.สต.บ้านหนองหิน', '65', '02', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07502', 'p07502', '07502', null, '18', 'รพ.สต.บ้านเกษตรสุข', '65', '02', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07503', 'p07503', '07503', null, '18', 'รพ.สต.บ้านห้วยตีนตั่ง', '65', '02', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07504', 'p07504', '07504', null, '18', 'รพ.สต.เนินเพิ่ม', '65', '02', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07505', 'p07505', '07505', null, '18', 'รพ.สต.นาบัว', '65', '02', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07506', 'p07506', '07506', null, '18', 'รพ.สต.บ้านนาคล้อ', '65', '02', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07507', 'p07507', '07507', null, '18', 'รพ.สต.นครชุม', '65', '02', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07508', 'p07508', '07508', null, '18', 'รพ.สต.น้ำกุ่ม', '65', '02', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07509', 'p07509', '07509', null, '18', 'รพ.สต.ยางโกลน', '65', '02', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07510', 'p07510', '07510', null, '18', 'รพ.สต.บ้านบุ่งตารอด', '65', '02', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07511', 'p07511', '07511', null, '18', 'รพ.สต.บ้านน้ำเลา', '65', '02', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07512', 'p07512', '07512', null, '18', 'รพ.สต.บ้านแก่งทุ่ง', '65', '02', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07513', 'p07513', '07513', null, '18', 'รพ.สต.บ่อโพธิ์', '65', '02', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07514', 'p07514', '07514', null, '18', 'รพ.สต.บ้านพร้าว', '65', '02', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07515', 'p07515', '07515', null, '18', 'รพ.สต.ห้วยเฮี้ย', '65', '02', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07516', 'p07516', '07516', null, '18', 'รพ.สต.ชาติตระการ', '65', '03', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07517', 'p07517', '07517', null, '18', 'รพ.สต.บ้านใหม่ไทยเจริญ', '65', '03', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07518', 'p07518', '07518', null, '18', 'รพ.สต.สวนเมี่ยง', '65', '03', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07519', 'p07519', '07519', null, '18', 'รพ.สต.บ้านโคกใหญ่', '65', '03', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07520', 'p07520', '07520', null, '18', 'รพ.สต.บ้านดง', '65', '03', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07521', 'p07521', '07521', null, '18', 'รพ.สต.บ้านนาตาจูม', '65', '03', '04', 'pcu', 'y', '1', null);
-INSERT INTO `user` VALUES ('u07522', 'p07522', '07522', null, '18', 'รพ.สต.บ้านนาตอน', '65', '03', '05', 'pcu', 'y', '10', '2014-02-14 12:54:15');
-INSERT INTO `user` VALUES ('u07523', 'p07523', '07523', null, '18', 'รพ.สต.บ่อภาค', '65', '03', '05', 'pcu', 'y', '1', '2014-02-15 01:06:44');
-INSERT INTO `user` VALUES ('u07524', 'p07524', '07524', null, '18', 'รพ.สต.บ้านร่มเกล้า', '65', '03', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07525', 'p07525', '07525', null, '18', 'รพ.สต.ท่าสะแก', '65', '03', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07526', 'p07526', '07526', null, '18', 'รพ.สต.ปลักแรด', '65', '04', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07527', 'p07527', '07527', null, '18', 'รพ.สต.บ้านดงโคกขาม', '65', '04', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07528', 'p07528', '07528', null, '18', 'รพ.สต.พันเสา', '65', '04', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07529', 'p07529', '07529', null, '18', 'รพ.สต.วังอิทก', '65', '04', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07530', 'p07530', '07530', null, '18', 'รพ.สต.บ้านปรือกระเทียม', '65', '04', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07531', 'p07531', '07531', null, '18', 'รพ.สต.บึงกอก', '65', '04', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07532', 'p07532', '07532', null, '18', 'รพ.สต.หนองกุลา', '65', '04', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07533', 'p07533', '07533', null, '18', 'รพ.สต.ในนิคมบางระกำ', '65', '04', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07534', 'p07534', '07534', null, '18', 'รพ.สต.บ้านหนองนา', '65', '04', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07535', 'p07535', '07535', null, '18', 'รพ.สต.บ้านหนองไผ่', '65', '04', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07536', 'p07536', '07536', null, '18', 'รพ.สต.บ้านชุมแสง', '65', '04', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07537', 'p07537', '07537', null, '18', 'รพ.สต.ชุมแสงสงคราม', '65', '04', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07538', 'p07538', '07538', null, '18', 'รพ.สต.บ้านหนองอ้อ', '65', '04', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07539', 'p07539', '07539', null, '18', 'รพ.สต.นิคมพัฒนา', '65', '04', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07540', 'p07540', '07540', null, '18', 'รพ.สต.บ้านใหม่เจริญผล', '65', '04', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07541', 'p07541', '07541', null, '18', 'รพ.สต.บ่อทอง', '65', '04', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07542', 'p07542', '07542', null, '18', 'รพ.สต.ท่านางงาม', '65', '04', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07543', 'p07543', '07543', null, '18', 'รพ.สต.บ้านดง', '65', '04', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07544', 'p07544', '07544', null, '18', 'รพ.สต.บ้านไร่', '65', '05', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07545', 'p07545', '07545', null, '18', 'รพ.สต.บ้านวังตาบัว', '65', '05', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07546', 'p07546', '07546', null, '18', 'รพ.สต.โคกสลุด', '65', '05', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07547', 'p07547', '07547', null, '18', 'รพ.สต.สนามคลี', '65', '05', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07548', 'p07548', '07548', null, '18', 'รพ.สต.ท่าตาล', '65', '05', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07549', 'p07549', '07549', null, '18', 'รพ.สต.ไผ่ล้อม', '65', '05', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07550', 'p07550', '07550', null, '18', 'รพ.สต.นครป่าหมาก', '65', '05', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07551', 'p07551', '07551', null, '18', 'รพ.สต.บ้านแหลมครก', '65', '05', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07552', 'p07552', '07552', null, '18', 'รพ.สต.เนินกุ่ม', '65', '05', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07553', 'p07553', '07553', null, '18', 'รพ.สต.วัดตายม', '65', '05', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07554', 'p07554', '07554', null, '18', 'รพ.สต.ท่าช้าง', '65', '06', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07555', 'p07555', '07555', null, '18', 'รพ.สต.บ้านนาขุม', '65', '06', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07556', 'p07556', '07556', null, '18', 'รพ.สต.วงฆ้อง', '65', '06', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07557', 'p07557', '07557', null, '18', 'รพ.สต.บ้านวังมะด่าน', '65', '06', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07558', 'p07558', '07558', null, '18', 'รพ.สต.มะตูม', '65', '06', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07559', 'p07559', '07559', null, '18', 'รพ.สต.หอกลอง', '65', '06', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07560', 'p07560', '07560', null, '18', 'รพ.สต.ศรีภิรมย์', '65', '06', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07561', 'p07561', '07561', null, '18', 'รพ.สต.ตลุกเทียม', '65', '06', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07562', 'p07562', '07562', null, '18', 'รพ.สต.บ้านหนองสะแก', '65', '06', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07563', 'p07563', '07563', null, '18', 'รพ.สต.วังวน', '65', '06', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07564', 'p07564', '07564', null, '18', 'รพ.สต.หนองแขม', '65', '06', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07565', 'p07565', '07565', null, '18', 'รพ.สต.มะต้อง', '65', '06', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07566', 'p07566', '07566', null, '18', 'รพ.สต.บ้านหางไหล', '65', '06', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07567', 'p07567', '07567', null, '18', 'รพ.สต.บ้านศรีเจริญ', '65', '06', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07568', 'p07568', '07568', null, '18', 'รพ.สต.นิคมทุ่งสาน', '65', '06', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07569', 'p07569', '07569', null, '18', 'รพ.สต.ดงประคำ', '65', '06', '12', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07570', 'p07570', '07570', null, '18', 'รพ.สต.ท่างาม', '65', '07', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07571', 'p07571', '07571', null, '18', 'รพ.สต.ท้อแท้', '65', '07', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07572', 'p07572', '07572', null, '18', 'รพ.สต.บ้านท้อแท้', '65', '07', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07573', 'p07573', '07573', null, '18', 'รพ.สต.บ้านน้ำคบ', '65', '07', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07574', 'p07574', '07574', null, '18', 'รพ.สต.บ้านยาง', '65', '07', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07575', 'p07575', '07575', null, '18', 'รพ.สต.หินลาด', '65', '07', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07576', 'p07576', '07576', null, '18', 'รพ.สต.บ้านท่าขอนเบน', '65', '07', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07577', 'p07577', '07577', null, '18', 'รพ.สต.คันโช้ง', '65', '07', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07578', 'p07578', '07578', null, '18', 'รพ.สต.บ้านห้วยเจียง', '65', '07', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07579', 'p07579', '07579', null, '18', 'รพ.สต.พันชาลี', '65', '08', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07580', 'p07580', '07580', null, '18', 'รพ.สต.บ้านสุพรรณพนมทอง', '65', '08', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07581', 'p07581', '07581', null, '18', 'รพ.สต.แม่ระกา', '65', '08', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07582', 'p07582', '07582', null, '18', 'รพ.สต.บ้านวังน้ำใส', '65', '08', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07583', 'p07583', '07583', null, '18', 'รพ.สต.บ้านหนองปรือ', '65', '08', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07584', 'p07584', '07584', null, '18', 'สถานีอนามัยเฉลิมพระเกียรติ 60 พรรษา นวมินทราชินี จ.พิษณุโลก', '65', '08', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07585', 'p07585', '07585', null, '18', 'รพ.สต.บ้านใหม่ชัยเจริญ', '65', '08', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07586', 'p07586', '07586', null, '18', 'รพ.สต.วังพิกุล', '65', '08', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07587', 'p07587', '07587', null, '18', 'รพ.สต.บ้านดงพลวง', '65', '08', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07588', 'p07588', '07588', null, '18', 'รพ.สต.แก่งโสภา', '65', '08', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07589', 'p07589', '07589', null, '18', 'รพ.สต.ท่าหมื่นราม', '65', '08', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07590', 'p07590', '07590', null, '18', 'รพ.สต.บ้านหนองเตาอิฐ', '65', '08', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07591', 'p07591', '07591', null, '18', 'รพ.สต.วังนกแอ่น', '65', '08', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07592', 'p07592', '07592', null, '18', 'รพ.สต.บ้านน้ำพรม', '65', '08', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07593', 'p07593', '07593', null, '18', 'รพ.สต.บ้านไผ่ใหญ่', '65', '08', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07594', 'p07594', '07594', null, '18', 'รพ.สต.หนองพระ', '65', '08', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07595', 'p07595', '07595', null, '18', 'รพ.สต.ชัยนาม', '65', '08', '10', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07596', 'p07596', '07596', null, '18', 'รพ.สต.ดินทอง', '65', '08', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07597', 'p07597', '07597', null, '18', 'รพ.สต.บ้านน้ำปาด', '65', '09', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07598', 'p07598', '07598', null, '18', 'รพ.สต.ชมพู', '65', '09', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07599', 'p07599', '07599', null, '18', 'รพ.สต.บ้านรักไทย', '65', '09', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07600', 'p07600', '07600', null, '18', 'รพ.สต.บ้านมุง', '65', '09', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07601', 'p07601', '07601', null, '18', 'รพ.สต.บ้านหนองขมิ้น', '65', '09', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07602', 'p07602', '07602', null, '18', 'รพ.สต.ไทรย้อย', '65', '09', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07603', 'p07603', '07603', null, '18', 'รพ.สต.บ้านทุ่งยาว', '65', '09', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07604', 'p07604', '07604', null, '18', 'รพ.สต.วังโพรง', '65', '09', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07605', 'p07605', '07605', null, '18', 'รพ.สต.บ้านโปร่งไผ่', '65', '09', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07606', 'p07606', '07606', null, '18', 'รพ.สต.บ้านน้อยซุ้มขี้เหล็ก', '65', '09', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u07607', 'p07607', '07607', null, '18', 'รพ.สต.วังยาง', '65', '09', '07', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u10611', 'p10611', '10611', null, '18', 'รพ.สต.บ้านห้วยทรายเหนือ', '65', '02', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u10612', 'p10612', '10612', null, '18', 'รพ.สต.บ้านน้ำจวง ', '65', '03', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u10613', 'p10613', '10613', null, '18', 'รพ.สต.บ้านนุชเทียน ', '65', '03', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u10676', 'p10676', '10676', null, '05', 'รพ.พุทธชินราช', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '03', '01', 'hos', 'y', '25', '2014-02-15 23:59:38');
-INSERT INTO `user` VALUES ('u11252', 'p11252', '11252', null, '07', 'รพ.บางระกำ', '65', '04', '01', 'hos', 'y', '2', '2014-02-14 12:49:02');
-INSERT INTO `user` VALUES ('u11253', 'p11253', '11253', null, '07', 'รพ.บางกระทุ่ม', '65', '05', '06', 'hos', 'y', '1', null);
-INSERT INTO `user` VALUES ('u11254', 'p11254', '11254', null, '07', 'รพ.พรหมพิราม', '65', '06', '01', 'hos', 'y', '2', null);
-INSERT INTO `user` VALUES ('u11255', 'p11255', '11255', null, '07', 'รพ.วัดโบสถ์', '65', '07', '01', 'hos', 'y', '1', null);
-INSERT INTO `user` VALUES ('u11256', 'p11256', '11256', null, '07', 'รพ.วังทอง', '65', '08', '01', 'hos', 'y', '1', '2014-02-15 14:55:54');
-INSERT INTO `user` VALUES ('u11257', 'p11257', '11257', null, '07', 'รพ.เนินมะปราง', '65', '09', '06', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11455', 'p11455', '11455', null, '07', 'รพ.สมเด็จพระยุพราชนครไทย', '65', '02', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11517', 'p11517', '11517', null, '12', 'รพ.ค่ายสมเด็จพระนเรศวร', '65', '01', '14', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11518', 'p11518', '11518', null, '12', 'รพ.กองบิน 46', '65', '01', '17', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11797', 'p11797', '11797', null, '18', 'รพ.สต.บ้านสระโคล่', '65', '01', '11', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11798', 'p11798', '11798', null, '18', 'รพ.สต.บ้านแหลมโพธิ์', '65', '01', '13', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11803', 'p11803', '11803', null, '18', 'รพ.สต.บ้านกรับพวง', '65', '04', '04', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12063', 'p12063', '12063', null, '15', 'รพ.อินเตอร์เวชการ', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12064', 'p12064', '12064', null, '15', 'รังสีรักษาและเวชศาสตร์นิวเคลียร', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12065', 'p12065', '12065', null, '15', 'รพ.รวมแพทย์พิษณุโลก', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12066', 'p12066', '12066', null, '15', 'รพ.รัตนเวช', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12067', 'p12067', '12067', null, '15', 'รพ.รัตนเวช2', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u12069', 'p12069', '12069', null, '15', 'รพ.พิษณุเวช', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u13707', 'p13707', '13707', null, '10', 'วิทยาลัยพยาบาลบรมราชชนนีพุทธชินราช  พิษณุโลก', '65', '01', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u13744', 'p13744', '13744', null, '10', 'วิทยาลัยการสาธารณสุขสิรินธร จังหวัดพิษณุโลก', '65', '08', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u14055', 'p14055', '14055', null, '18', 'รพ.สต.บ้านร้องยุ้งข้าว', '65', '01', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14056', 'p14056', '14056', null, '18', 'รพ.สต.บ้านแหลมมะค่า', '65', '04', '03', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14057', 'p14057', '14057', null, '18', 'รพ.สต.บ้านขอนอ้าปาก', '65', '05', '02', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14058', 'p14058', '14058', null, '18', 'รพ.สต.บ้านบึงช้าง', '65', '05', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14059', 'p14059', '14059', null, '18', 'รพ.สต.บ้านสันติบันเทิง', '65', '05', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14060', 'p14060', '14060', null, '18', 'รพ.สต.บ้านคลองตาล', '65', '06', '09', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14061', 'p14061', '14061', null, '18', 'รพ.สต.บ้านท้องโพลง', '65', '06', '12', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u14626', 'p14626', '14626', null, '10', 'ศูนย์วิทยาศาสตร์การแพทย์  พิษณุโลก', '65', '01', '11', null, null, '0', null);
-INSERT INTO `user` VALUES ('u14633', 'p14633', '14633', null, '10', 'สำนักงานป้องกันควบคุมโรคที่  9 พิษณุโลก', '65', '01', '11', null, null, '0', null);
-INSERT INTO `user` VALUES ('u14662', 'p14662', '14662', null, '13', 'รพ.ส่งเสริมสุขภาพ ศูนย์อนามัยที่ 9', '65', '01', '16', null, null, '0', null);
-INSERT INTO `user` VALUES ('u14972', 'p14972', '14972', null, '12', 'รพ.มหาวิทยาลัยนเรศวร', '65', '01', '20', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15272', 'p15272', '15272', null, '09', 'ศสช.พันปี', '65', '01', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15273', 'p15273', '15273', null, '09', 'ศสช.มหานุภาพ', '65', '01', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15274', 'p15274', '15274', null, '09', 'ศสช.พระองค์ขาว', '65', '01', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15280', 'p15280', '15280', null, '09', 'ศสช.เขื่อนขันธ์', '65', '01', '17', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15281', 'p15281', '15281', null, '09', 'ศสช.ตำบลหนองกุลา', '65', '04', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u15282', 'p15282', '15282', null, '09', 'ศสช.ประชาอุทิศ', '65', '01', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u22757', 'p22757', '22757', null, '13', 'สถานพยาบาลเรือนจำกลางพิษณุโลก', '65', '08', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u22795', 'p22795', '22795', null, '13', 'สถานพยาบาลเรือนจำจังหวัดพิษณุโลก', '65', '08', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u22863', 'p22863', '22863', null, '13', 'สถานพยาบาลทัณฑสถานหญิงพิษณุโลก', '65', '08', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u23068', 'p23068', '23068', null, '13', 'ศูนย์บริการสาธารณสุขเทศบาลวังทอง', '65', '08', '01', null, null, '0', null);
-INSERT INTO `user` VALUES ('u23985', 'p23985', '23985', null, '16', 'คลินิกเวชกรรมพญาแมนการแพทย์', '65', '06', '07', null, null, '0', null);
-INSERT INTO `user` VALUES ('u24667', 'p24667', '24667', null, '18', 'รพ.สต.บ้านกระบัง', '65', '06', '05', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u25022', 'p25022', '25022', null, '18', 'รพ.สต.แสนสุขพัฒนา', '65', '08', '08', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77742', 'p77742', '77742', null, '08', 'ศูนยสุขภาพชุมชนรพ.วัดโบสถ์', '65', '07', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77743', 'p77743', '77743', null, '08', 'ศสช.รพ.วังทอง', '65', '08', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77747', 'p77747', '77747', null, '08', 'ศสช.ร่วมใจ', '65', '08', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77748', 'p77748', '77748', null, '08', 'ศูนย์แพทย์ชุมชนเนินมะปราง', '65', '09', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77749', 'p77749', '77749', null, '08', 'ศูนย์สุขภาพเมืองอรัญญิก', '65', '01', '17', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u77750', 'p77750', '77750', null, '08', 'ศูนย์สุขภาพชุชนเมืองเขื่อนขันธ์', '65', '01', '17', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99756', 'p99756', '99756', null, '08', 'ศูนย์สุขภาพเมืองอรัญญิก', '65', '01', '17', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99788', 'p99788', '99788', null, '08', 'ศสช.ศูนย์บริการสาธารสุขพุทธบูชา', '65', '01', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99940', 'p99940', '99940', null, '08', 'ศสช.ตำบลบางกระทุ่ม', '65', '05', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99947', 'p99947', '99947', null, '08', 'ศูนย์แพทย์ชุมชนเนินมะปราง', '65', '09', '06', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99948', 'p99948', '99948', null, '08', 'ศสช.วังทอง', '65', '08', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99949', 'p99949', '99949', null, '08', 'ศสช.ร่วมใจ', '65', '08', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99969', 'p99969', '99969', null, '08', 'ศสช.ตำบลบางระกำ', '65', '04', '01', 'pcu', 'y', '0', null);
-INSERT INTO `user` VALUES ('u99970', 'p99970', '99970', null, '08', 'ศสช.รพ.ชาติตระการ', '65', '03', '01', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65000', 'p65000', '00051', null, '01', 'สสจ.พิษณุโลก', '65', '6501', '656501', 'pro', 'y', '5', '2014-02-14 22:38:53');
+INSERT INTO `user` VALUES ('u65010', 'p65010', '00688', null, '02', 'อ.เมือง', '65', '6501', '656501', 'amp', 'y', '1', null);
+INSERT INTO `user` VALUES ('u65020', 'p65020', '00689', null, '02', 'อ.นครไทย', '65', '6502', '656502', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65030', 'p65030', '00690', null, '02', 'อ.ชาติตระการ', '65', '6503', '656503', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65040', 'p65040', '00691', null, '02', 'อ.บางระกำ', '65', '6504', '656504', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65050', 'p65050', '00692', null, '02', 'อ.บางกระทุ่ม', '65', '6505', '656505', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65060', 'p65060', '00693', null, '02', 'อ.พรหมพิราม', '65', '6506', '656506', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65070', 'p65070', '00694', null, '02', 'อ.วัดโบสถ์', '65', '6507', '656507', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65080', 'p65080', '00695', null, '02', 'อ.วังทอง', '65', '6508', '656508', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u65090', 'p65090', '00696', null, '02', 'อ.เนินมะปราง', '65', '6509', '656509', 'amp', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07476', 'p07476', '07476', null, '18', 'รพ.สต.วังน้ำคู้', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07477', 'p07477', '07477', null, '18', 'รพ.สต.งิ้วงาม', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07478', 'p07478', '07478', null, '18', 'รพ.สต.วัดจันทร์', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07479', 'p07479', '07479', null, '18', 'รพ.สต.วัดพริก', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07480', 'p07480', '07480', null, '18', 'รพ.สต.บ้านเสาหิน', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07481', 'p07481', '07481', null, '18', 'รพ.สต.ท่าทอง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07482', 'p07482', '07482', null, '18', 'รพ.สต.ท่าโพธิ์', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07483', 'p07483', '07483', null, '18', 'รพ.สต.สมอแข', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07484', 'p07484', '07484', null, '18', 'รพ.สต.ดอนทอง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07485', 'p07485', '07485', null, '18', 'รพ.สต.บ้านป่า', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07486', 'p07486', '07486', null, '18', 'รพ.สต.ปากโทก', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07487', 'p07487', '07487', null, '18', 'รพ.สต.หัวรอ', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07488', 'p07488', '07488', null, '18', 'รพ.สต.จอมทอง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07489', 'p07489', '07489', null, '18', 'รพ.สต.บ้านจอมทอง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07490', 'p07490', '07490', null, '18', 'รพ.สต.บ้านกร่าง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07491', 'p07491', '07491', null, '18', 'รพ.สต.บ้านคลอง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07492', 'p07492', '07492', null, '18', 'รพ.สต.พลายชุมพล', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07493', 'p07493', '07493', null, '18', 'รพ.สต.มะขามสูง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07494', 'p07494', '07494', null, '18', 'รพ.สต.อรัญญิก', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07495', 'p07495', '07495', null, '18', 'รพ.สต.บึงพระ', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07496', 'p07496', '07496', null, '18', 'รพ.สต.ไผ่ขอดอน', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07497', 'p07497', '07497', null, '18', 'รพ.สต.บ้านนาจาน', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07498', 'p07498', '07498', null, '18', 'รพ.สต.หนองกะท้าว', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07499', 'p07499', '07499', null, '18', 'รพ.สต.บ้านบางยางพัฒนา', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07500', 'p07500', '07500', null, '18', 'รพ.สต.บ้านแยง', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07501', 'p07501', '07501', null, '18', 'รพ.สต.บ้านหนองหิน', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07502', 'p07502', '07502', null, '18', 'รพ.สต.บ้านเกษตรสุข', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07503', 'p07503', '07503', null, '18', 'รพ.สต.บ้านห้วยตีนตั่ง', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07504', 'p07504', '07504', null, '18', 'รพ.สต.เนินเพิ่ม', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07505', 'p07505', '07505', null, '18', 'รพ.สต.นาบัว', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07506', 'p07506', '07506', null, '18', 'รพ.สต.บ้านนาคล้อ', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07507', 'p07507', '07507', null, '18', 'รพ.สต.นครชุม', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07508', 'p07508', '07508', null, '18', 'รพ.สต.น้ำกุ่ม', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07509', 'p07509', '07509', null, '18', 'รพ.สต.ยางโกลน', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07510', 'p07510', '07510', null, '18', 'รพ.สต.บ้านบุ่งตารอด', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07511', 'p07511', '07511', null, '18', 'รพ.สต.บ้านน้ำเลา', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07512', 'p07512', '07512', null, '18', 'รพ.สต.บ้านแก่งทุ่ง', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07513', 'p07513', '07513', null, '18', 'รพ.สต.บ่อโพธิ์', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07514', 'p07514', '07514', null, '18', 'รพ.สต.บ้านพร้าว', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07515', 'p07515', '07515', null, '18', 'รพ.สต.ห้วยเฮี้ย', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07516', 'p07516', '07516', null, '18', 'รพ.สต.ชาติตระการ', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07517', 'p07517', '07517', null, '18', 'รพ.สต.บ้านใหม่ไทยเจริญ', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07518', 'p07518', '07518', null, '18', 'รพ.สต.สวนเมี่ยง', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07519', 'p07519', '07519', null, '18', 'รพ.สต.บ้านโคกใหญ่', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07520', 'p07520', '07520', null, '18', 'รพ.สต.บ้านดง', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07521', 'p07521', '07521', null, '18', 'รพ.สต.บ้านนาตาจูม', '65', '6503', '656503', 'pcu', 'y', '1', null);
+INSERT INTO `user` VALUES ('u07522', 'p07522', '07522', null, '18', 'รพ.สต.บ้านนาตอน', '65', '6503', '656503', 'pcu', 'y', '10', '2014-02-14 12:54:15');
+INSERT INTO `user` VALUES ('u07523', 'p07523', '07523', null, '18', 'รพ.สต.บ่อภาค', '65', '6503', '656503', 'pcu', 'y', '1', '2014-02-15 01:06:44');
+INSERT INTO `user` VALUES ('u07524', 'p07524', '07524', null, '18', 'รพ.สต.บ้านร่มเกล้า', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07525', 'p07525', '07525', null, '18', 'รพ.สต.ท่าสะแก', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07526', 'p07526', '07526', null, '18', 'รพ.สต.ปลักแรด', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07527', 'p07527', '07527', null, '18', 'รพ.สต.บ้านดงโคกขาม', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07528', 'p07528', '07528', null, '18', 'รพ.สต.พันเสา', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07529', 'p07529', '07529', null, '18', 'รพ.สต.วังอิทก', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07530', 'p07530', '07530', null, '18', 'รพ.สต.บ้านปรือกระเทียม', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07531', 'p07531', '07531', null, '18', 'รพ.สต.บึงกอก', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07532', 'p07532', '07532', null, '18', 'รพ.สต.หนองกุลา', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07533', 'p07533', '07533', null, '18', 'รพ.สต.ในนิคมบางระกำ', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07534', 'p07534', '07534', null, '18', 'รพ.สต.บ้านหนองนา', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07535', 'p07535', '07535', null, '18', 'รพ.สต.บ้านหนองไผ่', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07536', 'p07536', '07536', null, '18', 'รพ.สต.บ้านชุมแสง', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07537', 'p07537', '07537', null, '18', 'รพ.สต.ชุมแสงสงคราม', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07538', 'p07538', '07538', null, '18', 'รพ.สต.บ้านหนองอ้อ', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07539', 'p07539', '07539', null, '18', 'รพ.สต.นิคมพัฒนา', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07540', 'p07540', '07540', null, '18', 'รพ.สต.บ้านใหม่เจริญผล', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07541', 'p07541', '07541', null, '18', 'รพ.สต.บ่อทอง', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07542', 'p07542', '07542', null, '18', 'รพ.สต.ท่านางงาม', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07543', 'p07543', '07543', null, '18', 'รพ.สต.บ้านดง', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07544', 'p07544', '07544', null, '18', 'รพ.สต.บ้านไร่', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07545', 'p07545', '07545', null, '18', 'รพ.สต.บ้านวังตาบัว', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07546', 'p07546', '07546', null, '18', 'รพ.สต.โคกสลุด', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07547', 'p07547', '07547', null, '18', 'รพ.สต.สนามคลี', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07548', 'p07548', '07548', null, '18', 'รพ.สต.ท่าตาล', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07549', 'p07549', '07549', null, '18', 'รพ.สต.ไผ่ล้อม', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07550', 'p07550', '07550', null, '18', 'รพ.สต.นครป่าหมาก', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07551', 'p07551', '07551', null, '18', 'รพ.สต.บ้านแหลมครก', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07552', 'p07552', '07552', null, '18', 'รพ.สต.เนินกุ่ม', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07553', 'p07553', '07553', null, '18', 'รพ.สต.วัดตายม', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07554', 'p07554', '07554', null, '18', 'รพ.สต.ท่าช้าง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07555', 'p07555', '07555', null, '18', 'รพ.สต.บ้านนาขุม', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07556', 'p07556', '07556', null, '18', 'รพ.สต.วงฆ้อง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07557', 'p07557', '07557', null, '18', 'รพ.สต.บ้านวังมะด่าน', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07558', 'p07558', '07558', null, '18', 'รพ.สต.มะตูม', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07559', 'p07559', '07559', null, '18', 'รพ.สต.หอกลอง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07560', 'p07560', '07560', null, '18', 'รพ.สต.ศรีภิรมย์', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07561', 'p07561', '07561', null, '18', 'รพ.สต.ตลุกเทียม', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07562', 'p07562', '07562', null, '18', 'รพ.สต.บ้านหนองสะแก', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07563', 'p07563', '07563', null, '18', 'รพ.สต.วังวน', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07564', 'p07564', '07564', null, '18', 'รพ.สต.หนองแขม', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07565', 'p07565', '07565', null, '18', 'รพ.สต.มะต้อง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07566', 'p07566', '07566', null, '18', 'รพ.สต.บ้านหางไหล', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07567', 'p07567', '07567', null, '18', 'รพ.สต.บ้านศรีเจริญ', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07568', 'p07568', '07568', null, '18', 'รพ.สต.นิคมทุ่งสาน', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07569', 'p07569', '07569', null, '18', 'รพ.สต.ดงประคำ', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07570', 'p07570', '07570', null, '18', 'รพ.สต.ท่างาม', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07571', 'p07571', '07571', null, '18', 'รพ.สต.ท้อแท้', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07572', 'p07572', '07572', null, '18', 'รพ.สต.บ้านท้อแท้', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07573', 'p07573', '07573', null, '18', 'รพ.สต.บ้านน้ำคบ', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07574', 'p07574', '07574', null, '18', 'รพ.สต.บ้านยาง', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07575', 'p07575', '07575', null, '18', 'รพ.สต.หินลาด', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07576', 'p07576', '07576', null, '18', 'รพ.สต.บ้านท่าขอนเบน', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07577', 'p07577', '07577', null, '18', 'รพ.สต.คันโช้ง', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07578', 'p07578', '07578', null, '18', 'รพ.สต.บ้านห้วยเจียง', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07579', 'p07579', '07579', null, '18', 'รพ.สต.พันชาลี', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07580', 'p07580', '07580', null, '18', 'รพ.สต.บ้านสุพรรณพนมทอง', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07581', 'p07581', '07581', null, '18', 'รพ.สต.แม่ระกา', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07582', 'p07582', '07582', null, '18', 'รพ.สต.บ้านวังน้ำใส', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07583', 'p07583', '07583', null, '18', 'รพ.สต.บ้านหนองปรือ', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07584', 'p07584', '07584', null, '18', 'สถานีอนามัยเฉลิมพระเกียรติ 60 พรรษา นวมินทราชินี จ.พิษณุโลก', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07585', 'p07585', '07585', null, '18', 'รพ.สต.บ้านใหม่ชัยเจริญ', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07586', 'p07586', '07586', null, '18', 'รพ.สต.วังพิกุล', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07587', 'p07587', '07587', null, '18', 'รพ.สต.บ้านดงพลวง', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07588', 'p07588', '07588', null, '18', 'รพ.สต.แก่งโสภา', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07589', 'p07589', '07589', null, '18', 'รพ.สต.ท่าหมื่นราม', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07590', 'p07590', '07590', null, '18', 'รพ.สต.บ้านหนองเตาอิฐ', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07591', 'p07591', '07591', null, '18', 'รพ.สต.วังนกแอ่น', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07592', 'p07592', '07592', null, '18', 'รพ.สต.บ้านน้ำพรม', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07593', 'p07593', '07593', null, '18', 'รพ.สต.บ้านไผ่ใหญ่', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07594', 'p07594', '07594', null, '18', 'รพ.สต.หนองพระ', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07595', 'p07595', '07595', null, '18', 'รพ.สต.ชัยนาม', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07596', 'p07596', '07596', null, '18', 'รพ.สต.ดินทอง', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07597', 'p07597', '07597', null, '18', 'รพ.สต.บ้านน้ำปาด', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07598', 'p07598', '07598', null, '18', 'รพ.สต.ชมพู', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07599', 'p07599', '07599', null, '18', 'รพ.สต.บ้านรักไทย', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07600', 'p07600', '07600', null, '18', 'รพ.สต.บ้านมุง', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07601', 'p07601', '07601', null, '18', 'รพ.สต.บ้านหนองขมิ้น', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07602', 'p07602', '07602', null, '18', 'รพ.สต.ไทรย้อย', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07603', 'p07603', '07603', null, '18', 'รพ.สต.บ้านทุ่งยาว', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07604', 'p07604', '07604', null, '18', 'รพ.สต.วังโพรง', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07605', 'p07605', '07605', null, '18', 'รพ.สต.บ้านโปร่งไผ่', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07606', 'p07606', '07606', null, '18', 'รพ.สต.บ้านน้อยซุ้มขี้เหล็ก', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u07607', 'p07607', '07607', null, '18', 'รพ.สต.วังยาง', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u10611', 'p10611', '10611', null, '18', 'รพ.สต.บ้านห้วยทรายเหนือ', '65', '6502', '656502', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u10612', 'p10612', '10612', null, '18', 'รพ.สต.บ้านน้ำจวง ', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u10613', 'p10613', '10613', null, '18', 'รพ.สต.บ้านนุชเทียน ', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u10676', 'p10676', '10676', null, '05', 'รพ.พุทธชินราช', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '6503', '656503', 'hos', 'y', '26', '2014-02-16 02:52:36');
+INSERT INTO `user` VALUES ('u11252', 'p11252', '11252', null, '07', 'รพ.บางระกำ', '65', '6504', '656504', 'hos', 'y', '3', '2014-02-16 02:43:30');
+INSERT INTO `user` VALUES ('u11253', 'p11253', '11253', null, '07', 'รพ.บางกระทุ่ม', '65', '6505', '656505', 'hos', 'y', '1', null);
+INSERT INTO `user` VALUES ('u11254', 'p11254', '11254', null, '07', 'รพ.พรหมพิราม', '65', '6506', '656506', 'hos', 'y', '2', null);
+INSERT INTO `user` VALUES ('u11255', 'p11255', '11255', null, '07', 'รพ.วัดโบสถ์', '65', '6507', '656507', 'hos', 'y', '1', null);
+INSERT INTO `user` VALUES ('u11256', 'p11256', '11256', null, '07', 'รพ.วังทอง', '65', '6508', '656508', 'hos', 'y', '1', '2014-02-15 14:55:54');
+INSERT INTO `user` VALUES ('u11257', 'p11257', '11257', null, '07', 'รพ.เนินมะปราง', '65', '6509', '656509', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11455', 'p11455', '11455', null, '07', 'รพ.สมเด็จพระยุพราชนครไทย', '65', '6502', '656502', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11517', 'p11517', '11517', null, '12', 'รพ.ค่ายสมเด็จพระนเรศวร', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11518', 'p11518', '11518', null, '12', 'รพ.กองบิน 46', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11797', 'p11797', '11797', null, '18', 'รพ.สต.บ้านสระโคล่', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11798', 'p11798', '11798', null, '18', 'รพ.สต.บ้านแหลมโพธิ์', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u11803', 'p11803', '11803', null, '18', 'รพ.สต.บ้านกรับพวง', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12063', 'p12063', '12063', null, '15', 'รพ.อินเตอร์เวชการ', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12064', 'p12064', '12064', null, '15', 'รังสีรักษาและเวชศาสตร์นิวเคลียร', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12065', 'p12065', '12065', null, '15', 'รพ.รวมแพทย์พิษณุโลก', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12066', 'p12066', '12066', null, '15', 'รพ.รัตนเวช', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12067', 'p12067', '12067', null, '15', 'รพ.รัตนเวช2', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u12069', 'p12069', '12069', null, '15', 'รพ.พิษณุเวช', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u13707', 'p13707', '13707', null, '10', 'วิทยาลัยพยาบาลบรมราชชนนีพุทธชินราช  พิษณุโลก', '65', '6501', '656501', null, null, '0', null);
+INSERT INTO `user` VALUES ('u13744', 'p13744', '13744', null, '10', 'วิทยาลัยการสาธารณสุขสิรินธร จังหวัดพิษณุโลก', '65', '6508', '656508', null, null, '0', null);
+INSERT INTO `user` VALUES ('u14055', 'p14055', '14055', null, '18', 'รพ.สต.บ้านร้องยุ้งข้าว', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14056', 'p14056', '14056', null, '18', 'รพ.สต.บ้านแหลมมะค่า', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14057', 'p14057', '14057', null, '18', 'รพ.สต.บ้านขอนอ้าปาก', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14058', 'p14058', '14058', null, '18', 'รพ.สต.บ้านบึงช้าง', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14059', 'p14059', '14059', null, '18', 'รพ.สต.บ้านสันติบันเทิง', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14060', 'p14060', '14060', null, '18', 'รพ.สต.บ้านคลองตาล', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14061', 'p14061', '14061', null, '18', 'รพ.สต.บ้านท้องโพลง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u14626', 'p14626', '14626', null, '10', 'ศูนย์วิทยาศาสตร์การแพทย์  พิษณุโลก', '65', '6501', '656501', null, null, '0', null);
+INSERT INTO `user` VALUES ('u14633', 'p14633', '14633', null, '10', 'สำนักงานป้องกันควบคุมโรคที่  9 พิษณุโลก', '65', '6501', '656501', null, null, '0', null);
+INSERT INTO `user` VALUES ('u14662', 'p14662', '14662', null, '13', 'รพ.ส่งเสริมสุขภาพ ศูนย์อนามัยที่ 9', '65', '6501', '656501', null, null, '0', null);
+INSERT INTO `user` VALUES ('u14972', 'p14972', '14972', null, '12', 'รพ.มหาวิทยาลัยนเรศวร', '65', '6501', '656501', 'hos', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15272', 'p15272', '15272', null, '09', 'ศสช.พันปี', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15273', 'p15273', '15273', null, '09', 'ศสช.มหานุภาพ', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15274', 'p15274', '15274', null, '09', 'ศสช.พระองค์ขาว', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15280', 'p15280', '15280', null, '09', 'ศสช.เขื่อนขันธ์', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15281', 'p15281', '15281', null, '09', 'ศสช.ตำบลหนองกุลา', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u15282', 'p15282', '15282', null, '09', 'ศสช.ประชาอุทิศ', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u22757', 'p22757', '22757', null, '13', 'สถานพยาบาลเรือนจำกลางพิษณุโลก', '65', '6508', '656508', null, null, '0', null);
+INSERT INTO `user` VALUES ('u22795', 'p22795', '22795', null, '13', 'สถานพยาบาลเรือนจำจังหวัดพิษณุโลก', '65', '6508', '656508', null, null, '0', null);
+INSERT INTO `user` VALUES ('u22863', 'p22863', '22863', null, '13', 'สถานพยาบาลทัณฑสถานหญิงพิษณุโลก', '65', '6508', '656508', null, null, '0', null);
+INSERT INTO `user` VALUES ('u23068', 'p23068', '23068', null, '13', 'ศูนย์บริการสาธารณสุขเทศบาลวังทอง', '65', '6508', '656508', null, null, '0', null);
+INSERT INTO `user` VALUES ('u23985', 'p23985', '23985', null, '16', 'คลินิกเวชกรรมพญาแมนการแพทย์', '65', '6506', '656506', null, null, '0', null);
+INSERT INTO `user` VALUES ('u24667', 'p24667', '24667', null, '18', 'รพ.สต.บ้านกระบัง', '65', '6506', '656506', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u25022', 'p25022', '25022', null, '18', 'รพ.สต.แสนสุขพัฒนา', '65', '6507', '656507', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77742', 'p77742', '77742', null, '08', 'ศูนยสุขภาพชุมชนรพ.วัดโบสถ์', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77743', 'p77743', '77743', null, '08', 'ศสช.รพ.วังทอง', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77747', 'p77747', '77747', null, '08', 'ศสช.ร่วมใจ', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77748', 'p77748', '77748', null, '08', 'ศูนย์แพทย์ชุมชนเนินมะปราง', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77749', 'p77749', '77749', null, '08', 'ศูนย์สุขภาพเมืองอรัญญิก', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u77750', 'p77750', '77750', null, '08', 'ศูนย์สุขภาพชุชนเมืองเขื่อนขันธ์', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99756', 'p99756', '99756', null, '08', 'ศูนย์สุขภาพเมืองอรัญญิก', '65', '6501', '656501', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99788', 'p99788', '99788', null, '08', 'ศสช.ศูนย์บริการสาธารสุขพุทธบูชา', '65', '6505', '656505', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99940', 'p99940', '99940', null, '08', 'ศสช.ตำบลบางกระทุ่ม', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99947', 'p99947', '99947', null, '08', 'ศูนย์แพทย์ชุมชนเนินมะปราง', '65', '6508', '656508', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99948', 'p99948', '99948', null, '08', 'ศสช.วังทอง', '65', '6509', '656509', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99949', 'p99949', '99949', null, '08', 'ศสช.ร่วมใจ', '65', '6504', '656504', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99969', 'p99969', '99969', null, '08', 'ศสช.ตำบลบางระกำ', '65', '6503', '656503', 'pcu', 'y', '0', null);
+INSERT INTO `user` VALUES ('u99970', 'p99970', '99970', null, '08', 'ศสช.รพ.ชาติตระการ', '65', '6508', '656508', 'pcu', 'y', '0', null);
