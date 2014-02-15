@@ -38,9 +38,10 @@ require 'condb.php';
     </head> 
     <body> 
         <?php
-        $sql = "select rc.pcu_receive,count(ph.pid) as sob,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
-u.pcucode,u.off_name,u.amp from patient_hos pt
-LEFT JOIN user u on pt.office_own = u.pcucode
+        $sql = "select rc.pcu_receive,count(ph.pid) as sob,uu.off_name,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey 
+from patient_hos pt
+LEFT JOIN user u on pt.send_to_amp = u.amp
+LEFT JOIN user uu on pt.office_own = uu.pcucode
 LEFT JOIN receive rc on pt.pid = rc.pid
 LEFT JOIN patient_home ph on pt.pid = ph.pid
 where pt.send_to_amp=u.amp and u.pcucode='$pcucode'
