@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50051
 File Encoding         : 65001
 
-Date: 2014-02-15 18:20:16
+Date: 2014-02-16 00:14:38
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1651,6 +1651,8 @@ DROP TABLE IF EXISTS `patient_cut`;
 CREATE TABLE `patient_cut` (
   `pid` varchar(50) NOT NULL default '',
   `note_cut` varchar(255) default NULL,
+  `datetime_cut` datetime default NULL,
+  `office_do` varchar(5) default NULL COMMENT 'pcu 5 หลัก ผู้สั่ง',
   PRIMARY KEY  (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
@@ -1667,8 +1669,7 @@ CREATE TABLE `patient_home` (
   `office_own` varchar(255) default NULL,
   `user_do` varchar(25) NOT NULL,
   `office_do` varchar(25) NOT NULL default '',
-  `date_do` date NOT NULL default '0000-00-00',
-  `time_do` time NOT NULL,
+  `datetime_do` datetime NOT NULL default '0000-00-00 00:00:00',
   `house_id` varchar(11) default NULL COMMENT 'รหัสบ้าน 11 หลัก',
   `lat` varchar(25) default NULL,
   `lng` varchar(25) default NULL,
@@ -1685,7 +1686,7 @@ CREATE TABLE `patient_home` (
   `img_home` varchar(50) default NULL,
   `img_activity` varchar(50) default NULL,
   `reporter` varchar(255) default NULL,
-  PRIMARY KEY  (`pid`,`office_do`,`date_do`,`time_do`)
+  PRIMARY KEY  (`pid`,`office_do`,`datetime_do`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -1699,8 +1700,7 @@ DROP TABLE IF EXISTS `patient_hos`;
 CREATE TABLE `patient_hos` (
   `office_own` varchar(5) NOT NULL default '' COMMENT '5 หลัก รพ.เจอเคส',
   `user_own` varchar(25) default NULL,
-  `date_add` date NOT NULL default '0000-00-00',
-  `time_add` time default NULL,
+  `datetime_send` datetime NOT NULL default '0000-00-00 00:00:00',
   `hn` varchar(25) NOT NULL default '',
   `pid` varchar(50) NOT NULL,
   `prename` varchar(25) default NULL,
@@ -1723,15 +1723,32 @@ CREATE TABLE `patient_hos` (
   `img_pt` varchar(255) default NULL,
   `sender` varchar(255) default NULL,
   `send_to_amp` varchar(5) default NULL COMMENT '5 หลัก สสอ.',
-  `amp_receive` varchar(5) default NULL COMMENT '5 หลัก สสอ.',
+  `amp_receive_date` datetime default NULL COMMENT '5 หลัก สสอ.',
   `send_to_pcu` varchar(5) default NULL COMMENT '5 หลัก รพสต',
-  `pcu_receive` varchar(5) default NULL,
+  `pcu_receive_date` datetime default NULL,
   `is_cut` varchar(1) default NULL,
-  PRIMARY KEY  (`office_own`,`date_add`,`hn`)
+  PRIMARY KEY  (`office_own`,`datetime_send`,`hn`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of patient_hos
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `receive`
+-- ----------------------------
+DROP TABLE IF EXISTS `receive`;
+CREATE TABLE `receive` (
+  `pid` varchar(50) NOT NULL default '',
+  `pcu_send` varchar(5) default NULL,
+  `datetime_send` datetime default NULL,
+  `pcu_receive` varchar(5) NOT NULL default '',
+  `datetime_receive` datetime default NULL,
+  PRIMARY KEY  (`pid`,`pcu_receive`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of receive
 -- ----------------------------
 
 -- ----------------------------
@@ -1869,7 +1886,7 @@ CREATE TABLE `user` (
 -- Records of user
 -- ----------------------------
 INSERT INTO `user` VALUES ('u65000', 'p65000', '00051', null, '01', 'สสจ.พิษณุโลก', '65', '01', '00', 'pro', 'y', '5', '2014-02-14 22:38:53');
-INSERT INTO `user` VALUES ('u65010', 'p65010', '00688', null, '02', ' อ.เมือง', '65', '01', '00', 'amp', 'y', '1', null);
+INSERT INTO `user` VALUES ('u65010', 'p65010', '00688', null, '02', 'อ.เมือง', '65', '01', '00', 'amp', 'y', '1', null);
 INSERT INTO `user` VALUES ('u65020', 'p65020', '00689', null, '02', 'อ.นครไทย', '65', '02', '00', 'amp', 'y', '0', null);
 INSERT INTO `user` VALUES ('u65030', 'p65030', '00690', null, '02', 'อ.ชาติตระการ', '65', '03', '00', 'amp', 'y', '0', null);
 INSERT INTO `user` VALUES ('u65040', 'p65040', '00691', null, '02', 'อ.บางระกำ', '65', '04', '00', 'amp', 'y', '0', null);
@@ -2014,7 +2031,7 @@ INSERT INTO `user` VALUES ('u10611', 'p10611', '10611', null, '18', 'รพ.ส�
 INSERT INTO `user` VALUES ('u10612', 'p10612', '10612', null, '18', 'รพ.สต.บ้านน้ำจวง ', '65', '03', '05', 'pcu', 'y', '0', null);
 INSERT INTO `user` VALUES ('u10613', 'p10613', '10613', null, '18', 'รพ.สต.บ้านนุชเทียน ', '65', '03', '05', 'pcu', 'y', '0', null);
 INSERT INTO `user` VALUES ('u10676', 'p10676', '10676', null, '05', 'รพ.พุทธชินราช', '65', '01', '01', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '03', '01', 'hos', 'y', '21', '2014-02-15 13:46:57');
+INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '03', '01', 'hos', 'y', '25', '2014-02-15 23:59:38');
 INSERT INTO `user` VALUES ('u11252', 'p11252', '11252', null, '07', 'รพ.บางระกำ', '65', '04', '01', 'hos', 'y', '2', '2014-02-14 12:49:02');
 INSERT INTO `user` VALUES ('u11253', 'p11253', '11253', null, '07', 'รพ.บางกระทุ่ม', '65', '05', '06', 'hos', 'y', '1', null);
 INSERT INTO `user` VALUES ('u11254', 'p11254', '11254', null, '07', 'รพ.พรหมพิราม', '65', '06', '01', 'hos', 'y', '2', null);
