@@ -62,8 +62,8 @@ require 'condb.php';
                         <div class="ui-block-b">
                             <select class="filter-status">
                                 <option></option>      
-                                <option value="0">รอสอบสวน</option>
-                                <option value="1">สอบสวนแล้ว</option>
+                                <option value="0">รับแล้ว</option>
+                                <option value="1">ยังไม่รับ</option>
                             </select>
                         </div>
                     </fieldset>
@@ -78,7 +78,7 @@ require 'condb.php';
                                     สถานะ
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    ครั้ง
+                                    สอบสวน
                                 </th>
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล,อายุ
@@ -103,7 +103,7 @@ require 'condb.php';
                         <tbody>
 
                             <tr>
-                                <td><span class="status-metro status-active">สอบสวนแล้ว</span></td>
+                                <td><span class="status-metro status-active">รับแล้ว</span></td>
                                 <td>2</td>
                                 <td> <a href="pt_info.php?pid=111" rel="external">ด.ช.วัฒนศักดิ์ เล็กแจ้ง</a></td>
                                 <td>33ป,2ด</td>
@@ -114,7 +114,7 @@ require 'condb.php';
                             </tr>
                           
                             <tr>
-                                <td><span class="status-metro status-active">สอบสวนแล้ว</span></td>
+                                <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
                                 <td>1</td>
                                 <td> <a href="pt_info.php?pid=111" rel="external">ด.ช.อลงกรณ์ เล็กแจ้ง</a></td>
                                 <td>13ป,11ด</td>

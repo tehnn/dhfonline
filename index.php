@@ -44,8 +44,8 @@
                         <div class="ui-block-b">
                             <select class="filter-status">
                                 <option></option>      
-                                <option value="0">รอสอบสวน</option>
-                                <option value="1">สอบสวนแล้ว</option>
+                                <option value="0">รับแล้ว</option>
+                                <option value="1">ยังไม่รับ</option>
                             </select>
                         </div>
                     </fieldset>
@@ -56,12 +56,11 @@
                            data-page-size="6">
                         <thead>
                             <tr>
+                                <th>ส่งให้</th>
                                 <th >
                                     สถานะ
                                 </th>
-                                <th data-hide="phone,tablet">
-                                    ครั้ง
-                                </th>
+                              
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล,อายุ
                                 </th>
@@ -85,8 +84,9 @@
                         <tbody>
 
                             <tr>
-                                <td><span class="status-metro status-active">สอบสวนแล้ว</span></td>
-                                <td>2</td>
+                                <td>อ.ชาติตระการ</td>
+                                <td><span class="status-metro status-active">รับแล้ว</span></td>
+                               
                                 <td> ด.ช.วัฒนศักดิ์ xxx</td>
                                 <td>33ป,2ด</td>
                                 <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>

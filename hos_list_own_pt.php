@@ -61,8 +61,8 @@ require 'condb.php';
                         <div class="ui-block-b">
                             <select class="filter-status">
                                 <option></option>      
-                                <option value="0">รอสอบสวน</option>
-                                <option value="1">สอบสวนแล้ว</option>
+                                <option value="0">รับแล้ว</option>
+                                <option value="1">ยังไม่รับ</option>
                             </select>
                         </div>
                     </fieldset>
@@ -102,7 +102,7 @@ require 'condb.php';
                         <tbody>  
                             <!-- select from patient_hos -->
                             <tr>
-                                <td><span class="status-metro status-active">สอบสวนแล้ว</span></td>
+                                <td><span class="status-metro status-active">รับแล้ว</span></td>
                                 <td>2</td>
                                 <td> <a href="pt_info.php?pid=111&hos_own=y" rel="external">ด.ช.วัฒนศักดิ์ เล็กแจ้ง</a></td>
                                 <td>33ป,2ด</td>
@@ -112,7 +112,7 @@ require 'condb.php';
                                 <td>2013-02-12 23:09:09</td>
                             </tr>
                             <tr>
-                                <td><span class="status-metro status-suspended">รอสอบสวน</span></td>
+                                <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
                                 <td>0</td>
                                 <td> <a href="pt_info.php?pid=111&hos_own=y" rel="external">ด.ช.คมกฤษ เล็กแจ้ง</a></td>
                                 <td>3ป,11ด</td>
