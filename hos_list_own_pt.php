@@ -38,10 +38,11 @@ require 'condb.php';
     </head> 
     <body>         
         <?php
-        $sql = "select pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
-from patient_hos pt LEFT JOIN amp amp 
-on pt.send_to_amp = amp.code
- where pt.office_own='$pcucode'";
+        $sql = "select rc.pcu_receive,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
+from patient_hos pt 
+LEFT JOIN amp amp on pt.send_to_amp = amp.code
+LEFT JOIN receive rc on rc.pid = pt.pid
+where pt.office_own='$pcucode'";
         $result = mysql_query($sql);
         $num_all_case = mysql_num_rows($result);
         ?>
@@ -110,19 +111,15 @@ on pt.send_to_amp = amp.code
                             while ($row = mysql_fetch_array($result)) {
                                 ?>
                                 <tr>
-                                    <?php
-                                    if (!empty($row[amp_receive_date])) {
-                                        ?>
-                                        <td><span class="status-metro status-active">รับแล้ว</span></td>
-
+                                    <td>
                                         <?php
-                                    } else {
+                                        if (!empty($row[pcu_receive])) {
+                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
+                                        } else {
+                                            echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
+                                        }
                                         ?>
-                                        <td><span class="status-metro status-suspended">ยังไม่รับ</span></td>
-                                        <?php
-                                    }
-                                    ?>
-
+                                    </td>
                                     <td> 
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
                                     </td>
