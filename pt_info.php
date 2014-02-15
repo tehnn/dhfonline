@@ -45,9 +45,16 @@ session_start();
                         <h3>cid:3650000234556,hn:00223333</h3>
                         <h3>เริ่มป่วย:2014-02-13,รับรักษา:2014-02-14</h3>
                         <h3>แจ้งcase:2014-02-15 23:00:01,รับcase:2014-02-15 12:00:01</h3>                       
-                        <h3>ส่งจาก:รพ.นครไทย,รับโดย:รพ.สต.นครชุม</h3>  
-
-
+                        <h3>ส่งจาก:รพ.นครไทย,รับโดย:รพ.สต.นครชุม</h3> 
+                        <h3>ข้อมูล :</h3>
+                        <p>
+                            ssssssssssssssssssssssssssssssssssssssssssssssssssss
+                            sssssssssssssssssssssssssssssssssssssssssssssssssssss
+                            sssssssssssssssssssssssssssssssssssssssssssssssssss
+                            sssssssssssssssssssssssssssssssssssssssssssssssssss
+                            ssssssssssssssssssssssssssssssssssssssssssssssssss
+                        </p>                        
+                        <hr>
                         <h4>
                             วันสอบสวน : 
                             <?php

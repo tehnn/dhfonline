@@ -91,9 +91,11 @@ require 'condb.php'
             </div>
             <div data-role="content" data-theme="f">
                 <?php require 'office_title.php'; ?>
-                <form action="qry_add_pt_hos.php" id="frm_hos" name="frm_hos"
-                      data-ajax="false" method="post" onsubmit="return validate()"
-                      enctype="multipart/form-data">
+                <form action="qry_add_pt_hos.php" 
+                      id="frm_hos" name="frm_hos"
+                      data-ajax="false" method="post"
+                      enctype="multipart/form-data"
+                      onsubmit="return validate()">
                     <!-- hidden field -->
                     <input type="hidden"  name="office_own" value="<?= $_SESSION[pcucode] ?>"/>
                     <input type="hidden"  name="user_own" value="<?= $_SESSION[user] ?>"/>                    
@@ -112,7 +114,7 @@ require 'condb.php'
                             <input type="text" name="name" id="name" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="name">นามสกุล:</label>
+                            <label for="lname">นามสกุล:</label>
                             <input type="text" name="lname" id="lname" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
@@ -196,14 +198,13 @@ require 'condb.php'
                         <li data-role="fieldcontain">
                             <label for="send_to_amp">ส่ง CASE ให้:</label>
                             <select name="send_to_amp" id="send_to_amp">
-                                <option value="">ศูนย์ระบาดอำเภอ...</option>
-
+                                <option value="">ส่งให้อำเภอ...</option>
                                 <?php
-                                $sql = "select concat(prov,amp) as acode,pcucode,off_name from user where off_type='02'";
+                                $sql = "select amp,pcucode,off_name from user where off_type='02'";
                                 $res = mysql_query($sql);
                                 while ($row = mysql_fetch_array($res)) {
                                     ?>
-                                    <option value="<?= $row[acode] ?>"><?= $row[off_name] ?></option>
+                                    <option value="<?= $row[amp] ?>"><?= $row[off_name] ?></option>
 
                                     <?php
                                 }

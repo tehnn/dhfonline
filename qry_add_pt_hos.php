@@ -1,9 +1,8 @@
 <meta charset="UTF-8">
 <?php
-
-echo $datetime_send=date("Y-m-d H:i:s");
+echo "datetime_send :".$datetime_send=date("Y-m-d H:i:s");
 echo "<br>";
-echo $pid=$_POST[office_own].date("ymd").$_POST[hn];
+echo "pid:".$pid=$_POST[office_own].date("ymd").$_POST[hn];
 echo "<hr>";
 echo "<pre>";
 print_r($_POST);
