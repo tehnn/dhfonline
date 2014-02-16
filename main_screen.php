@@ -38,7 +38,7 @@ require 'condb.php';
     </head> 
     <body> 
         <?php
-        $sql = "select rc.pcu_receive,count(ph.pid) as sob,uu.off_name,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey 
+        $sql = "select rc.pcu_receive,count(ph.pid) as sob,uu.off_name as hos_sender,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey 
 from patient_hos pt
 LEFT JOIN user u on pt.send_to_amp = u.amp
 LEFT JOIN user uu on pt.office_own = uu.pcucode
@@ -144,7 +144,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     <td><?= $row[agey] ?></td>
                                     <td><?= $row[addr_ill] ?></td>
                                     <td><?= $row[date_found] ?></td>
-                                    <td><?= $row[off_name] ?></td>
+                                    <td><?= $row[hos_sender] ?></td>
                                     <td><?= $row[datetime_send] ?></td>
                                 </tr>
 

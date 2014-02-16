@@ -18,6 +18,22 @@
 
     </head> 
     <body> 
+        <?php
+        require 'condb.php';
+        $sql = "select * from patient_hos where is_cut is null and date(datetime_send)=CURDATE()";
+        $result_today = mysql_query($sql);
+        $num_today_case = mysql_num_rows($result_today);
+
+        $sql = "select amp.`name` as amp_name,u.off_name as hos_sender,pt.* ,rc.pcu_receive,
+TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey from patient_hos pt
+LEFT JOIN amp amp on pt.send_to_amp = amp.`code`
+LEFT JOIN user u on pt.office_own = u.pcucode
+LEFT JOIN receive rc on pt.pid=rc.pid
+where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
+        $result_all = mysql_query($sql);
+        $num_all_case = mysql_num_rows($result_all);
+        ?>
+
         <div data-role="page">
             <div data-role="header" data-position="fixed" data-theme="f">
                 <a href="#" data-icon="home">Home</a>
@@ -27,11 +43,11 @@
             </div><!-- /header -->
             <div data-role="content" data-theme="f">
 
-               
+
 
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                        ผู้ป่วยรวมทั้งหมด จำนวน  5 ราย วันนี้  2 ราย
+                        ผู้ป่วยรวมทั้งหมด จำนวน  <?= $num_all_case ?> ราย วันนี้  <?= $num_today_case ?> ราย
                     </div>  
                 </div>
 
@@ -60,9 +76,9 @@
                                 <th >
                                     สถานะ
                                 </th>
-                              
+
                                 <th data-toggle="true">
-                                    ชื่อ-นามสกุล,อายุ
+                                    ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
                                     อายุ
@@ -82,19 +98,31 @@
                             </tr>
                         </thead>
                         <tbody>
+                            <?php
+                            while ($row = mysql_fetch_array($result_all)) {
+                                ?>
+                                <tr>
+                                    <td><?= $row[amp_name] ?></td>
+                                    <td>
+                                        <?php
+                                        if (!empty($row[pcu_receive])) {
+                                            echo '<span class="status-metro status-active" title="' . $row[pcu_receive] . '">รับแล้ว</span>';
+                                        } else {
+                                            echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
+                                        }
+                                        ?>
+                                    </td>                               
+                                    <td><?= $row[prename] . $row[name] . " xxx" ?></td>
+                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[date_found] ?></td>
+                                    <td><?= $row[hos_sender] ?></td>
+                                    <td><?= $row[datetime_send] ?></td>
+                                </tr>
 
-                            <tr>
-                                <td>อ.ชาติตระการ</td>
-                                <td><span class="status-metro status-active">รับแล้ว</span></td>
-                               
-                                <td> ด.ช.วัฒนศักดิ์ xxx</td>
-                                <td>33ป,2ด</td>
-                                <td>100/23 ม.12 ถ.นิมานเหมินต์ ต.อรัญญิก อ.เมือง จ.พิษณุโลก</td>
-                                <td>2013-02-11</td>
-                                <td>รพ.สมเด็จพระยุพราชนครไทย</td>
-                                <td>2013-02-12 23:09:09</td>
-                            </tr>
-                          
+                                <?php
+                            }
+                            ?>
                         </tbody>
                         <tfoot>
                             <tr>
@@ -148,12 +176,12 @@
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f"  class="ui-bar">
-               
-               <?php
+
+                <?php
                 require 'menu_foot.php';
-                require 'txt_foot.php'; 
-               ?>
-               
+                require 'txt_foot.php';
+                ?>
+
             </div>
         </div>  <!-- end page -->
 
