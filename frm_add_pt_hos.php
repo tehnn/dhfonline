@@ -67,7 +67,7 @@ require 'condb.php'
                     validate_pass = false;
                 }
                 if (send_to_amp == '' || send_to_amp == null) {
-                    validate_msg += "ส่งให้ ว่าง\r\n";
+                    validate_msg += "อำเภอ ว่าง\r\n";
                     validate_pass = false;
                 }
                 if (sender == '' || sender == null) {
@@ -196,9 +196,9 @@ require 'condb.php'
                         </li>
 
                         <li data-role="fieldcontain">
-                            <label for="send_to_amp">ส่ง CASE ให้:</label>
+                            <label for="send_to_amp">ผู้ป่วยในเขตพื้นที่:</label>
                             <select name="send_to_amp" id="send_to_amp">
-                                <option value="">ส่งให้อำเภอ...</option>
+                                <option value="">อำเภอ...</option>
                                 <?php
                                 $sql = "select amp,pcucode,off_name from user where off_type='02'";
                                 $res = mysql_query($sql);

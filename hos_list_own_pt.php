@@ -98,7 +98,7 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                                     วันรับรักษา
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    ส่งให้
+                                    พื้นที่
                                 </th>
                                 <th data-hide="phone,tablet">
                                     เวลาส่ง

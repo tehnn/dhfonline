@@ -38,11 +38,12 @@ require 'condb.php';
     </head> 
     <body> 
         <?php
-        $sql = "select rc.pcu_receive,count(ph.pid) as sob,uu.off_name as hos_sender,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey 
-from patient_hos pt
+        $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,uu.off_name as hos_sender,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+u.pcucode,u.off_name,u.amp from patient_hos pt
 LEFT JOIN user u on pt.send_to_amp = u.amp
 LEFT JOIN user uu on pt.office_own = uu.pcucode
-LEFT JOIN receive rc on pt.pid = rc.pid
+LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
+as rp on pt.pid = rp.pid
 LEFT JOIN patient_home ph on pt.pid = ph.pid
 where pt.send_to_amp=u.amp and u.pcucode='$pcucode'
 GROUP BY pt.pid
@@ -71,7 +72,7 @@ and date(pt.datetime_send) = CURDATE()";
 
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                        ผู้ป่วยรวมทั้งหมด จำนวน  <?= $num_all_case ?> ราย วันนี้  <?= $num_today_case ?> ราย
+                        ผู้ป่วยรายใหม่ในพื้นที่วันนี้  <?= $num_today_case ?> ราย สะสมทั้งหมด <?= $num_all_case ?> ราย 
                     </div>  
                 </div>
 
@@ -131,7 +132,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     <td>
                                         <?php
                                         if(!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active" title="'.$row[pcu_receive].'">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active" title="'.$row[off_name_receive].'">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }

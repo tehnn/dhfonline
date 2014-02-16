@@ -24,11 +24,12 @@
         $result_today = mysql_query($sql);
         $num_today_case = mysql_num_rows($result_today);
 
-        $sql = "select amp.`name` as amp_name,u.off_name as hos_sender,pt.* ,rc.pcu_receive,
-TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey from patient_hos pt
+        $sql = "select amp.`name` as amp_name,u.off_name as hos_sender,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,pt.* ,rp.pcu_receive,rp.off_name as off_name_receive
+ from patient_hos pt
 LEFT JOIN amp amp on pt.send_to_amp = amp.`code`
 LEFT JOIN user u on pt.office_own = u.pcucode
-LEFT JOIN receive rc on pt.pid=rc.pid
+LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
+as rp on pt.pid = rp.pid
 where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
         $result_all = mysql_query($sql);
         $num_all_case = mysql_num_rows($result_all);
@@ -47,7 +48,7 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
 
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                        ผู้ป่วยรวมทั้งหมด จำนวน  <?= $num_all_case ?> ราย วันนี้  <?= $num_today_case ?> ราย
+                        ผู้ป่วยรายใหม่วันนี้ <?= $num_today_case ?> ราย  สะสมทั้งหมด <?= $num_all_case ?> ราย
                     </div>  
                 </div>
 
@@ -72,7 +73,7 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
                            data-page-size="6">
                         <thead>
                             <tr>
-                                <th>ส่งให้</th>
+                                <th>พื้นที่</th>
                                 <th >
                                     สถานะ
                                 </th>
@@ -106,7 +107,7 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
                                     <td>
                                         <?php
                                         if (!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active" title="' . $row[pcu_receive] . '">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active" title="' . $row[off_name_receive] . '">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
