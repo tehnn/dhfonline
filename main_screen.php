@@ -100,6 +100,9 @@ and date(pt.datetime_send) = CURDATE()";
                                 <th >
                                     สถานะ
                                 </th>
+                                 <th data-hide="phone,tablet">
+                                    ผู้รับ
+                                </th>
                                 <th data-hide="phone,tablet">
                                     สอบสวน
                                 </th>
@@ -132,12 +135,13 @@ and date(pt.datetime_send) = CURDATE()";
                                     <td>
                                         <?php
                                         if(!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active" title="'.$row[off_name_receive].'">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
                                         ?>
                                     </td>
+                                    <td><?= $row[off_name_receive] ?></td>
                                     <td><?= $row[sob] ?></td>
                                     <td>
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
@@ -157,7 +161,7 @@ and date(pt.datetime_send) = CURDATE()";
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="8">
+                                <td colspan="9">
                                     <div class="pagination"></div>
                                 </td>
                             </tr>

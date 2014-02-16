@@ -38,10 +38,11 @@ require 'condb.php';
     </head> 
     <body>         
         <?php
-        $sql = "select rc.pcu_receive,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
+        $sql = "select rp.pcu_receive,rp.rp.off_name as off_name_receive,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
 from patient_hos pt 
 LEFT JOIN amp amp on pt.send_to_amp = amp.code
-LEFT JOIN receive rc on rc.pid = pt.pid
+LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
+as rp on pt.pid = rp.pid
 where pt.office_own='$pcucode' order by pt.datetime_send DESC";
         $result = mysql_query($sql);
         $num_all_case = mysql_num_rows($result);
@@ -84,7 +85,10 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                             <tr>
                                 <th >
                                     สถานะ
-                                </th>                               
+                                </th>
+                                <th >
+                                    ผู้รับ
+                                </th>
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล,อายุ
                                 </th>
@@ -114,12 +118,13 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                                     <td>
                                         <?php
                                         if (!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active" title="'.$row[pcu_receive].'">รับแล้ว</span>';
+                                            echo '<span class="status-metro status-active" >รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
                                         ?>
                                     </td>
+                                    <td><?=$row[off_name_receive]?></td>
                                     <td> 
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
                                     </td>
@@ -137,7 +142,7 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="7">
+                                <td colspan="8">
                                     <div class="pagination"></div>
                                 </td>
                             </tr>
