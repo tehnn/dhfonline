@@ -38,29 +38,69 @@ require 'condb.php'
                     }
                 });
             });
+
+            function validate() {
+                var validate_pass = true;
+                var validate_msg = "";
+
+                var hn = $("#hn").val();
+                var name = $("#name").val();
+                var code506 = $("#code506").val();
+                var date_found = $("#date_found").val();
+                var send_to_amp = $("#send_to_amp").val();
+                var sender = $("#sender").val();
+
+                if (hn == '' || hn == null) {
+                    validate_pass = false;
+                    validate_msg += "hn ว่าง\r\n";
+                }
+                if (name == '' || name == null) {
+                    validate_msg += "ชื่อ ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (code506 == '' || code506 == null) {
+                    validate_msg += "รหัสโรค ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (date_found == '' || date_found == null) {
+                    validate_msg += "วันรับรักษา ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (send_to_amp == '' || send_to_amp == null) {
+                    validate_msg += "อำเภอ ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (sender == '' || sender == null) {
+                    validate_msg += "ผู้รายงาน ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (validate_msg != "") {
+                    alert(validate_msg);
+                }
+                return validate_pass;
+            }
         </script>
 
     </head> 
     <body> 
         <div data-role="page" id="page-1">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="hos_list_own_pt.php" rel="external" data-rel="back" data-icon="back">Back</a>
+                <a href="#" data-rel="back" data-icon="back">Back</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="#" data-icon="info">About</a>
             </div>
             <div data-role="content" data-theme="f">
                 <?php require 'office_title.php'; ?>
-                <form action="qry_pcu_frm_add_invest.php" id="frm_pcu" name="frm_pcu"
+                <form action="qry_add_pt_home.php.php" 
+                      id="frm_home" name="frm_home"
                       data-ajax="false" method="post"
-                      enctype="multipart/form-data">
+                      enctype="multipart/form-data"
+                      onsubmit="return validate()">
                     <!-- hidden field -->
                     <input type="hidden"  name="office_own" value="<?= $_SESSION[pcucode] ?>"/>
                     <input type="hidden"  name="user_own" value="<?= $_SESSION[user] ?>"/>                    
 
                     <ul data-role="listview" data-inset="true">
-                        <li data-role="fieldcontain">
-                            <img src="img_ic/people.png">
-                        </li>
                         <li data-role="fieldcontain">
                             <label for="hn">HN:</label>
                             <input type="text" name="hn" id="hn"  data-clear-btn="true">
@@ -74,12 +114,12 @@ require 'condb.php'
                             <input type="text" name="name" id="name" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="name">นามสกุล:</label>
+                            <label for="lname">นามสกุล:</label>
                             <input type="text" name="lname" id="lname" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
                             <label for="cid">เลข 13 หลัก:</label>
-                            <input type="text" name="cid" id="cid" data-clear-btn="true">
+                            <input type="text" name="cid" id="cid" data-clear-btn="true" maxlength="13">
                         </li>
                         <li data-role="fieldcontain">
                             <label for="sex">เพศ:</label>
@@ -101,8 +141,8 @@ require 'condb.php'
                             <input type="text" name="occupat" id="occupat" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="occupat">โรงเรียน:</label>
-                            <input type="text" name="occupat" id="occupat" placeholder="โรงเรียน,ชั้นเรียน" data-clear-btn="true">
+                            <label for="school">โรงเรียน:</label>
+                            <input type="text" name="school" id="school" placeholder="โรงเรียน,ชั้นเรียน" data-clear-btn="true">
                         </li>
 
                         <li data-role="fieldcontain">
@@ -127,12 +167,13 @@ require 'condb.php'
 
                         <li data-role="fieldcontain">
                             <label for="addr_home">ภูมิลำเนา:</label>
-                            <input type="text" id="addr_home" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด / หรือ เช่นเดียวกับที่อยู่ขณะป่วย">
+                            <input type="text" id="addr_home" name="addr_home" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด / หรือ เช่นเดียวกับที่อยู่ขณะป่วย">
                         </li>
 
                         <li data-role="fieldcontain">
                             <label for="code506">วินิจฉัย:</label>
                             <select name="code506" id="code506">
+                                <option value="">รหัสโรค...</option>
                                 <option value="26">26=DHF</option>
                                 <option value="27">27=DSS</option>
                                 <option value="66">66=DF</option>
@@ -155,16 +196,15 @@ require 'condb.php'
                         </li>
 
                         <li data-role="fieldcontain">
-                            <label for="sent_to_amp">ส่ง CASE ให้:</label>
-                            <select name="sent_to_amp" id="sent_to_amp">
-                                <option >ศูนย์ระบาดอำเภอ...</option>
-
+                            <label for="send_to_amp">ผู้ป่วยในเขตพื้นที่:</label>
+                            <select name="send_to_amp" id="send_to_amp">
+                                <option value="">อำเภอ...</option>
                                 <?php
-                                $sql = "select concat(prov,amp) as acode,pcucode,off_name from user where off_type='02'";
+                                $sql = "select amp,pcucode,off_name from user where off_type='02'";
                                 $res = mysql_query($sql);
                                 while ($row = mysql_fetch_array($res)) {
                                     ?>
-                                    <option value="<?= $row[pcucode] ?>"><?= $row[off_name] ?></option>
+                                    <option value="<?= $row[amp] ?>"><?= $row[off_name] ?></option>
 
                                     <?php
                                 }
@@ -182,8 +222,8 @@ require 'condb.php'
 
                         <li class="ui-body ui-body-f">
                             <fieldset class="ui-grid-a">
-                                <div class="ui-block-a"><button type="reset" data-icon="delete">ยกเลิก</button></div>
-                                <div class="ui-block-b"><button type="submit" data-icon="check">ตกลง</button></div>
+                                <div class="ui-block-a"><button type="submit" data-icon="check">ตกลง</button></div>
+                                <div class="ui-block-b"><button type="reset" data-icon="delete">ยกเลิก</button></div>                                
                             </fieldset>
                         </li>
 
