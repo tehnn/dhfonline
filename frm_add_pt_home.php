@@ -26,13 +26,31 @@ require 'condb.php'
 
         <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> 
 
+
+        <style>  
+            .map-div{
+                height: 300px;
+                width: 100%;
+
+            }
+            #latlng{
+                position:absolute;
+                top:300px;  /* adjust value accordingly */
+                left:5px;  /* adjust value accordingly */
+                z-index: 9999;
+                background-color:#008c8c;
+                color: white;
+
+            }
+        </style>
+
         <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
         <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
         <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
         <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/1.1.0/jqm-datebox-1.1.0.mode.flipbox.js"></script>
         <script>
             $(function() {
-                $('#frm_hos').find('input,select').keydown(function(event) {
+                $('#frm_home').find('input,select').keydown(function(event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
                     }
@@ -81,8 +99,103 @@ require 'condb.php'
             }
         </script>
 
+        <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7&language=TH"></script>
+
+        <script>
+
+            $(document).ready(function() {
+                getGeo();
+            });
+
+            function getGeo() {
+                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        lat = position.coords.latitude;
+                        lng = position.coords.longitude;
+                        $('#lat').val(lat);
+                        $('#lng').val(lng);
+                    });
+                } else {
+                    alert("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
+
+                }
+            }// end getGeo
+
+
+            $(document).on('pageshow', '#page-map', function(e, data) {
+                var map, lat, lng;
+
+
+
+                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        lat = position.coords.latitude;
+                        lng = position.coords.longitude;
+                        $("#latlng").html(lat + "," + lng);
+
+
+                        initMap(lat, lng, 15);
+                    });
+                } else {
+                    $("#latlng").html("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
+                    initMap(16.8175556, 100.2609311, 8);// พิษณุโลก                    
+
+                }
+                // map
+                function initMap(lat, lng, zoom) {
+                    var mapOptions = {
+                        zoom: zoom,
+                        center: new google.maps.LatLng(lat, lng),
+                        mapTypeId: google.maps.MapTypeId.SATELLITE
+                    };
+                    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
+
+                    var marker = new google.maps.Marker({
+                        map: map,
+                        position: map.getCenter(),
+                        clickable: true,
+                        draggable: true,
+                        title: 'ลากหมุดเพื่อเปลี่ยนค่าพิกัด'
+                    });
+
+                    google.maps.event.addListener(marker, 'drag', function() {
+
+                        $('#latlng').html(marker.getPosition().lat() + "," + marker.getPosition().lng());
+
+
+                    });//drag
+
+                    google.maps.event.addListener(marker, 'dragend', function() {
+
+                        $('#latlng').html(marker.getPosition().lat() + "," + marker.getPosition().lng());
+                        $('#lat').val(marker.getPosition().lat());
+                        $('#lng').val(marker.getPosition().lng());
+
+
+                        map.panTo(marker.getPosition());
+
+                    });// drag-end
+
+                }
+
+            });// end page-map show
+
+        </script>
+
+
+
     </head> 
-    <body> 
+    <body>         
+        <?php
+        $datetime_do = date("Y-m-d H:i:s");
+
+        $sql = "select u.off_name,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,rp.pcu_receive,rp.datetime_receive,rp.off_name as off_name_receive from patient_hos pt
+LEFT JOIN (select rc.*,uu.pcucode,uu.off_name from receive rc LEFT JOIN user uu on rc.pcu_receive=uu.pcucode ) as rp on pt.pid=rp.pid
+LEFT JOIN user u on pt.office_own = u.pcucode
+where pt.pid='$pid'";
+        $result = mysql_query($sql);
+        $row = mysql_fetch_array($result);
+        ?>
         <div data-role="page" id="page-1">
             <div data-role="header" data-position="fixed" data-theme="f">
                 <a href="#" data-rel="back" data-icon="back">Back</a>
@@ -91,135 +204,107 @@ require 'condb.php'
             </div>
             <div data-role="content" data-theme="f">
                 <?php require 'office_title.php'; ?>
-                <form action="qry_add_pt_home.php.php" 
+                <form action="qry_add_pt_home.php" 
                       id="frm_home" name="frm_home"
                       data-ajax="false" method="post"
                       enctype="multipart/form-data"
-                      onsubmit="return validate()">
+                      onsubmit="return true">
                     <!-- hidden field -->
-                    <input type="hidden"  name="office_own" value="<?= $_SESSION[pcucode] ?>"/>
-                    <input type="hidden"  name="user_own" value="<?= $_SESSION[user] ?>"/>                    
+                    <input type="hidden"  name="office_own" value="<?= $row[office_own] ?>"/>
+                    <input type="hidden"  name="office_do" value="<?= $_SESSION[pcucode] ?>"/>
+                    <input type="hidden"  name="user_do" value="<?= $_SESSION[user] ?>"/>  
+                    <input type="hidden"  name="datetime_do" value="<?= $datetime_do ?>"/>  
+                     <input type="hidden"  name="pid" value="<?= $row[pid] ?>"/>  
+
 
                     <ul data-role="listview" data-inset="true">
                         <li data-role="fieldcontain">
-                            <label for="hn">HN:</label>
-                            <input type="text" name="hn" id="hn"  data-clear-btn="true">
+                            <img src="img_pt/nopic.png">
+                            <p>pid:<?= $row[pid] ?></p>
+                            <h2><?= $row[prename] . $row[name] . " " . $row[lname] ?> 
+                                ,เริ่มป่วย:<?= $row[date_ill] ?>,รับรักษา:<?= $row[date_found] ?></h2>
+                            <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,อายุ <?= $row[agey] ?>ปี</p>
+
+
+                            <h3>ข้อมูลผู้ป่วย (<?= $row[off_name] ?>)</h3>
+                            <p>
+                                <?= nl2br($row[note_text]) ?>
+                            </p>  
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="prename">คำนำหน้า:</label>
-                            <input type="text" name="prename" id="prename" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="name">ชื่อผู้ป่วย:</label>
-                            <input type="text" name="name" id="name" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="lname">นามสกุล:</label>
-                            <input type="text" name="lname" id="lname" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="cid">เลข 13 หลัก:</label>
-                            <input type="text" name="cid" id="cid" data-clear-btn="true" maxlength="13">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="sex">เพศ:</label>
-                            <select name="sex" id="sex" data-role="slider">
-                                <option value="1">ชาย</option>
-                                <option value="2">หญิง</option>
-                            </select>
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="bdate">ว/ด/ป เกิด:</label>
-                            <input name="bdate" id="bdate" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
+                            <table width ="100%">
+                                <tr>
+                                    <td >
+                                        <input  name="amp" id="amp" data-mini="true" type="text" placeholder="อำเภอ">
+                                    </td>
+                                    <td >
+                                        <input  name="tmb" id="tmb" data-mini="true" type="text" placeholder="ตำบล">
+                                    </td>
+                                    <td >
+                                        <input  name="moo" id="moo" data-mini="true" type="text" placeholder="หมู่">
+                                    </td>
+                                    <td >
+                                        <input  name="addr" id="addr" data-mini="true" type="text" placeholder="บ้านเลขที่">
+                                    </td>
+                                </tr>
+                            </table>
                         </li>
 
                         <li data-role="fieldcontain">
-                            <label for="occupat">อาชีพ:</label>
-                            <input type="text" name="occupat" id="occupat" data-clear-btn="true">
+
+                            <table width ="100%">
+                                <tr>
+                                    <td width="40%"><input  name="lat" id="lat" data-mini="true" type="text" placeholder="ละติจูด"></td>
+                                    <td width="40%"><input  name="lng" id="lng" data-mini="true" type="text" placeholder="ลองติจูด"></td>
+                                    <td width="20%">
+                                        <a href="#" onclick="getGeo()" data-role="button" data-inline="true" data-mini="true"> พิกัด </a>
+                                        <a href="#page-map" data-rel="dialog" data-position-to="window" data-role="button" data-inline="true" data-mini="true"> แผนที่ </a>
+
+                                    </td>
+                                </tr>
+
+                            </table>
                         </li>
-                        <li data-role="fieldcontain">
-                            <label for="school">โรงเรียน:</label>
-                            <input type="text" name="school" id="school" placeholder="โรงเรียน,ชั้นเรียน" data-clear-btn="true">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="date_ill">ว/ด/ป เริ่มป่วย:</label>
-                            <input name="date_ill" id="date_ill" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="date_found">ว/ด/ป รับรักษา:</label>
-                            <input name="date_found" id="date_found" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="addr_ill">ที่อยู่ขณะป่วย:</label>
-                            <input type="text" name="addr_ill" id="addr_ill" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="addr_home">ภูมิลำเนา:</label>
-                            <input type="text" id="addr_home" name="addr_home" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด / หรือ เช่นเดียวกับที่อยู่ขณะป่วย">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="code506">วินิจฉัย:</label>
-                            <select name="code506" id="code506">
-                                <option value="">รหัสโรค...</option>
-                                <option value="26">26=DHF</option>
-                                <option value="27">27=DSS</option>
-                                <option value="66">66=DF</option>
-
-                            </select>
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="icd10">ICD-10-TM:</label>
-                            <input type="text" name="icd10" id="icd10" data-clear-btn="true">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="note_text">บันทึกการสอบสวนโรคที่ รพ.:</label>
-                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="อาการ/อาการแสดง/ผลทางห้องปฏิบัติการ/ประวัติเดินทาง/อื่นๆ"></textarea>
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="img_pt">รูปผู้ป่วย:</label>
-                            <input type="file" name="img_pt" id="img_pt">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="send_to_amp">ผู้ป่วยในเขตพื้นที่:</label>
-                            <select name="send_to_amp" id="send_to_amp">
-                                <option value="">อำเภอ...</option>
-                                <?php
-                                $sql = "select amp,pcucode,off_name from user where off_type='02'";
-                                $res = mysql_query($sql);
-                                while ($row = mysql_fetch_array($res)) {
-                                    ?>
-                                    <option value="<?= $row[amp] ?>"><?= $row[off_name] ?></option>
-
-                                    <?php
-                                }
-                                ?>
-
-
+                         <li data-role="fieldcontain">
+                            <label for="is_larva">พบลูกน้ำยุงลายที่บ้านผู้ป่วย:</label>
+                            <select name="is_larva" id="is_larva" data-role="slider">
+                               <option value="n">ไม่พบ</option>
+                                <option value="y">พบ</option>
+                                
                             </select>
                         </li>
 
+
+                        <li data-role="fieldcontain">
+                             <label for="note_text">บันทึกกิจกรรม 1:</label>
+                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="ข้อมูลผู้ป่วย/ประวัติการเจ็บป่วย"></textarea>
+                            
+                        </li>
+                         <li data-role="fieldcontain">
+                             <label for="note_text">บันทึกกิจกรรม 2:</label>
+                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="สภาพแวดล้อมบริเวณบ้าน"></textarea>
+                            
+                        </li>
+                         <li data-role="fieldcontain">
+                             <label for="note_text">บันทึกกิจกรรม 3:</label>
+                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="กิจกกรรมควบคุมโรค"></textarea>
+                            
+                        </li>
+                        
+                         <li data-role="fieldcontain">
+                            <label for="img_home">รูปบ้านผู้ป่วย:</label>
+                            <input type="file" name="img_home" id="img_home">
+                        </li>
+                           <li data-role="fieldcontain">
+                            <label for="img_activity">รูปกิจกรรม:</label>
+                            <input type="file" name="img_activity" id="img_activity">
+                        </li>
+                        
                         <li data-role="fieldcontain">
                             <label for="sender">ผู้รายงาน:</label>
                             <input type="text" name="sender" id="sender" placeholder="ชื่อ-นามสกุลผู้รายงาน /เบอร์โทร">
                         </li>
-
-
+                  
                         <li class="ui-body ui-body-f">
                             <fieldset class="ui-grid-a">
                                 <div class="ui-block-a"><button type="submit" data-icon="check">ตกลง</button></div>
@@ -237,6 +322,18 @@ require 'condb.php'
                 <?php require 'txt_foot.php'; ?>
             </div>
         </div>  <!-- end page-1 -->
+
+
+        <div data-role="page" id="page-map">
+            <div data-role="header" data-position="fixed" data-theme="f">
+                <h1>Map</h1>
+            </div>
+            <div data-role="content" id="map-content">
+                <div id="latlng"></div>
+                <div id="map-canvas" class="map-div"></div>
+            </div> <!-- end content -->
+
+        </div>  <!-- end page -->
 
 
     </body>

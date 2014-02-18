@@ -141,8 +141,8 @@ require 'condb.php'
                             <input type="text" name="occupat" id="occupat" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="school">โรงเรียน:</label>
-                            <input type="text" name="school" id="school" placeholder="โรงเรียน,ชั้นเรียน" data-clear-btn="true">
+                            <label for="school">โรงเรียน/สถานที่ทำงาน/เบอร์โทรติดต่อ:</label>
+                            <input type="text" name="school" id="school" placeholder="โรงเรียน,ชั้นเรียน/สถานที่ทำงาน/เบอร์โทรติดต่อ" data-clear-btn="true">
                         </li>
 
                         <li data-role="fieldcontain">
