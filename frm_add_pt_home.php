@@ -214,7 +214,7 @@ where pt.pid='$pid'";
                     <input type="hidden"  name="office_do" value="<?= $_SESSION[pcucode] ?>"/>
                     <input type="hidden"  name="user_do" value="<?= $_SESSION[user] ?>"/>  
                     <input type="hidden"  name="datetime_do" value="<?= $datetime_do ?>"/>  
-                     <input type="hidden"  name="pid" value="<?= $row[pid] ?>"/>  
+                    <input type="hidden"  name="pid" value="<?= $row[pid] ?>"/>  
 
 
                     <ul data-role="listview" data-inset="true">
@@ -235,16 +235,55 @@ where pt.pid='$pid'";
                             <table width ="100%">
                                 <tr>
                                     <td >
-                                        <input  name="amp" id="amp" data-mini="true" type="text" placeholder="อำเภอ">
+                                        <select name="amp" id="amp">
+                                            <?php
+                                            $amp_sql = "select code,name from amp";
+                                            $amp_res = mysql_query($amp_sql);
+                                            while ($rw_amp = mysql_fetch_array($amp_res)) {
+                                                ?>
+                                                <option value="<?= $rw_amp[code] ?>" <?php if ($rw_amp[code] == $row[send_to_amp]) {
+                                                echo 'selected';
+                                            } ?>>
+                                                <?= $rw_amp[name] ?>
+                                                </option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </td>
+                                   
+                                    <td >
+                                        <select name="tmb" id="tmb">
+                                            <option value="">เลือกตำบล...</option>
+                                            <?php
+                                            $tmb_sql = "select code,name from tmb where amp=$row[send_to_amp]";
+                                            $tmb_res = mysql_query($tmb_sql);
+                                            while ($rw_tmb = mysql_fetch_array($tmb_res)) {
+                                                ?>
+                                                <option value="<?= $rw_tmb[code] ?>">
+                                                <?= $rw_tmb[name] ?>
+                                                </option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
                                     </td>
                                     <td >
-                                        <input  name="tmb" id="tmb" data-mini="true" type="text" placeholder="ตำบล">
+                                        <input  name="moo" id="moo" data-mini="true" type="text" placeholder="หมู่ที่">
                                     </td>
+                                   
+                                </tr>
+                                <tr>
+                                    
                                     <td >
-                                        <input  name="moo" id="moo" data-mini="true" type="text" placeholder="หมู่">
+                                        <input  name="road" id="road" data-mini="true" type="text" placeholder="ถนน/ซอย">
                                     </td>
                                     <td >
                                         <input  name="addr" id="addr" data-mini="true" type="text" placeholder="บ้านเลขที่">
+                                    </td>
+                                     <td> 
+                                        <input  maxlength="11" name="house_id" id="house_id" data-mini="true" type="text" placeholder="รหัสบ้าน 11 หลัก">
                                     </td>
                                 </tr>
                             </table>
@@ -265,46 +304,46 @@ where pt.pid='$pid'";
 
                             </table>
                         </li>
-                         <li data-role="fieldcontain">
+                        <li data-role="fieldcontain">
                             <label for="is_larva">พบลูกน้ำยุงลายที่บ้านผู้ป่วย:</label>
                             <select name="is_larva" id="is_larva" data-role="slider">
-                               <option value="n">ไม่พบ</option>
+                                <option value="n">ไม่พบ</option>
                                 <option value="y">พบ</option>
-                                
+
                             </select>
                         </li>
 
 
                         <li data-role="fieldcontain">
-                             <label for="note_text">บันทึกกิจกรรม 1:</label>
-                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="ข้อมูลผู้ป่วย/ประวัติการเจ็บป่วย"></textarea>
-                            
+                            <label for="note_patient">บันทึกกิจกรรม 1:</label>
+                            <textarea cols="40" rows="8" name="note_patient" id="note_patient" placeholder="ข้อมูลผู้ป่วย/ประวัติการเจ็บป่วย"></textarea>
+
                         </li>
-                         <li data-role="fieldcontain">
-                             <label for="note_text">บันทึกกิจกรรม 2:</label>
-                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="สภาพแวดล้อมบริเวณบ้าน"></textarea>
-                            
+                        <li data-role="fieldcontain">
+                            <label for="note_home">บันทึกกิจกรรม 2:</label>
+                            <textarea cols="40" rows="8" name="note_home" id="note_home" placeholder="สภาพแวดล้อมบริเวณบ้าน"></textarea>
+
                         </li>
-                         <li data-role="fieldcontain">
-                             <label for="note_text">บันทึกกิจกรรม 3:</label>
-                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="กิจกกรรมควบคุมโรค"></textarea>
-                            
+                        <li data-role="fieldcontain">
+                            <label for="note_activity">บันทึกกิจกรรม 3:</label>
+                            <textarea cols="40" rows="8" name="note_activity" id="note_activity" placeholder="กิจกรรมควบคุมโรค"></textarea>
+
                         </li>
-                        
-                         <li data-role="fieldcontain">
+
+                        <li data-role="fieldcontain">
                             <label for="img_home">รูปบ้านผู้ป่วย:</label>
                             <input type="file" name="img_home" id="img_home">
                         </li>
-                           <li data-role="fieldcontain">
+                        <li data-role="fieldcontain">
                             <label for="img_activity">รูปกิจกรรม:</label>
                             <input type="file" name="img_activity" id="img_activity">
                         </li>
-                        
+
                         <li data-role="fieldcontain">
-                            <label for="sender">ผู้รายงาน:</label>
-                            <input type="text" name="sender" id="sender" placeholder="ชื่อ-นามสกุลผู้รายงาน /เบอร์โทร">
+                            <label for="reporter">ผู้รายงาน:</label>
+                            <input type="text" name="reporter" id="reporter" placeholder="ชื่อ-นามสกุลผู้รายงาน /เบอร์โทร">
                         </li>
-                  
+
                         <li class="ui-body ui-body-f">
                             <fieldset class="ui-grid-a">
                                 <div class="ui-block-a"><button type="submit" data-icon="check">ตกลง</button></div>
@@ -319,7 +358,7 @@ where pt.pid='$pid'";
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f" >                
-                <?php require 'txt_foot.php'; ?>
+<?php require 'txt_foot.php'; ?>
             </div>
         </div>  <!-- end page-1 -->
 

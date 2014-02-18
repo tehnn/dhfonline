@@ -76,7 +76,8 @@ where pt.pid='$pid'";
                         <h2><?= $row[prename] . $row[name] . " " . $row[lname] ?></h2>
                         <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?=$row[occupat]?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
-                        <h3><?=$row[addr_ill]?></h3>
+                        <p>อาชีพ:<?=$row[occupat]." ".$row[school_workplace]." ".$row[tel]?></p>
+                        <h3>ที่อยู่:<?=$row[addr_ill]?></h3>
                         <h3>เริ่มป่วย:<?= $row[date_ill] ?>,รับรักษา:<?= $row[date_found] ?></h3>
                         <h3>แจ้งcase:<?= $row[datetime_send] ?></h3>
                         <h3>รับcase:<?= $row[datetime_receive] ?></h3>                       

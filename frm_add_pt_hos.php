@@ -107,7 +107,7 @@ require 'condb.php'
                         </li>
                         <li data-role="fieldcontain">
                             <label for="prename">คำนำหน้า:</label>
-                            <input type="text" name="prename" id="prename" data-clear-btn="true">
+                            <input type="text" name="prename" id="prename" data-clear-btn="true" placeholder="นาย/นาง/น.ส./ด.ช./ด.ญ.">
                         </li>
                         <li data-role="fieldcontain">
                             <label for="name">ชื่อผู้ป่วย:</label>
@@ -141,8 +141,12 @@ require 'condb.php'
                             <input type="text" name="occupat" id="occupat" data-clear-btn="true">
                         </li>
                         <li data-role="fieldcontain">
-                            <label for="school">โรงเรียน/สถานที่ทำงาน/เบอร์โทรติดต่อ:</label>
-                            <input type="text" name="school" id="school" placeholder="โรงเรียน,ชั้นเรียน/สถานที่ทำงาน/เบอร์โทรติดต่อ" data-clear-btn="true">
+                            <label for="school_workplace">โรงเรียน/สถานที่ทำงาน:</label>
+                            <input type="text" name="school_workplace" id="school_workplace" placeholder="โรงเรียน,ชั้นเรียน/สถานที่ทำงาน" data-clear-btn="true">
+                        </li>
+                          <li data-role="fieldcontain">
+                            <label for="tel">เบอร์โทรติดต่อ:</label>
+                            <input type="text" name="tel" id="tel" placeholder="เบอร์โทรติดต่อคนไข้/ญาติ" data-clear-btn="true">
                         </li>
 
                         <li data-role="fieldcontain">
