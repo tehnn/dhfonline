@@ -72,13 +72,38 @@ where hm.id = $id";
 
                     <li data-role="fieldcontain">
                         <?php
-                        echo "เวลาสอบสวนควบคุมโรค: " . $row[datetime_do];
-                        echo "<hr>";
-                        echo "pid: " . $row[0];
-                        echo "<br>";
+                        echo "วันที่/เวลา ดำเนินการ: " . $row[datetime_do];
+                        echo "<hr>";                        
+                      
                         echo "<h3>".$row[name]." ".$row[lname]."<h2>";
+                        
                         ?>
+                        <br>
+                        <p>
+                            ที่อยู่ <?=$row[addr]." ,".$row[road]." ,".$row[tmb]." ,".$row[amp]?> 
+                            แผนที่ : <a target="_blank" href="http://maps.google.com?q=<?= $row[lat] ?>,<?= $row[lng] ?>">คลิก</a>
+                        </p>
                     </li>
+                    <li data-role="fieldcontain">
+                        <h3><?=  nl2br($row[note_patient])?></h3>
+                        
+                        
+                    </li>
+                    <li data-role="fieldcontain">
+                         <h3><?=nl2br($row[note_home])?></h3>
+                        
+                        
+                    </li>
+                    <li data-role="fieldcontain">
+                        <h3><?=  nl2br($row[note_activity])?></h3>
+                        
+                    </li>
+                    
+                    <li data-role="fieldcontain">
+                        <p> ผู้บันทึก: <?=$row[reporter]?></p>
+                        
+                    </li>
+                   
 
                 </ul>
 

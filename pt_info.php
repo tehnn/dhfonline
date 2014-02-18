@@ -48,7 +48,16 @@ require 'condb.php';
                 }
             }
         </style>
+        <style>
+            .map-div{
+                height: 300px;
+                width: 100%;
+
+            }
+        </style>
         <?php require 'lib.php'; ?>
+       
+
     </head> 
     <body> 
 
@@ -57,7 +66,15 @@ require 'condb.php';
 LEFT JOIN (select rc.*,uu.pcucode,uu.off_name from receive rc LEFT JOIN user uu on rc.pcu_receive=uu.pcucode ) as rp on pt.pid=rp.pid
 LEFT JOIN user u on pt.office_own = u.pcucode
 where pt.pid='$pid'";
-        $result = mysql_query($sql);
+
+        $sql2 = "select u.off_name,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+rp.pcu_receive,rp.datetime_receive,rp.off_name as off_name_receive,ph.lat,ph.lng from patient_hos pt
+LEFT JOIN (select rc.*,uu.pcucode,uu.off_name from receive rc LEFT JOIN user uu on rc.pcu_receive=uu.pcucode ) as rp on pt.pid=rp.pid
+LEFT JOIN user u on pt.office_own = u.pcucode
+LEFT JOIN patient_home ph on pt.pid = ph.pid and ph.lat 
+where pt.pid='$pid'";
+
+        $result = mysql_query($sql2);
         $row = mysql_fetch_array($result);
         ?>
         <div data-role="page" id="page-1">
@@ -74,10 +91,11 @@ where pt.pid='$pid'";
                         <img src="img_pt/nopic.png">
                         <p>pid:<?= $row[pid] ?></p>
                         <h2><?= $row[prename] . $row[name] . " " . $row[lname] ?></h2>
-                        <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?=$row[occupat]?></p>
+                        <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?= $row[occupat] ?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
-                        <p>อาชีพ:<?=$row[occupat]." ".$row[school_workplace]." ".$row[tel]?></p>
-                        <h3>ที่อยู่:<?=$row[addr_ill]?></h3>
+                        <p>อาชีพ:<?= $row[occupat] . " " . $row[school_workplace] . " " . $row[tel] ?> ,แผนที่ : <a target="_blank" href="http://maps.google.com?q=<?= $row[lat] ?>,<?= $row[lng] ?>">คลิก</a></p>
+
+                        <h3>ที่อยู่:<?= $row[addr_ill] ?></h3>
                         <h3>เริ่มป่วย:<?= $row[date_ill] ?>,รับรักษา:<?= $row[date_found] ?></h3>
                         <h3>แจ้งcase:<?= $row[datetime_send] ?></h3>
                         <h3>รับcase:<?= $row[datetime_receive] ?></h3>                       
@@ -102,7 +120,7 @@ where pt.pid='$pid'";
 
                 </ul>
                 <?php
-                if (empty($row[datetime_receive]) and $_GET[hos_own]<>"y") {
+                if (empty($row[datetime_receive]) and $_GET[hos_own] <> "y") {
                     ?>
                     <div align="center">
                         <a href="qry_receive_case.php?pid=<?= $row[pid] ?>&pcu_receive=<?= $pcucode ?>" rel="external" data-role="button"  data-icon="check" data-inline="true">รับ case</a>
@@ -112,10 +130,9 @@ where pt.pid='$pid'";
                 }
                 ?>
                 <?php
-                
                 if ($row[pcu_receive] == "$pcucode") {
                     ?>
-                    <a href="frm_add_pt_home.php?pid=<?=$row[pid]?>" rel="external" data-icon ="plus" data-role="button">บันทึกสอบสวนโรค</a>
+                    <a href="frm_add_pt_home.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="plus" data-role="button">บันทึกสอบสวนโรค</a>
                     <?php
                 }
                 ?>
@@ -128,6 +145,8 @@ where pt.pid='$pid'";
                 <?php require 'txt_foot.php'; ?>
             </div>
         </div>  <!-- end page-1 -->
+
+     
 
 
     </body>
