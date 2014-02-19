@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50051
 File Encoding         : 65001
 
-Date: 2014-02-18 21:44:56
+Date: 2014-02-20 00:41:22
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -482,6 +482,22 @@ INSERT INTO `hserv` VALUES ('090402', 'ทุ่งยาว', '0', '0', '0');
 INSERT INTO `hserv` VALUES ('090501', 'บ้านน้อยฯ', '0', '0', '0');
 INSERT INTO `hserv` VALUES ('090502', 'บ้านโปร่งไผ่', '0', '0', '0');
 INSERT INTO `hserv` VALUES ('090701', 'วังยาง', '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for `iscut`
+-- ----------------------------
+DROP TABLE IF EXISTS `iscut`;
+CREATE TABLE `iscut` (
+  `pid` varchar(100) NOT NULL,
+  `date_cut` datetime default NULL,
+  `final_dx` varchar(100) default NULL,
+  `note_cut` varchar(255) NOT NULL,
+  PRIMARY KEY  (`pid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of iscut
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for `larva`
@@ -1706,43 +1722,49 @@ INSERT INTO `patient_home` VALUES ('7', '11256140217234', '11256', 'u11251', '11
 -- ----------------------------
 DROP TABLE IF EXISTS `patient_hos`;
 CREATE TABLE `patient_hos` (
-  `office_own` varchar(5) NOT NULL default '' COMMENT '5 หลัก รพ.เจอเคส',
-  `user_own` varchar(25) default NULL,
-  `datetime_send` datetime NOT NULL default '0000-00-00 00:00:00',
-  `hn` varchar(25) NOT NULL default '',
-  `pid` varchar(50) NOT NULL,
-  `prename` varchar(25) default NULL,
-  `name` varchar(50) default NULL,
-  `lname` varchar(50) default NULL,
+  `pid` varchar(100) NOT NULL default '',
+  `datetime_send` datetime default NULL,
+  `office_own` varchar(5) default NULL,
+  `user_own` varchar(50) default NULL,
+  `hn` varchar(100) default NULL,
+  `prename` varchar(100) default NULL,
+  `sex` varchar(25) default NULL,
+  `name` varchar(100) default NULL,
+  `lname` varchar(100) default NULL,
   `cid` varchar(13) default NULL,
-  `sex` varchar(4) default NULL,
   `bdate` date default NULL,
-  `occupat` varchar(255) default NULL,
+  `pt_tel` varchar(100) default NULL,
+  `family` varchar(255) default NULL,
+  `occupat` varchar(100) default NULL,
   `school_workplace` varchar(255) default NULL,
-  `tel` varchar(100) default NULL,
+  `code506` varchar(100) default NULL,
+  `icd10` varchar(100) default NULL,
+  `doctor` varchar(100) default NULL,
+  `date_dx` date default NULL,
   `date_ill` date default NULL,
   `date_found` date default NULL,
-  `addr_ill` varchar(255) default NULL,
-  `addr_home` varchar(255) default NULL,
-  `code506` varchar(25) NOT NULL,
-  `icd10` varchar(25) default NULL,
+  `symtom` varchar(255) default NULL,
+  `refer_from` varchar(255) default NULL,
+  `date_refer` date default NULL,
+  `amp` varchar(4) default NULL,
+  `tmb` varchar(6) default NULL,
+  `moo` varchar(8) default NULL,
+  `addr` varchar(100) default NULL,
+  `lab_wbc` varchar(100) default NULL,
   `note_text` varchar(255) default NULL,
-  `img_pt` varchar(255) default NULL,
+  `lab_plt` varchar(100) default NULL,
+  `lab_hct` varchar(100) default NULL,
+  `lab_tt` varchar(100) default NULL,
+  `send_to_amp` varchar(4) default NULL,
   `sender` varchar(255) default NULL,
-  `send_to_amp` varchar(4) default NULL COMMENT '5 หลัก สสอ.',
-  `is_cut` varchar(1) default NULL,
+  `img_pt` varchar(255) default NULL,
   PRIMARY KEY  (`pid`)
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of patient_hos
 -- ----------------------------
-INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-15 01:29:47', '92334', '1125114021692334', 'นาย', 'อุเทน', 'จาดยางโทน', '3650100810887', '1', '2014-02-16', '', '', null, '2014-02-16', '2014-02-15', '25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก', 'เช่นเดียวกับขณะป่วย', '26', 'ไม่ทราบ', 'ไข้ 3 วันก่อนมา รพ. ไม่ได้เดินทางไปไหน', '11251140216923341383142_590729910996934_753720864_', 'นานี', '6501', null);
-INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-15 01:33:00', '112233', '11251140216112233', 'นาง', 'สง่า', 'จาดยางโทน', '3650100810887', '2', '2014-02-16', 'รับราชการ', '', null, '2014-02-15', '2014-02-14', '25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก', 'เช่นเดียวกับขณะป่วย', '66', 'ไม่ทราบ', 'ไข้ 3 วันก่อนมา รพ. ไม่ได้เดินทางไปไหน', '112511402161122331383142_590729910996934_753720864_n.png', 'นานี', '6501', null);
-INSERT INTO `patient_hos` VALUES ('11251', 'u11251', '2014-02-17 11:17:23', '77888', '1125114021777888', 'นาย', 'มมมมม', 'กกกกก', '', '1', '1993-02-17', 'รับราชการ', '', null, '2014-02-17', '2014-02-17', '33/122 ม.1 ต.บางกระทุ่ม ชาติตระการ.บางกะทุ่ม', '33/122 ม.1 ต.บางกระทุ่ม ชาติตระการ.บางกะทุ่ม', '26', '', 'พกหดหหหหเดเดเ\r\nเดกเดเดเดเดเดกเ\r\nดเดเดเกเดเก้กด้\r\nดก้ดก้ก้', '1125114021777888935950_630002043699042_1411806422_n.jpg', 'พเดเดเดเกดเดเ', '6503', null);
-INSERT INTO `patient_hos` VALUES ('11254', 'u11254', '2014-02-16 11:08:10', '00111', '1125414021600111', 'นาง', 'สุนทรี', 'กล้าหาญ', '', '2', '1986-02-16', 'ลูกจ้าง', '', null, '2014-02-16', '2014-02-16', '22 ม.2 ต.ท่าสะแก', '22 ม.2 ต.ปา่าแดง ', '26', '', '', '1125414021600111ไอคอน.jpg', 'ณัฐพร  ปาลิวนิช', '6503', null);
-INSERT INTO `patient_hos` VALUES ('11253', 'u11253', '2014-02-16 13:37:59', '7896', '112531402167896', 'นาย', 'มะดี', 'วรนะ', '', '1', '1986-02-21', 'ทำนา', '', null, '2014-02-15', '2014-02-16', '33/122 ม.1 ต.บางกระทุ่ม อ.บางกะทุ่ม', '', '27', '', 'ส่ง lab', '1125314021678961388661778-1387508586-o.gif', 'นายวรวีย์ มะกุดี', '6505', null);
-INSERT INTO `patient_hos` VALUES ('11256', 'u11256', '2014-02-17 20:08:54', '234', '11256140217234', '', 'ddddddddddddddddd', 'dddd', '', '2', '1980-02-17', '', 'dddddd', null, '2014-02-17', '2014-02-17', 'ไม่ทราบ', 'ไม่ทราบ', '26', '', '', '', 'หหหหหหห', '6503', null);
+INSERT INTO `patient_hos` VALUES ('11251140220dfffff', '2014-02-20 00:40:17', '11251', 'u11251', 'dfffff', 'นาย', 'ชาย', 'fffffffff', 'ffffff', 'ffffff', '2000-02-09', 'ff', 'ff', 'ff', 'fff', '26', 'fffffff', 'fffff', '2014-02-19', '2014-02-19', '2014-02-20', 'ffff', 'ffff', '2014-02-19', '', '', '', '', 'fff', 'ddf', 'fff', 'ff', 'บวก', 'นาย', 'fdfdf', '11251140220dfffffไอคอน.jpg');
 
 -- ----------------------------
 -- Table structure for `receive`
@@ -2043,7 +2065,7 @@ INSERT INTO `user` VALUES ('u10611', 'p10611', '10611', null, '18', 'รพ.ส�
 INSERT INTO `user` VALUES ('u10612', 'p10612', '10612', null, '18', 'รพ.สต.บ้านน้ำจวง ', '65', '6503', '656503', 'pcu', 'y', '0', null);
 INSERT INTO `user` VALUES ('u10613', 'p10613', '10613', null, '18', 'รพ.สต.บ้านนุชเทียน ', '65', '6503', '656503', 'pcu', 'y', '0', null);
 INSERT INTO `user` VALUES ('u10676', 'p10676', '10676', null, '05', 'รพ.พุทธชินราช', '65', '6501', '656501', 'hos', 'y', '0', null);
-INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '6503', '656503', 'hos', 'y', '41', '2014-02-18 20:01:28');
+INSERT INTO `user` VALUES ('u11251', 'p11251', '11251', null, '07', 'รพ.ชาติตระการ', '65', '6503', '656503', 'hos', 'y', '42', '2014-02-19 23:07:21');
 INSERT INTO `user` VALUES ('u11252', 'p11252', '11252', null, '07', 'รพ.บางระกำ', '65', '6504', '656504', 'hos', 'y', '6', '2014-02-18 20:01:07');
 INSERT INTO `user` VALUES ('u11253', 'p11253', '11253', null, '07', 'รพ.บางกระทุ่ม', '65', '6505', '656505', 'hos', 'y', '4', '2014-02-16 14:36:14');
 INSERT INTO `user` VALUES ('u11254', 'p11254', '11254', null, '07', 'รพ.พรหมพิราม', '65', '6506', '656506', 'hos', 'y', '4', '2014-02-17 20:02:39');
