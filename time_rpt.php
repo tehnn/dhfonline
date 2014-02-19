@@ -17,7 +17,7 @@ $female = array(2, 0, 1, 0, 0, 0, 0, 0, 1);
 
                 $('#container1').highcharts({
                     credits: {
-                        enabled: false                        
+                        enabled: false
                     },
                     chart: {
                         type: 'column'

@@ -62,7 +62,7 @@ where hm.id = $id";
         ?>
         <div data-role="page" id="page-1">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-rel="back"  data-icon="back">Back</a>
+                <a href="main_screen.php" rel="external"  data-icon="back">Back</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="#" rel="external" onclick=" window.print();" data-icon="info">Print</a>
             </div>
@@ -73,37 +73,36 @@ where hm.id = $id";
                     <li data-role="fieldcontain">
                         <?php
                         echo "วันที่/เวลา ดำเนินการ: " . $row[datetime_do];
-                        echo "<hr>";                        
-                      
-                        echo "<h3>".$row[name]." ".$row[lname]."<h2>";
-                        
+                        echo "<hr>";
+
+                        echo "<h3>" . $row[name] . " " . $row[lname] . "<h2>";
                         ?>
                         <br>
                         <p>
-                            ที่อยู่ <?=$row[addr]." ,".$row[road]." ,".$row[tmb]." ,".$row[amp]?> 
+                            ที่อยู่ <?= $row[addr] . " ," . $row[road] . " ," . $row[tmb] . " ," . $row[amp] ?> 
                             แผนที่ : <a target="_blank" href="http://maps.google.com?q=<?= $row[lat] ?>,<?= $row[lng] ?>">คลิก</a>
                         </p>
                     </li>
                     <li data-role="fieldcontain">
-                        <h3><?=  nl2br($row[note_patient])?></h3>
-                        
-                        
+                        <h3><?= nl2br($row[note_patient]) ?></h3>
+
+
                     </li>
                     <li data-role="fieldcontain">
-                         <h3><?=nl2br($row[note_home])?></h3>
-                        
-                        
+                        <h3><?= nl2br($row[note_home]) ?></h3>
+
+
                     </li>
                     <li data-role="fieldcontain">
-                        <h3><?=  nl2br($row[note_activity])?></h3>
-                        
+                        <h3><?= nl2br($row[note_activity]) ?></h3>
+
                     </li>
-                    
+
                     <li data-role="fieldcontain">
-                        <p> ผู้บันทึก: <?=$row[reporter]?></p>
-                        
+                        <p> ผู้บันทึก: <?= $row[reporter] ?></p>
+
                     </li>
-                   
+
 
                 </ul>
 

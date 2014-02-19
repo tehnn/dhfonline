@@ -14,8 +14,8 @@ session_destroy();
                 function onSuccess(data, status) {
                     //alert(data);   
                     data = $.trim(data);
-                    if(data=='ok'){
-                          window.location = 'main_screen.php';
+                    if (data == 'ok') {
+                        window.location = 'main_screen.php';
                     }
 
 
@@ -100,7 +100,7 @@ session_destroy();
             </div>
             <div data-role="content">
                 กรุณาติดต่อขอรับ User , Password จากกลุ่มงานควบคุมโรคติดต่อ<p>
-                
+
             </div>
         </div>
 

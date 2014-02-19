@@ -124,7 +124,7 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                                         }
                                         ?>
                                     </td>
-                                    <td><?=$row[off_name_receive]?></td>
+                                    <td><?= $row[off_name_receive] ?></td>
                                     <td> 
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
                                     </td>

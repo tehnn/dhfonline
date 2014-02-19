@@ -22,7 +22,7 @@ session_start();
                 z-index: 9999;
                 background-color:#008c8c;
                 color: white;
-                
+
             }
         </style>
         <script>
@@ -48,7 +48,7 @@ session_start();
 
             $(document).on('pageshow', '#page-map', function(e, data) {
                 var map, lat, lng;
-                
+
 
 
                 if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่

@@ -59,7 +59,7 @@ if (mysql_query($sql)) {
     ?>
     <script>
         alert("Add activity successful!!");
-        window.location = 'pt_info.php?pid=<?=$pid?>';
+        window.location = 'pt_info.php?pid=<?= $pid ?>';
     </script>
     <?php
 } else {

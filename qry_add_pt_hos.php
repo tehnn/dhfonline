@@ -1,10 +1,9 @@
 <meta charset="UTF-8">
 <?php
-/* 
- // debuging
-echo "datetime_send :" . $datetime_send = date("Y-m-d H:i:s");
-echo "<br>";
+// debuging
 echo "pid:" . $pid = $_POST[office_own] . date("ymd") . $_POST[hn];
+echo "<br>";
+echo "datetime_send :" . $datetime_send = date("Y-m-d H:i:s");
 echo "<hr>";
 echo "<pre>";
 print_r($_POST);
@@ -13,47 +12,35 @@ echo "<hr>";
 echo "<pre>";
 print_r($_FILES[img_pt]);
 echo "<pre>";
- */ 
+//exit;
 ?>
 <?php
 if (!empty($_POST)) {
     require 'condb.php';
     //
-    $office_own = $_POST[office_own];
-    $user_own = $_POST[user_own];
-    $datetime_send = date("Y-m-d H:i:s");
-    $hn = $_POST[hn];
     $pid = trim($_POST[office_own] . date("ymd") . $_POST[hn]);
-    $prename = $_POST[prename];
-    $name = $_POST[name];
-    $lname = $_POST[lname];
-    $cid = $_POST[cid];
-    $sex = $_POST[sex];
-    $bdate = $_POST[bdate];
-    $occupat = $_POST[occupat];
-    $school_workplace = $_POST[school_workplace];
-    $tel=$_POST[tel];
-    $date_ill = $_POST[date_ill];
-    $date_found = $_POST[date_found];
-    $addr_ill = $_POST[addr_ill];
-    $addr_home = $_POST[addr_home];
-    $code506 = $_POST[code506];
-    $icd10 = $_POST[icd10];
-    $note_text = trim(($_POST[note_text]));
+    $datetime_send = date("Y-m-d H:i:s");    
+     
+    
+    
     if (!empty($_FILES[img_pt][name])) {
         $img_pt = $pid . $_FILES[img_pt][name];
     }
-    $sender = $_POST[sender];
-    $send_to_amp = $_POST[send_to_amp];
+   
     //
-    echo $sql = "insert into patient_hos 
-        (office_own,user_own,datetime_send,hn,pid,prename,name,lname,cid,
-        sex,bdate,occupat,school_workplace,tel,date_ill,date_found,addr_ill,addr_home,
-        code506,icd10,note_text,img_pt,sender,send_to_amp) 
-        values 
-        ('$office_own','$user_own','$datetime_send','$hn','$pid','$prename','$name','$lname','$cid',
-        '$sex','$bdate','$occupat','$school_workplace','$tel','$date_ill','$date_found','$addr_ill','$addr_home',
-        '$code506','$icd10','$note_text','$img_pt','$sender','$send_to_amp')";
+    echo $sql = "insert into patient_hos (pid,datetime_send,office_own,user_own,hn
+        ,prename,sex, name, lname, cid ,bdate ,pt_tel ,family ,occupat 
+        ,school_workplace ,code506 ,icd10 ,doctor ,date_dx ,date_ill ,date_found ,symtom ,refer_from ,date_refer ,amp 
+        ,tmb ,moo ,addr ,lab_wbc ,note_text ,lab_plt ,lab_hct ,lab_tt ,send_to_amp ,sender,img_pt )
+        values
+        ('$pid','$datetime_send','$_POST[office_own]','$_POST[user_own]','$_POST[hn]', '$_POST[prename]', '$_POST[sex]',
+            '$_POST[name]', '$_POST[lname]', '$_POST[cid]', '$_POST[bdate]' ,'$_POST[pt_tel]', 
+            '$_POST[family]' ,'$_POST[occupat]' ,'$_POST[school_workplace]' ,
+            '$_POST[code506]' ,'$_POST[icd10]', '$_POST[doctor]' ,'$_POST[date_dx]', '$_POST[date_ill]', '$_POST[date_found]' ,
+                '$_POST[symtom]', '$_POST[refer_from]', '$_POST[date_refer]',
+            '$_POST[amp]', '$_POST[tmb]', '$_POST[moo]' ,'$_POST[addr]', '$_POST[lab_wbc]', '$_POST[note_text]',
+                '$_POST[lab_plt]', '$_POST[lab_hct]' , '$_POST[lab_tt]', '$_POST[send_to_amp]' ,'$_POST[sender]','$img_pt' )";
+    //exit;
 }
 
 if (mysql_query($sql)) {

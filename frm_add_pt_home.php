@@ -241,9 +241,11 @@ where pt.pid='$pid'";
                                             $amp_res = mysql_query($amp_sql);
                                             while ($rw_amp = mysql_fetch_array($amp_res)) {
                                                 ?>
-                                                <option value="<?= $rw_amp[code] ?>" <?php if ($rw_amp[code] == $row[send_to_amp]) {
-                                                echo 'selected';
-                                            } ?>>
+                                                <option value="<?= $rw_amp[code] ?>" <?php
+                                                if ($rw_amp[code] == $row[send_to_amp]) {
+                                                    echo 'selected';
+                                                }
+                                                ?>>
                                                 <?= $rw_amp[name] ?>
                                                 </option>
                                                 <?php
@@ -252,7 +254,7 @@ where pt.pid='$pid'";
                                         </select>
 
                                     </td>
-                                   
+
                                     <td >
                                         <select name="tmb" id="tmb">
                                             <option value="">เลือกตำบล...</option>
@@ -272,17 +274,17 @@ where pt.pid='$pid'";
                                     <td >
                                         <input  name="moo" id="moo" data-mini="true" type="text" placeholder="หมู่ที่">
                                     </td>
-                                   
+
                                 </tr>
                                 <tr>
-                                    
+
                                     <td >
                                         <input  name="road" id="road" data-mini="true" type="text" placeholder="ถนน/ซอย">
                                     </td>
                                     <td >
                                         <input  name="addr" id="addr" data-mini="true" type="text" placeholder="บ้านเลขที่">
                                     </td>
-                                     <td> 
+                                    <td> 
                                         <input  maxlength="11" name="house_id" id="house_id" data-mini="true" type="text" placeholder="รหัสบ้าน 11 หลัก">
                                     </td>
                                 </tr>

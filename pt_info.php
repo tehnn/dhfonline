@@ -56,7 +56,7 @@ require 'condb.php';
             }
         </style>
         <?php require 'lib.php'; ?>
-       
+
 
     </head> 
     <body> 
@@ -146,7 +146,7 @@ where pt.pid='$pid'";
             </div>
         </div>  <!-- end page-1 -->
 
-     
+
 
 
     </body>

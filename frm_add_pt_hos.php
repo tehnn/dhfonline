@@ -20,16 +20,60 @@ require 'condb.php'
 <!DOCTYPE html> 
 <html>
     <head>
-        <?php
-        require 'lib.php';
-        ?>
+        <meta charset="UTF-8"/>
 
-        <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> 
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+        <script>
+            $(function() {
+                $("#date_dx").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+                $("#bdate").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
 
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/1.1.0/jqm-datebox-1.1.0.mode.flipbox.js"></script>
+                $("#date_ill").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+
+                $("#date_found").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+                
+                
+                $("#date_refer").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+            });
+        </script>
+
         <script>
             $(function() {
                 $('#frm_hos').find('input,select').keydown(function(event) {
@@ -45,10 +89,19 @@ require 'condb.php'
 
                 var hn = $("#hn").val();
                 var name = $("#name").val();
+                var lname = $("#lname").val();
+                var bdate = $("#bdate").val();
                 var code506 = $("#code506").val();
+                var date_ill = $("#date_ill").val();
                 var date_found = $("#date_found").val();
+                var amp, tmb, moo, addr;
+                amp = $("#amp").val();
+                tmb = $("#tmb").val();
+                moo = $("#moo").val();
+                addr = $("#addr").val();
                 var send_to_amp = $("#send_to_amp").val();
                 var sender = $("#sender").val();
+
 
                 if (hn == '' || hn == null) {
                     validate_pass = false;
@@ -58,16 +111,49 @@ require 'condb.php'
                     validate_msg += "ชื่อ ว่าง\r\n";
                     validate_pass = false;
                 }
+                if (lname == '' || lname == null) {
+                    validate_msg += "นามสกุล ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (bdate == '' || bdate == null) {
+                    validate_msg += "วดป.เกิด ว่าง\r\n";
+                    validate_pass = false;
+                }
                 if (code506 == '' || code506 == null) {
                     validate_msg += "รหัสโรค ว่าง\r\n";
                     validate_pass = false;
                 }
-                if (date_found == '' || date_found == null) {
-                    validate_msg += "วันรับรักษา ว่าง\r\n";
+                if (date_ill == '' || date_ill == null) {
+                    validate_msg += "วันเริ่มป่วย ว่าง\r\n";
                     validate_pass = false;
                 }
-                if (send_to_amp == '' || send_to_amp == null) {
+                if (date_found == '' || date_found == null) {
+                    validate_msg += "วันพบ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (amp == '' || amp == null) {
                     validate_msg += "อำเภอ ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (tmb == '' || tmb == null) {
+                    validate_msg += "ตำบล ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (moo == '' || moo == null) {
+                    validate_msg += "หมู่ที่ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (addr == '' || addr == null) {
+                    validate_msg += "บ้านเลขที่ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+
+                if (send_to_amp == '' || send_to_amp == null) {
+                    validate_msg += "ป่วยในพื้นที่ ว่าง\r\n";
                     validate_pass = false;
                 }
                 if (sender == '' || sender == null) {
@@ -77,171 +163,203 @@ require 'condb.php'
                 if (validate_msg != "") {
                     alert(validate_msg);
                 }
-                return validate_pass;
+                //return validate_pass;
             }
         </script>
+        <title>#PLK DHF Online</title>
+    </head>
+    <body>
+        <div align="center">
+            <form action="qry_add_pt_hos.php" 
+                  id="frm_hos" name="frm_hos"
+                  data-ajax="false" method="post"
+                  enctype="multipart/form-data"
+                  onsubmit="return validate()">
 
-    </head> 
-    <body> 
-        <div data-role="page" id="page-1">
-            <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-rel="back" data-icon="back">Back</a>
-                <?php require 'txt_head.php'; ?>
-                <a href="#" data-icon="info">About</a>
-            </div>
-            <div data-role="content" data-theme="f">
-                <?php require 'office_title.php'; ?>
-                <form action="qry_add_pt_hos.php" 
-                      id="frm_hos" name="frm_hos"
-                      data-ajax="false" method="post"
-                      enctype="multipart/form-data"
-                      onsubmit="return validate()">
-                    <!-- hidden field -->
-                    <input type="hidden"  name="office_own" value="<?= $_SESSION[pcucode] ?>"/>
-                    <input type="hidden"  name="user_own" value="<?= $_SESSION[user] ?>"/>                    
+                <input type="hidden" name="office_own" value="<?= $pcucode ?>">
+                <input type="hidden" name="user_own" value="<?= $user ?>">
 
-                    <ul data-role="listview" data-inset="true">
-                        <li data-role="fieldcontain">
-                            <label for="hn">HN:</label>
-                            <input type="text" name="hn" id="hn"  data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="prename">คำนำหน้า:</label>
-                            <input type="text" name="prename" id="prename" data-clear-btn="true" placeholder="นาย/นาง/น.ส./ด.ช./ด.ญ.">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="name">ชื่อผู้ป่วย:</label>
-                            <input type="text" name="name" id="name" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="lname">นามสกุล:</label>
-                            <input type="text" name="lname" id="lname" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="cid">เลข 13 หลัก:</label>
-                            <input type="text" name="cid" id="cid" data-clear-btn="true" maxlength="13">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="sex">เพศ:</label>
-                            <select name="sex" id="sex" data-role="slider">
-                                <option value="1">ชาย</option>
-                                <option value="2">หญิง</option>
-                            </select>
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="bdate">ว/ด/ป เกิด:</label>
-                            <input name="bdate" id="bdate" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
-                        </li>
+                <table width="75%" border="1" cellspacing="0" cellpadding="0">
+                    <tr bgcolor="#33CCFF">
+                        <td bgcolor="#66FFFF"><input type="button" value="ย้อนกลับ" onClick="window.location = 'main_screen.php'">
+                            แบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report</td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#66FFFF">
 
-                        <li data-role="fieldcontain">
-                            <label for="occupat">อาชีพ:</label>
-                            <input type="text" name="occupat" id="occupat" data-clear-btn="true">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="school_workplace">โรงเรียน/สถานที่ทำงาน:</label>
-                            <input type="text" name="school_workplace" id="school_workplace" placeholder="โรงเรียน,ชั้นเรียน/สถานที่ทำงาน" data-clear-btn="true">
-                        </li>
-                          <li data-role="fieldcontain">
-                            <label for="tel">เบอร์โทรติดต่อ:</label>
-                            <input type="text" name="tel" id="tel" placeholder="เบอร์โทรติดต่อคนไข้/ญาติ" data-clear-btn="true">
-                        </li>
+                            <table width="100%" border="0" cellspacing="0" cellpadding="2">
+                                <tr>
+                                    <td colspan="2" align="left" bgcolor="#3399FF">1.ข้อมูลส่วนบุคคล</td>
+                                </tr>
+                                <tr>
+                                    <td width="16%" align="right" bgcolor="#66FFFF"> HN:</td>
+                                    <td width="84%" bgcolor="#66FFFF"> 
+                                        <input type="text" name="hn" id="hn">
+                                        คำนำหน้า:
+                                        <select name="prename" id="prename">
+                                            <option value="">เลือกคำนำหน้า...</option>
+                                            <option value="นาย">นาย</option>
+                                            <option value="นาย">นาง</option>
+                                            <option value="นาย">น.ส.</option>
+                                            <option value="นาย">ด.ช.</option>
+                                            <option value="นาย">ด.ญ.</option>
+                                        </select>
+                                        เพศ:
+                                        <select name="sex" id="sex">
+                                            <option value="">เลือกเพศ...</option>
+                                            <option value="ชาย">ชาย</option>
+                                            <option value="หญิง">หญิง</option>
+                                        </select></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#66FFFF">ชื่อ:</td>
+                                    <td bgcolor="#66FFFF"><input type="text" name="name" id="name">
+                                        นามสกุล:
+                                        <input type="text" name="lname" id="lname">
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#66FFFF">เลข13หลัก:</td>
+                                    <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid"> 
+                                        วดป.เกิด:
+                                        <input type="text" name="bdate" id="bdate"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
+                                    <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
+                                        ชื่อญาติ:
+                                        <input type="text" name="family" id="family"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#66FFFF">อาชีพ:</td>
+                                    <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat"> 
+                                        สถานที่ทำงาน/โรงเรียน :
+                                        <input type="text" name="school_workplace" id="school_workplace"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left" bgcolor="#3399FF">2.ข้อมูลการป่วย</td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#00FFFF">วินิจฉัย:</td>
+                                    <td bgcolor="#00FFFF">
+                                        <select name="code506" id="code506">
+                                            <option value="">รหัสโรค...</option>
+                                            <option value="26">26=DHF</option>
+                                            <option value="27">27=DSS</option>
+                                            <option value="66">66=DF</option>
 
-                        <li data-role="fieldcontain">
-                            <label for="date_ill">ว/ด/ป เริ่มป่วย:</label>
-                            <input name="date_ill" id="date_ill" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="date_found">ว/ด/ป รับรักษา:</label>
-                            <input name="date_found" id="date_found" placeholder="(ค.ศ. เท่ากับ พ.ศ. ลบด้วย 543)"
-                                   type="date" data-role="datebox"
-                                   data-options='{"mode": "flipbox","overrideDateFormat": "%Y-%m-%d"}'
-                                   /> 
-                        </li>
+                                        </select>
+                                        รหัส ICD-10-TM: 
+                                        <input type="text" name="icd10" id="icd10"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#00FFFF">แพทย์: </td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="doctor" id="doctor"> 
+                                        วันที่ Dx: 
+                                        <input type="text" name="date_dx" id="date_dx"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#00FFFF">วันเริ่มป่วย:</td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="date_ill" id="date_ill"> 
+                                        วันพบผู้ป่วย:
+                                        <input type="text" name="date_found" id="date_found"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" valign="top" bgcolor="#00FFFF">อาการแสดงสำคัญ:</td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="symtom" id="symtom" style="width:400px"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" valign="top" bgcolor="#00FFFF">Refer จาก:</td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="refer_from" id="refer_from">
+                                    วันที่ Refer :
+                                    <input type="text" name="date_refer" id="date_refer"></td>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" align="left" bgcolor="#3399FF">3.ที่อยู่ขณะป่วย</td>
+                                </tr>
 
-                        <li data-role="fieldcontain">
-                            <label for="addr_ill">ที่อยู่ขณะป่วย:</label>
-                            <input type="text" name="addr_ill" id="addr_ill" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด">
-                        </li>
+                                <tr>
+                                    <td align="right" bgcolor="#00FFFF">อำเภอ:</td>
+                                    <td bgcolor="#00FFFF">
+                                        <select name="amp" id="amp">
+                                            <option value="">เลือกอำเภอ...</option>
+                                        </select> 
+                                        ตำบล:
+                                        <select name="tmb" id="tmb">
+                                            <option value="">เลือกตำบล...</option>
+                                        </select> 
+                                        หมู่:
+                                        <select name="moo" id="moo">
+                                            <option value="">เลือกหมู่...</option>
+                                        </select> 
+                                        เลขที่:
+                                        <input type="text" name="addr" id="addr" style="width:50px"></td>
+                                </tr>
 
-                        <li data-role="fieldcontain">
-                            <label for="addr_home">ภูมิลำเนา:</label>
-                            <input type="text" id="addr_home" name="addr_home" placeholder="บ้านเลขที่ หมู่ที่ ถนน ตำบล อำเภอ จังหวัด / หรือ เช่นเดียวกับที่อยู่ขณะป่วย">
-                        </li>
+                                <tr>
+                                    <td colspan="2" align="right" bgcolor="#00FFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
+                                            <tr>
+                                                <td colspan="2" bgcolor="#3399FF">4.ผลตรวจทางห้องปฏิบัติการ</td>
+                                                <td width="50%" bgcolor="#3399FF">5.รายละเอียดอื่นๆ(ถ้ามี)</td>
+                                            </tr>
+                                            <tr>
+                                                <td width="16%" align="right">Wbc.</td>
+                                                <td width="34%"><input type="text" name="lab_wbc" id="lab_wbc">
+                                                    cell/mm3</td>
+                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)"></textarea></td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">Platelet.</td>
+                                                <td><input type="text" name="lab_plt" id="lab_plt">
+                                                    cell/mm3</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">Hct.</td>
+                                                <td><input type="text" name="lab_hct" id="lab_hct">
+                                                    %</td>
+                                            </tr>
+                                            <tr>
+                                                <td align="right">TT.</td>
+                                                <td><input type="radio" name="lab_tt" id="tt" value="บวก">
+                                                    บวก
+                                                    <input type="radio" name="lab_tt" id="tt2" value="ลบ">
+                                                    ลบ
+                                                    <input name="lab_tt" type="radio" id="tt3" value="ไม่ทราบ" checked>
+                                                    ไม่ทราบ</td>
+                                            </tr>
+                                        </table>
+                                    </td>
+                                </tr>
 
-                        <li data-role="fieldcontain">
-                            <label for="code506">วินิจฉัย:</label>
-                            <select name="code506" id="code506">
-                                <option value="">รหัสโรค...</option>
-                                <option value="26">26=DHF</option>
-                                <option value="27">27=DSS</option>
-                                <option value="66">66=DF</option>
+                                <tr>
+                                    <td align="right" valign="top" bgcolor="#FFCC99">รูปผู้ป่วย:</td>
+                                    <td bgcolor="#FFCC99"><input type="file" name="img_pt" id="img_pt"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" valign="top" bgcolor="#FFCC99">เป็นผู้ป่วยในพื้นที่:</td>
+                                    <td bgcolor="#FFCC99"><select name="send_to_amp" id="send_to_amp">
+                                            <option value="">เลือกอำเภอ...</option>
+                                            <option value="นาย">นาย</option>
+                                            <option value="นาย">นาง</option>
+                                            <option value="นาย">น.ส.</option>
+                                            <option value="นาย">ด.ช.</option>
+                                            <option value="นาย">ด.ญ.</option>
+                                        </select>
+                                        ชื่อผู้รายงาน:
+                                        <input type="text" name="sender" id="sender" style="width:180px" placeholder="ชื่อ-สกุล ตำแหน่ง">
+                                        <input type="submit" id="button" value="บันทึกข้อมูล">
+                                        <input type="reset" value="  ยกเลิก  "></td>
+                                </tr>
+                            </table>
 
-                            </select>
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="icd10">ICD-10-TM:</label>
-                            <input type="text" name="icd10" id="icd10" data-clear-btn="true">
-                        </li>
+                        </td>
+                    </tr>
+                    <tr>
 
-                        <li data-role="fieldcontain">
-                            <label for="note_text">บันทึกการสอบสวนโรคที่ รพ.:</label>
-                            <textarea cols="40" rows="8" name="note_text" id="note_text" placeholder="อาการ/อาการแสดง/ผลทางห้องปฏิบัติการ/ประวัติเดินทาง/อื่นๆ"></textarea>
-                        </li>
+                </table>
 
-                        <li data-role="fieldcontain">
-                            <label for="img_pt">รูปผู้ป่วย:</label>
-                            <input type="file" name="img_pt" id="img_pt">
-                        </li>
+            </form>
 
-                        <li data-role="fieldcontain">
-                            <label for="send_to_amp">ผู้ป่วยในเขตพื้นที่:</label>
-                            <select name="send_to_amp" id="send_to_amp">
-                                <option value="">อำเภอ...</option>
-                                <?php
-                                $sql = "select amp,pcucode,off_name from user where off_type='02'";
-                                $res = mysql_query($sql);
-                                while ($row = mysql_fetch_array($res)) {
-                                    ?>
-                                    <option value="<?= $row[amp] ?>"><?= $row[off_name] ?></option>
-
-                                    <?php
-                                }
-                                ?>
-
-
-                            </select>
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="sender">ผู้รายงาน:</label>
-                            <input type="text" name="sender" id="sender" placeholder="ชื่อ-นามสกุลผู้รายงาน /เบอร์โทร">
-                        </li>
-
-
-                        <li class="ui-body ui-body-f">
-                            <fieldset class="ui-grid-a">
-                                <div class="ui-block-a"><button type="submit" data-icon="check">ตกลง</button></div>
-                                <div class="ui-block-b"><button type="reset" data-icon="delete">ยกเลิก</button></div>                                
-                            </fieldset>
-                        </li>
-
-                    </ul>
-
-
-                </form>
-
-            </div> <!-- end content -->
-            <div data-role="footer" data-position="fixed" data-theme="f" >                
-                <?php require 'txt_foot.php'; ?>
-            </div>
-        </div>  <!-- end page-1 -->
-
-
+        </div>
     </body>
 </html>

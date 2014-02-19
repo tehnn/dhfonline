@@ -100,7 +100,7 @@ and date(pt.datetime_send) = CURDATE()";
                                 <th >
                                     สถานะ
                                 </th>
-                                 <th data-hide="phone,tablet">
+                                <th data-hide="phone,tablet">
                                     ผู้รับ
                                 </th>
                                 <th data-hide="phone,tablet">
@@ -134,7 +134,7 @@ and date(pt.datetime_send) = CURDATE()";
                                 <tr>
                                     <td>
                                         <?php
-                                        if(!empty($row[pcu_receive])) {
+                                        if (!empty($row[pcu_receive])) {
                                             echo '<span class="status-metro status-active">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';

@@ -54,11 +54,11 @@ require 'condb.php';
 
 
                 <div class="foo-container">
-                    
-                        <div>
-                            <input id="filter" type="text" placeholder="ค้นหาผู้..."/>
-                        </div>                       
-                  
+
+                    <div>
+                        <input id="filter" type="text" placeholder="ค้นหาผู้..."/>
+                    </div>                       
+
 
                     <table class="table demo metro-purple" 
                            data-filter="#filter" 
@@ -66,7 +66,7 @@ require 'condb.php';
                            data-page-size="6">
                         <thead>
                             <tr>
-                                 <th>
+                                <th>
                                     พบลูกน้ำ
                                 </th>
                                 <th >
@@ -177,7 +177,7 @@ require 'condb.php';
 
                 <div data-role="controlgroup" data-type="horizontal" align='center'>
                     <a href="frm_add_larva.php" rel="external" data-icon="edit">เพิ่มสำรวจลูกน้ำ</a> 
-                      <a href="map_larva_all.php" rel="external" data-icon="info">แผนที่</a>     
+                    <a href="map_larva_all.php" rel="external" data-icon="info">แผนที่</a>     
 
                 </div>
                 <?php require 'txt_foot.php'; ?>
