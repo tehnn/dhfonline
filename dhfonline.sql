@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50051
 File Encoding         : 65001
 
-Date: 2014-02-20 00:41:22
+Date: 2014-02-20 23:27:40
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1739,10 +1739,12 @@ CREATE TABLE `patient_hos` (
   `school_workplace` varchar(255) default NULL,
   `code506` varchar(100) default NULL,
   `icd10` varchar(100) default NULL,
+  `pt_type` varchar(100) default NULL,
   `doctor` varchar(100) default NULL,
   `date_dx` date default NULL,
   `date_ill` date default NULL,
   `date_found` date default NULL,
+  `pt_status` varchar(100) default NULL,
   `symtom` varchar(255) default NULL,
   `refer_from` varchar(255) default NULL,
   `date_refer` date default NULL,
@@ -1764,7 +1766,6 @@ CREATE TABLE `patient_hos` (
 -- ----------------------------
 -- Records of patient_hos
 -- ----------------------------
-INSERT INTO `patient_hos` VALUES ('11251140220dfffff', '2014-02-20 00:40:17', '11251', 'u11251', 'dfffff', 'นาย', 'ชาย', 'fffffffff', 'ffffff', 'ffffff', '2000-02-09', 'ff', 'ff', 'ff', 'fff', '26', 'fffffff', 'fffff', '2014-02-19', '2014-02-19', '2014-02-20', 'ffff', 'ffff', '2014-02-19', '', '', '', '', 'fff', 'ddf', 'fff', 'ff', 'บวก', 'นาย', 'fdfdf', '11251140220dfffffไอคอน.jpg');
 
 -- ----------------------------
 -- Table structure for `receive`

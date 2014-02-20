@@ -61,8 +61,8 @@ require 'condb.php'
                     showOn: "button",
                     dateFormat: "yy-mm-dd"
                 });
-                
-                
+
+
                 $("#date_refer").datepicker({
                     dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
                     monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
@@ -166,13 +166,36 @@ require 'condb.php'
                 //return validate_pass;
             }
         </script>
+        <script>
+            $(function() {
+                $("select#amp").change(function() {
+                    $.getJSON("ajx_list_tmb.php", {amp: $(this).val(), ajax: 'true'}, function(j) {
+                        var options = '';
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
+                        }
+                        $("select#tmb").html(options);
+                    });
+                });
+
+                $("select#tmb").change(function() {
+                    $.getJSON("ajx_list_moo.php", {tmb: $(this).val(), ajax: 'true'}, function(j) {
+                        var options = '';
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
+                        }
+                        $("select#moo").html(options);
+                    });
+                });
+            });
+        </script>
         <title>#PLK DHF Online</title>
     </head>
     <body>
         <div align="center">
             <form action="qry_add_pt_hos.php" 
                   id="frm_hos" name="frm_hos"
-                  data-ajax="false" method="post"
+                  method="post"
                   enctype="multipart/form-data"
                   onsubmit="return validate()">
 
@@ -197,7 +220,7 @@ require 'condb.php'
                                         <input type="text" name="hn" id="hn">
                                         คำนำหน้า:
                                         <select name="prename" id="prename">
-                                            <option value="">เลือกคำนำหน้า...</option>
+                                            <option value="">เลือก...</option>
                                             <option value="นาย">นาย</option>
                                             <option value="นาย">นาง</option>
                                             <option value="นาย">น.ส.</option>
@@ -206,9 +229,9 @@ require 'condb.php'
                                         </select>
                                         เพศ:
                                         <select name="sex" id="sex">
-                                            <option value="">เลือกเพศ...</option>
-                                            <option value="ชาย">ชาย</option>
-                                            <option value="หญิง">หญิง</option>
+                                            <option value="">เลือก...</option>
+                                            <option value="1">ชาย</option>
+                                            <option value="2">หญิง</option>
                                         </select></td>
                                 </tr>
                                 <tr>
@@ -243,14 +266,20 @@ require 'condb.php'
                                     <td align="right" bgcolor="#00FFFF">วินิจฉัย:</td>
                                     <td bgcolor="#00FFFF">
                                         <select name="code506" id="code506">
-                                            <option value="">รหัสโรค...</option>
+                                            <option value="" selected>เลือก...</option>
                                             <option value="26">26=DHF</option>
                                             <option value="27">27=DSS</option>
                                             <option value="66">66=DF</option>
 
                                         </select>
                                         รหัส ICD-10-TM: 
-                                        <input type="text" name="icd10" id="icd10"></td>
+                                        <input type="text" name="icd10" id="icd10">
+                                        ประเภท:
+                                        <select name="pt_type" id="pt_type">
+                                            <option value="">เลือก...</option>
+                                            <option value="1">OPD</option>
+                                            <option value="2" selected>IPD</option>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#00FFFF">แพทย์: </td>
@@ -262,7 +291,15 @@ require 'condb.php'
                                     <td align="right" bgcolor="#00FFFF">วันเริ่มป่วย:</td>
                                     <td bgcolor="#00FFFF"><input type="text" name="date_ill" id="date_ill"> 
                                         วันพบผู้ป่วย:
-                                        <input type="text" name="date_found" id="date_found"></td>
+                                        <input type="text" name="date_found" id="date_found">
+                                        สภาพผู้ป่วย:
+                                        <select name="pt_status" id="pt_status">
+                                            <option value="">เลือก...</option>
+                                            <option value="1">หาย</option>
+                                            <option value="2">ตาย</option>
+                                            <option value="3" selected>ยังรักษาอยู่</option>
+                                            <option value="4">ไม่ทราบ</option>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">อาการแสดงสำคัญ:</td>
@@ -271,8 +308,8 @@ require 'condb.php'
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">Refer จาก:</td>
                                     <td bgcolor="#00FFFF"><input type="text" name="refer_from" id="refer_from">
-                                    วันที่ Refer :
-                                    <input type="text" name="date_refer" id="date_refer"></td>
+                                        วันที่ Refer :
+                                        <input type="text" name="date_refer" id="date_refer"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="left" bgcolor="#3399FF">3.ที่อยู่ขณะป่วย</td>
@@ -282,15 +319,21 @@ require 'condb.php'
                                     <td align="right" bgcolor="#00FFFF">อำเภอ:</td>
                                     <td bgcolor="#00FFFF">
                                         <select name="amp" id="amp">
-                                            <option value="">เลือกอำเภอ...</option>
+                                            <option value="">เลือก...</option>
+                                            <?php
+                                            $res_amp = mysql_query("select code,name from amp");
+                                            while ($row_amp = mysql_fetch_array($res_amp)) {
+                                                echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
+                                            }
+                                            ?>
                                         </select> 
                                         ตำบล:
                                         <select name="tmb" id="tmb">
-                                            <option value="">เลือกตำบล...</option>
+                                            <option value="">เลือก...</option>
                                         </select> 
                                         หมู่:
                                         <select name="moo" id="moo">
-                                            <option value="">เลือกหมู่...</option>
+                                            <option value="">เลือก...</option>
                                         </select> 
                                         เลขที่:
                                         <input type="text" name="addr" id="addr" style="width:50px"></td>
@@ -337,13 +380,15 @@ require 'condb.php'
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#FFCC99">เป็นผู้ป่วยในพื้นที่:</td>
-                                    <td bgcolor="#FFCC99"><select name="send_to_amp" id="send_to_amp">
-                                            <option value="">เลือกอำเภอ...</option>
-                                            <option value="นาย">นาย</option>
-                                            <option value="นาย">นาง</option>
-                                            <option value="นาย">น.ส.</option>
-                                            <option value="นาย">ด.ช.</option>
-                                            <option value="นาย">ด.ญ.</option>
+                                    <td bgcolor="#FFCC99">
+                                        <select name="send_to_amp" id="send_to_amp">
+                                            <option value="" selected>เลือกอำเภอ...</option>
+                                            <?php
+                                            $res_amp = mysql_query("select code,name from amp");
+                                            while ($row_amp = mysql_fetch_array($res_amp)) {
+                                                echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
+                                            }
+                                            ?>
                                         </select>
                                         ชื่อผู้รายงาน:
                                         <input type="text" name="sender" id="sender" style="width:180px" placeholder="ชื่อ-สกุล ตำแหน่ง">
