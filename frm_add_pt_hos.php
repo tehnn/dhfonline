@@ -170,7 +170,8 @@ require 'condb.php'
             $(function() {
                 $("select#amp").change(function() {
                     $.getJSON("ajx_list_tmb.php", {amp: $(this).val(), ajax: 'true'}, function(j) {
-                        var options = '';
+                        var options = '<option value="">เลือก...</option>';
+                        $("select#moo").html(options);//ล้างหมู่
                         for (var i = 0; i < j.length; i++) {
                             options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
                         }
@@ -180,7 +181,7 @@ require 'condb.php'
 
                 $("select#tmb").change(function() {
                     $.getJSON("ajx_list_moo.php", {tmb: $(this).val(), ajax: 'true'}, function(j) {
-                        var options = '';
+                        var options = '<option value="">เลือก...</option>';
                         for (var i = 0; i < j.length; i++) {
                             options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
                         }
