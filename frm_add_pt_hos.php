@@ -223,10 +223,11 @@ require 'condb.php'
                                         <select name="prename" id="prename">
                                             <option value="">เลือก...</option>
                                             <option value="นาย">นาย</option>
-                                            <option value="นาย">นาง</option>
-                                            <option value="นาย">น.ส.</option>
-                                            <option value="นาย">ด.ช.</option>
-                                            <option value="นาย">ด.ญ.</option>
+                                            <option value="นาง">นาง</option>
+                                            <option value="น.ส.">น.ส.</option>
+                                            <option value="ด.ช.">ด.ช.</option>
+                                            <option value="ด.ญ.">ด.ญ.</option>
+                                            <option value="พระ">พระ</option>
                                         </select>
                                         เพศ:
                                         <select name="sex" id="sex">
