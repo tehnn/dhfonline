@@ -20,37 +20,63 @@ require 'condb.php'
 <!DOCTYPE html> 
 <html>
     <head>
-        <?php
-        require 'lib.php';
-        ?>
+        <meta charset="UTF-8"/>
 
-        <link rel="stylesheet" type="text/css" href="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.min.css" /> 
-
-
-        <style>  
-            .map-div{
-                height: 300px;
-                width: 100%;
-
-            }
-            #latlng{
-                position:absolute;
-                top:300px;  /* adjust value accordingly */
-                left:5px;  /* adjust value accordingly */
-                z-index: 9999;
-                background-color:#008c8c;
-                color: white;
-
-            }
-        </style>
-
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.core.min.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/latest/jqm-datebox.mode.calbox.min.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/i18n/jquery.mobile.datebox.i18n.en_US.utf8.js"></script>
-        <script type="text/javascript" src="http://dev.jtsage.com/cdn/datebox/1.1.0/jqm-datebox-1.1.0.mode.flipbox.js"></script>
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
+        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
+        <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
         <script>
             $(function() {
-                $('#frm_home').find('input,select').keydown(function(event) {
+                $("#date_dx").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+                $("#bdate").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+
+                $("#date_ill").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+
+                $("#date_found").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+
+
+                $("#date_refer").datepicker({
+                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
+                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
+                    changeMonth: true,
+                    changeYear: true,
+                    showOn: "button",
+                    dateFormat: "yy-mm-dd"
+                });
+            });
+        </script>
+
+        <script>
+            $(function() {
+                $('#frm_hos').find('input,select').keydown(function(event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
                     }
@@ -63,10 +89,19 @@ require 'condb.php'
 
                 var hn = $("#hn").val();
                 var name = $("#name").val();
+                var lname = $("#lname").val();
+                var bdate = $("#bdate").val();
                 var code506 = $("#code506").val();
+                var date_ill = $("#date_ill").val();
                 var date_found = $("#date_found").val();
+                var amp, tmb, moo, addr;
+                amp = $("#amp").val();
+                tmb = $("#tmb").val();
+                moo = $("#moo").val();
+                addr = $("#addr").val();
                 var send_to_amp = $("#send_to_amp").val();
                 var sender = $("#sender").val();
+
 
                 if (hn == '' || hn == null) {
                     validate_pass = false;
@@ -76,16 +111,49 @@ require 'condb.php'
                     validate_msg += "ชื่อ ว่าง\r\n";
                     validate_pass = false;
                 }
+                if (lname == '' || lname == null) {
+                    validate_msg += "นามสกุล ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (bdate == '' || bdate == null) {
+                    validate_msg += "วดป.เกิด ว่าง\r\n";
+                    validate_pass = false;
+                }
                 if (code506 == '' || code506 == null) {
                     validate_msg += "รหัสโรค ว่าง\r\n";
                     validate_pass = false;
                 }
-                if (date_found == '' || date_found == null) {
-                    validate_msg += "วันรับรักษา ว่าง\r\n";
+                if (date_ill == '' || date_ill == null) {
+                    validate_msg += "วันเริ่มป่วย ว่าง\r\n";
                     validate_pass = false;
                 }
-                if (send_to_amp == '' || send_to_amp == null) {
+                if (date_found == '' || date_found == null) {
+                    validate_msg += "วันพบ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (amp == '' || amp == null) {
                     validate_msg += "อำเภอ ว่าง\r\n";
+                    validate_pass = false;
+                }
+                if (tmb == '' || tmb == null) {
+                    validate_msg += "ตำบล ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (moo == '' || moo == null) {
+                    validate_msg += "หมู่ที่ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+                if (addr == '' || addr == null) {
+                    validate_msg += "บ้านเลขที่ ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+
+                if (send_to_amp == '' || send_to_amp == null) {
+                    validate_msg += "ป่วยในพื้นที่ ว่าง\r\n";
                     validate_pass = false;
                 }
                 if (sender == '' || sender == null) {
@@ -98,284 +166,170 @@ require 'condb.php'
                 return validate_pass;
             }
         </script>
-
-        <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7&language=TH"></script>
-
         <script>
+            $(function() {
+                $("select#amp").change(function() {
+                    $.getJSON("ajx_list_tmb.php", {amp: $(this).val(), ajax: 'true'}, function(j) {
+                        var options = '<option value="">เลือก...</option>';
+                        $("select#moo").html(options);//ล้างหมู่
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
+                        }
+                        $("select#tmb").html(options);
+                    });
+                });
 
-            $(document).ready(function() {
-                getGeo();
+                $("select#tmb").change(function() {
+                    $.getJSON("ajx_list_moo.php", {tmb: $(this).val(), ajax: 'true'}, function(j) {
+                        var options = '<option value="">เลือก...</option>';
+                        for (var i = 0; i < j.length; i++) {
+                            options += '<option value="' + j[i].code + '">' + j[i].name + '</option>';
+                        }
+                        $("select#moo").html(options);
+                    });
+                });
             });
-
-            function getGeo() {
-                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        lat = position.coords.latitude;
-                        lng = position.coords.longitude;
-                        $('#lat').val(lat);
-                        $('#lng').val(lng);
-                    });
-                } else {
-                    alert("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
-
-                }
-            }// end getGeo
-
-
-            $(document).on('pageshow', '#page-map', function(e, data) {
-                var map, lat, lng;
-
-
-
-                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
-                    navigator.geolocation.getCurrentPosition(function(position) {
-                        lat = position.coords.latitude;
-                        lng = position.coords.longitude;
-                        $("#latlng").html(lat + "," + lng);
-
-
-                        initMap(lat, lng, 15);
-                    });
-                } else {
-                    $("#latlng").html("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
-                    initMap(16.8175556, 100.2609311, 8);// พิษณุโลก                    
-
-                }
-                // map
-                function initMap(lat, lng, zoom) {
-                    var mapOptions = {
-                        zoom: zoom,
-                        center: new google.maps.LatLng(lat, lng),
-                        mapTypeId: google.maps.MapTypeId.SATELLITE
-                    };
-                    map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
-
-                    var marker = new google.maps.Marker({
-                        map: map,
-                        position: map.getCenter(),
-                        clickable: true,
-                        draggable: true,
-                        title: 'ลากหมุดเพื่อเปลี่ยนค่าพิกัด'
-                    });
-
-                    google.maps.event.addListener(marker, 'drag', function() {
-
-                        $('#latlng').html(marker.getPosition().lat() + "," + marker.getPosition().lng());
-
-
-                    });//drag
-
-                    google.maps.event.addListener(marker, 'dragend', function() {
-
-                        $('#latlng').html(marker.getPosition().lat() + "," + marker.getPosition().lng());
-                        $('#lat').val(marker.getPosition().lat());
-                        $('#lng').val(marker.getPosition().lng());
-
-
-                        map.panTo(marker.getPosition());
-
-                    });// drag-end
-
-                }
-
-            });// end page-map show
-
         </script>
+        <title>#PLK DHF Online</title>
+    </head>
+    <body>
+        <div align="center">
+            <form action="qry_add_pt_hoome.php" 
+                  id="frm_home" name="frm_home"
+                  method="post"
+                  enctype="multipart/form-data"
+                  onsubmit="return validate()">
 
+                <input type="hidden" name="office_own" value="">
+                <input type="hidden" name="user_own" value="">
 
+                <table width="75%" border="1" cellspacing="0" cellpadding="2">
+                    <tr bgcolor="#33CCFF">
+                        <td bgcolor="#66FFFF"> แบบบันทึกการสอบสวนโรคของผู้ป่วยชื่อ :<strong>นายก ไม่ทราบนามสกุล อายุ 33 ปี</strong></td>
+                    </tr>
+                    <tr>
+                        <td bgcolor="#66FFFF">
+                        
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0">
+                          <tr>
+                            <td>บันทึกวันที่...
+                            <?=date("Y-m-d H:i:s")?></td>
+                          </tr>
+                          <tr>
+                            <td><strong>ผลการสอบสวนโรคและกิจกรรมควบคุมโรค</strong></td>
+                          </tr>
+                          <tr>
+                            <td>: : ผู้ป่วยอาชีพ..
+                              <input type="text" name="occupat" id="occupat">
+                            โรงเรียน/สถานที่ทำงาน..
+                            <input name="school_workplace" type="text" id="school_workplace" size="52"></td>
+                          </tr>
+                          <tr>
+                            <td>: : ระยะห่างของวันเริ่มป่วยกับรายก่อนหน้านี้ในชุมชนเดียวกัน
+                            <input name="date_ill_diff" type="text" id="date_ill_diff" size="5">
+                            วัน</td>
+                          </tr>
+                          <tr>
+                            <td>: : ภายใน 14 วันก่อนป่วยได้เดินทางไปที่
+                              ..
+                              <input name="travel_to" type="text" id="travel_to" size="45">
+                            วันที่..
+                            <input type="text" name="date_travel" id="date_travel"></td>
+                          </tr>
+                          <tr>
+                            <td>: : การสำรวจค่าดัชนีลูกน้ำยุงลาย</td>
+                          </tr>
+                          <tr>
+                            <td><table width="100%" border="0" cellspacing="0" cellpadding="1">
+                              <tr>
+                                <td width="16%" align="right" valign="top">บ้านผู้ป่วย</td>
+                                <td width="84%">&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="right" valign="top">ทีทำงาน/โรงเรียน</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="right" valign="top">วัด</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td align="right" valign="top">หมู่บ้าน/ชุมชน</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                              <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                              </tr>
+                            </table></td>
+                          </tr>
+                          <tr>
+                            <td>: : กิจกรรมควบคุมโรค</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                            <input type="checkbox" name="checkbox" id="checkbox">
+                            ผลสารเคมีกำจัดยุงตัวเต็มวัน
+                            <input name="spray_chem" type="text" id="spray_chem" size="10">
+                            หลังคาเรือน</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="checkbox2" id="checkbox2">
+                              ทำลายแหล่งเพาะพันธุ์ กำจัดลูกน้ำยุงลาย
+                              <input name="spray_chem2" type="text" id="spray_chem2" size="10">
+หลังคาเรือน</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="checkbox3" id="checkbox3">
+ประชุม/ประชาคมหมู่บ้าน&nbsp;&nbsp;&nbsp;&nbsp;
+<input type="checkbox" name="checkbox5" id="checkbox5">
+รณรงค์ประชาสัมพันธ์ ให้ความรู้ประชาชน</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;
+                              <input type="checkbox" name="checkbox4" id="checkbox4">
+                              อื่นๆ
+                              <input name="spray_chem4" type="text" id="spray_chem4" size="100"></td>
+                          </tr>
+                          <tr>
+                            <td>: : สภาพแวดล้อม</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <textarea style="width:500px"></textarea>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>: : ข้อเสนอแนะ/สรุปผล</td>
+                          </tr>
+                          <tr>
+                            <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                            <textarea name="textarea" style="width:500px"></textarea></td>
+                          </tr>
+                          <tr>
+                            <td>: : รูปภาพกิจกรรม
+                            <input type="file" name="img_act" id="img_act"></td>
+                          </tr>
+                        </table>
+                        
+                        </td>
+                    </tr>
+                      <tr>
+                        <td bgcolor="#66FFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้บันทึกข้อมูล..
+                        <input name="reporter" type="text" id="reporter" size="35">
+                        <input type="submit" value="บันทึกข้อมูล">
+                        <input type="reset" id="button" value="ยกเลิก"></td>
+                    </tr>
+                    
+                
+                    
 
-    </head> 
-    <body>         
-        <?php
-        $datetime_do = date("Y-m-d H:i:s");
+                </table>
 
-        $sql = "select u.off_name,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,rp.pcu_receive,rp.datetime_receive,rp.off_name as off_name_receive from patient_hos pt
-LEFT JOIN (select rc.*,uu.pcucode,uu.off_name from receive rc LEFT JOIN user uu on rc.pcu_receive=uu.pcucode ) as rp on pt.pid=rp.pid
-LEFT JOIN user u on pt.office_own = u.pcucode
-where pt.pid='$pid'";
-        $result = mysql_query($sql);
-        $row = mysql_fetch_array($result);
-        ?>
-        <div data-role="page" id="page-1">
-            <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-rel="back" data-icon="back">Back</a>
-                <?php require 'txt_head.php'; ?>
-                <a href="#" data-icon="info">About</a>
-            </div>
-            <div data-role="content" data-theme="f">
-                <?php require 'office_title.php'; ?>
-                <form action="qry_add_pt_home.php" 
-                      id="frm_home" name="frm_home"
-                      data-ajax="false" method="post"
-                      enctype="multipart/form-data"
-                      onsubmit="return true">
-                    <!-- hidden field -->
-                    <input type="hidden"  name="office_own" value="<?= $row[office_own] ?>"/>
-                    <input type="hidden"  name="office_do" value="<?= $_SESSION[pcucode] ?>"/>
-                    <input type="hidden"  name="user_do" value="<?= $_SESSION[user] ?>"/>  
-                    <input type="hidden"  name="datetime_do" value="<?= $datetime_do ?>"/>  
-                    <input type="hidden"  name="pid" value="<?= $row[pid] ?>"/>  
+            </form>
 
-
-                    <ul data-role="listview" data-inset="true">
-                        <li data-role="fieldcontain">
-                            <img src="img_pt/nopic.png">
-                            <p>pid:<?= $row[pid] ?></p>
-                            <h2><?= $row[prename] . $row[name] . " " . $row[lname] ?> 
-                                ,เริ่มป่วย:<?= $row[date_ill] ?>,รับรักษา:<?= $row[date_found] ?></h2>
-                            <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,อายุ <?= $row[agey] ?>ปี</p>
-
-
-                            <h3>ข้อมูลผู้ป่วย (<?= $row[off_name] ?>)</h3>
-                            <p>
-                                <?= nl2br($row[note_text]) ?>
-                            </p>  
-                        </li>
-                        <li data-role="fieldcontain">
-                            <table width ="100%">
-                                <tr>
-                                    <td >
-                                        <select name="amp" id="amp">
-                                            <?php
-                                            $amp_sql = "select code,name from amp";
-                                            $amp_res = mysql_query($amp_sql);
-                                            while ($rw_amp = mysql_fetch_array($amp_res)) {
-                                                ?>
-                                                <option value="<?= $rw_amp[code] ?>" <?php
-                                                if ($rw_amp[code] == $row[send_to_amp]) {
-                                                    echo 'selected';
-                                                }
-                                                ?>>
-                                                <?= $rw_amp[name] ?>
-                                                </option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-
-                                    </td>
-
-                                    <td >
-                                        <select name="tmb" id="tmb">
-                                            <option value="">เลือกตำบล...</option>
-                                            <?php
-                                            $tmb_sql = "select code,name from tmb where amp=$row[send_to_amp]";
-                                            $tmb_res = mysql_query($tmb_sql);
-                                            while ($rw_tmb = mysql_fetch_array($tmb_res)) {
-                                                ?>
-                                                <option value="<?= $rw_tmb[code] ?>">
-                                                <?= $rw_tmb[name] ?>
-                                                </option>
-                                                <?php
-                                            }
-                                            ?>
-                                        </select>
-                                    </td>
-                                    <td >
-                                        <input  name="moo" id="moo" data-mini="true" type="text" placeholder="หมู่ที่">
-                                    </td>
-
-                                </tr>
-                                <tr>
-
-                                    <td >
-                                        <input  name="road" id="road" data-mini="true" type="text" placeholder="ถนน/ซอย">
-                                    </td>
-                                    <td >
-                                        <input  name="addr" id="addr" data-mini="true" type="text" placeholder="บ้านเลขที่">
-                                    </td>
-                                    <td> 
-                                        <input  maxlength="11" name="house_id" id="house_id" data-mini="true" type="text" placeholder="รหัสบ้าน 11 หลัก">
-                                    </td>
-                                </tr>
-                            </table>
-                        </li>
-
-                        <li data-role="fieldcontain">
-
-                            <table width ="100%">
-                                <tr>
-                                    <td width="40%"><input  name="lat" id="lat" data-mini="true" type="text" placeholder="ละติจูด"></td>
-                                    <td width="40%"><input  name="lng" id="lng" data-mini="true" type="text" placeholder="ลองติจูด"></td>
-                                    <td width="20%">
-                                        <a href="#" onclick="getGeo()" data-role="button" data-inline="true" data-mini="true"> พิกัด </a>
-                                        <a href="#page-map" data-rel="dialog" data-position-to="window" data-role="button" data-inline="true" data-mini="true"> แผนที่ </a>
-
-                                    </td>
-                                </tr>
-
-                            </table>
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="is_larva">พบลูกน้ำยุงลายที่บ้านผู้ป่วย:</label>
-                            <select name="is_larva" id="is_larva" data-role="slider">
-                                <option value="n">ไม่พบ</option>
-                                <option value="y">พบ</option>
-
-                            </select>
-                        </li>
-
-
-                        <li data-role="fieldcontain">
-                            <label for="note_patient">บันทึกกิจกรรม 1:</label>
-                            <textarea cols="40" rows="8" name="note_patient" id="note_patient" placeholder="ข้อมูลผู้ป่วย/ประวัติการเจ็บป่วย"></textarea>
-
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="note_home">บันทึกกิจกรรม 2:</label>
-                            <textarea cols="40" rows="8" name="note_home" id="note_home" placeholder="สภาพแวดล้อมบริเวณบ้าน"></textarea>
-
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="note_activity">บันทึกกิจกรรม 3:</label>
-                            <textarea cols="40" rows="8" name="note_activity" id="note_activity" placeholder="กิจกรรมควบคุมโรค"></textarea>
-
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="img_home">รูปบ้านผู้ป่วย:</label>
-                            <input type="file" name="img_home" id="img_home">
-                        </li>
-                        <li data-role="fieldcontain">
-                            <label for="img_activity">รูปกิจกรรม:</label>
-                            <input type="file" name="img_activity" id="img_activity">
-                        </li>
-
-                        <li data-role="fieldcontain">
-                            <label for="reporter">ผู้รายงาน:</label>
-                            <input type="text" name="reporter" id="reporter" placeholder="ชื่อ-นามสกุลผู้รายงาน /เบอร์โทร">
-                        </li>
-
-                        <li class="ui-body ui-body-f">
-                            <fieldset class="ui-grid-a">
-                                <div class="ui-block-a"><button type="submit" data-icon="check">ตกลง</button></div>
-                                <div class="ui-block-b"><button type="reset" data-icon="delete">ยกเลิก</button></div>                                
-                            </fieldset>
-                        </li>
-
-                    </ul>
-
-
-                </form>
-
-            </div> <!-- end content -->
-            <div data-role="footer" data-position="fixed" data-theme="f" >                
-<?php require 'txt_foot.php'; ?>
-            </div>
-        </div>  <!-- end page-1 -->
-
-
-        <div data-role="page" id="page-map">
-            <div data-role="header" data-position="fixed" data-theme="f">
-                <h1>Map</h1>
-            </div>
-            <div data-role="content" id="map-content">
-                <div id="latlng"></div>
-                <div id="map-canvas" class="map-div"></div>
-            </div> <!-- end content -->
-
-        </div>  <!-- end page -->
-
-
+        </div>
     </body>
 </html>

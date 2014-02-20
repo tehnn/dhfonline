@@ -163,7 +163,7 @@ require 'condb.php'
                 if (validate_msg != "") {
                     alert(validate_msg);
                 }
-                //return validate_pass;
+                return validate_pass;
             }
         </script>
         <script>
@@ -205,8 +205,10 @@ require 'condb.php'
 
                 <table width="75%" border="1" cellspacing="0" cellpadding="0">
                     <tr bgcolor="#33CCFF">
-                        <td bgcolor="#66FFFF"><input type="button" value="ย้อนกลับ" onClick="window.location = 'main_screen.php'">
-                            แบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report</td>
+                        <td bgcolor="#66FFFF">
+                        <input type="button" value="ย้อนกลับ" onClick="window.location = 'hos_list_own_pt.php'">
+                            แบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report
+                            </td>
                     </tr>
                     <tr>
                         <td bgcolor="#66FFFF">
@@ -232,9 +234,9 @@ require 'condb.php'
                                         เพศ:
                                         <select name="sex" id="sex">
                                             <option value="">เลือก...</option>
-                                            <option value="1">ชาย</option>
-                                            <option value="2">หญิง</option>
-                                        </select></td>
+                                            <option value="ชาย">ชาย</option>
+                                            <option value="หญิง">หญิง</option>
+                                  </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">ชื่อ:</td>
@@ -278,10 +280,10 @@ require 'condb.php'
                                         <input type="text" name="icd10" id="icd10">
                                         ประเภท:
                                         <select name="pt_type" id="pt_type">
-                                            <option value="">เลือก...</option>
-                                            <option value="1">OPD</option>
-                                            <option value="2" selected>IPD</option>
-                                        </select></td>
+                                            <option value="" selected>เลือก...</option>
+                                            <option value="OPD">OPD</option>
+                                            <option value="IPD">IPD</option>
+                                  </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#00FFFF">แพทย์: </td>
@@ -297,11 +299,11 @@ require 'condb.php'
                                         สภาพผู้ป่วย:
                                         <select name="pt_status" id="pt_status">
                                             <option value="">เลือก...</option>
-                                            <option value="1">หาย</option>
-                                            <option value="2">ตาย</option>
-                                            <option value="3" selected>ยังรักษาอยู่</option>
-                                            <option value="4">ไม่ทราบ</option>
-                                        </select></td>
+                                            <option value="หาย">หาย</option>
+                                            <option value="ตาย">ตาย</option>
+                                            <option value="ยังรักษาอยู่" selected>ยังรักษาอยู่</option>
+                                            <option value="ไม่ทราบ">ไม่ทราบ</option>
+                                  </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">อาการแสดงสำคัญ:</td>
