@@ -190,6 +190,40 @@ require 'condb.php'
                 });
             });
         </script>
+         <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7&language=TH"></script>
+         <script>
+		 
+		  function getGeo() {
+                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        lat = position.coords.latitude;
+                        lng = position.coords.longitude;
+                        $('#lat').val(lat);
+                        $('#lng').val(lng);
+                    });
+                } else {
+                    alert("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
+
+                }
+            }// end getGeo
+
+		 
+          $(document).ready(function() {
+                getGeo();
+            });
+			</script>
+            
+            <script type="text/javascript">
+function popup(url,name,windowWidth,windowHeight){    
+	myleft=(screen.width)?(screen.width-windowWidth)/2:100;	
+	mytop=(screen.height)?(screen.height-windowHeight)/2:100;	
+	properties = "width="+windowWidth+",height="+windowHeight;
+	properties +=",scrollbars=yes, top="+mytop+",left="+myleft;   
+	window.open(url,name,properties);
+}
+</script>
+
+            
         <title>#PLK DHF Online</title>
     </head>
     <body>
@@ -205,15 +239,22 @@ require 'condb.php'
 
                 <table width="75%" border="1" cellspacing="0" cellpadding="2">
                     <tr bgcolor="#33CCFF">
-                        <td bgcolor="#66FFFF"> แบบบันทึกการสอบสวนโรคของผู้ป่วยชื่อ :<strong>นายก ไม่ทราบนามสกุล อายุ 33 ปี</strong></td>
+                        <td bgcolor="#66FFFF"> แบบบันทึกการสอบสวนโรคของผู้ป่วย บันทึกวันที่...
+                        <?=date("Y-m-d H:i:s")?></td>
                     </tr>
                     <tr>
                         <td bgcolor="#66FFFF">
                         
                         <table width="100%" border="0" cellspacing="0" cellpadding="0">
                           <tr>
-                            <td>บันทึกวันที่...
-                            <?=date("Y-m-d H:i:s")?></td>
+                            <td>ชื่อ :นายก ไม่ทราบนามสกุล อายุ 33 ปี 25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก</td>
+                          </tr>
+                          <tr>
+                            <td>พิกัดที่ตั้งบ้านผู้ป่วย..แลตติจูด..
+                              <input type="text" name="lat" id="lat"> 
+                              ลองจิจูด..
+                              <input type="text" name="lng" id="lng"> <input type="button" value="พิกัด">
+                              <input type="button" value="แผนที่" onClick="javascript:popup('http://maps.google.com','',400,400)" "></td>
                           </tr>
                           <tr>
                             <td><strong>ผลการสอบสวนโรคและกิจกรรมควบคุมโรค</strong></td>
@@ -242,24 +283,56 @@ require 'condb.php'
                           <tr>
                             <td><table width="100%" border="0" cellspacing="0" cellpadding="1">
                               <tr>
-                                <td width="16%" align="right" valign="top">บ้านผู้ป่วย</td>
-                                <td width="84%">&nbsp;</td>
+                                <td width="12%" align="right" valign="top">บ้านผู้ป่วย</td>
+                                <td width="3%">&nbsp;</td>
+                                <td width="85%">สำรวจ..
+                                <input name="textfield" type="text" id="textfield" size="5">
+                                ภาชนะ พบลูกน้ำ..
+                                <input name="textfield2" type="text" id="textfield2" size="5"> 
+                                ภาชนะ CI=
+                                <input name="textfield3" type="text" id="textfield3" size="10"></td>
                               </tr>
                               <tr>
                                 <td align="right" valign="top">ทีทำงาน/โรงเรียน</td>
                                 <td>&nbsp;</td>
+                                <td>สำรวจ..
+                                  <input name="textfield4" type="text" id="textfield4" size="5">
+ภาชนะ พบลูกน้ำ..
+<input name="textfield4" type="text" id="textfield5" size="5">
+ภาชนะ CI=
+<input name="textfield4" type="text" id="textfield6" size="10"></td>
                               </tr>
                               <tr>
                                 <td align="right" valign="top">วัด</td>
                                 <td>&nbsp;</td>
+                                <td>สำรวจ..
+                                  <input name="textfield5" type="text" id="textfield7" size="5">
+ภาชนะ พบลูกน้ำ..
+<input name="textfield5" type="text" id="textfield8" size="5">
+ภาชนะ CI=
+<input name="textfield5" type="text" id="textfield9" size="10"></td>
                               </tr>
                               <tr>
                                 <td align="right" valign="top">หมู่บ้าน/ชุมชน</td>
                                 <td>&nbsp;</td>
+                                <td>บ้านที่สำรวจ..
+                                  <input name="textfield6" type="text" id="textfield10" size="5">
+หลัง พบลูกน้ำ..
+ <input name="textfield6" type="text" id="textfield11" size="5">
+หลัง HI=
+ <input name="textfield6" type="text" id="textfield12" size="10"></td>
                               </tr>
                               <tr>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                <td>ภาชนะสำรวจ..
+                                  <input name="textfield7" type="text" id="textfield13" size="5">
+ พบลูกน้ำ..
+ <input name="textfield7" type="text" id="textfield14" size="5">
+ภาชนะ CI=
+<input name="textfield7" type="text" id="textfield15" size="10"> 
+BI=
+<input name="textfield8" type="text" id="textfield16" size="10"></td>
                               </tr>
                             </table></td>
                           </tr>
@@ -291,14 +364,14 @@ require 'condb.php'
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;
                               <input type="checkbox" name="checkbox4" id="checkbox4">
                               อื่นๆ
-                              <input name="spray_chem4" type="text" id="spray_chem4" size="100"></td>
+                              <input name="spray_chem4" type="text" id="spray_chem4" size="82"></td>
                           </tr>
                           <tr>
                             <td>: : สภาพแวดล้อม</td>
                           </tr>
                           <tr>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <textarea style="width:500px"></textarea>
+                            <textarea style="width:550px; "></textarea>
                             </td>
                           </tr>
                           <tr>
@@ -306,7 +379,7 @@ require 'condb.php'
                           </tr>
                           <tr>
                             <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                            <textarea name="textarea" style="width:500px"></textarea></td>
+                            <textarea name="textarea" style="width:550px"></textarea></td>
                           </tr>
                           <tr>
                             <td>: : รูปภาพกิจกรรม
@@ -317,7 +390,7 @@ require 'condb.php'
                         </td>
                     </tr>
                       <tr>
-                        <td bgcolor="#66FFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้บันทึกข้อมูล..
+                        <td align="right" bgcolor="#66FFFF">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ชื่อผู้บันทึกข้อมูล..
                         <input name="reporter" type="text" id="reporter" size="35">
                         <input type="submit" value="บันทึกข้อมูล">
                         <input type="reset" id="button" value="ยกเลิก"></td>
