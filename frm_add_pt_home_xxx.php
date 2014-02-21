@@ -246,7 +246,7 @@ where pt.pid='$pid'";
                                                     echo 'selected';
                                                 }
                                                 ?>>
-                                                <?= $rw_amp[name] ?>
+                                                            <?= $rw_amp[name] ?>
                                                 </option>
                                                 <?php
                                             }
@@ -264,7 +264,7 @@ where pt.pid='$pid'";
                                             while ($rw_tmb = mysql_fetch_array($tmb_res)) {
                                                 ?>
                                                 <option value="<?= $rw_tmb[code] ?>">
-                                                <?= $rw_tmb[name] ?>
+                                                    <?= $rw_tmb[name] ?>
                                                 </option>
                                                 <?php
                                             }
@@ -360,7 +360,7 @@ where pt.pid='$pid'";
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f" >                
-<?php require 'txt_foot.php'; ?>
+                <?php require 'txt_foot.php'; ?>
             </div>
         </div>  <!-- end page-1 -->
 
