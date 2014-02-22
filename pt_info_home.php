@@ -1,26 +1,23 @@
 <?php
 session_start();
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['login_user'])) {
     //exit("You don't have permission.Account cause.");
 }
-$user = $_SESSION['user'];
-$off_name = $_SESSION['off_name'];
-$pcucode = $_SESSION['pcucode'];
-$prov_code = $_SESSION['prov_code'];
-$amp_code = $_SESSION['amp_code'];
-$tmb_code = $_SESSION['tmb_code'];
-$level = $_SESSION['level'];
+$login_user = $_SESSION['login_user'];
+$login_off_name = $_SESSION['login_off_name'];
+$login_pcucode = $_SESSION['login_pcucode'];
+$login_prov_code = $_SESSION['login_prov_code'];
+$login_amp_code = $_SESSION['login_amp_code'];
+$login_tmb_code = $_SESSION['login_tmb_code'];
+$login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-////
-
-$pid = $_GET[pid];
-$hos_own = $_GET[hos_own];
-$id = $_GET[id];
-
-if ($level <> 'hos') {
+if ($login_level <> 'hos') {
     // exit("You don't have permission.Level cause.");
 }
+////
+
+
 require 'condb.php';
 ?>
 <!DOCTYPE html> 
@@ -56,13 +53,13 @@ require 'condb.php';
         <?php
         $sql = "SELECT hm.*,hs.pid,hs.`name`,hs.lname FROM `patient_home` hm
 LEFT JOIN patient_hos hs on hm.pid = hs.pid
-where hm.id = $id";
+where hm.id = $_GET[id]";
         $result = mysql_query($sql);
         $row = mysql_fetch_array($result);
         ?>
         <div data-role="page" id="page-1">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="main_screen.php" rel="external"  data-icon="back">Back</a>
+                <a href="pt_info.php?pid=<?=$_GET[pid]?>" rel="external"  data-icon="back">Back</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="#" rel="external" onclick=" window.print();" data-icon="info">Print</a>
             </div>

@@ -20,17 +20,23 @@
     <body> 
         <?php
         require 'condb.php';
-        $sql = "select * from patient_hos where is_cut is null and date(datetime_send)=CURDATE()";
+        $sql = "select * from patient_hos where date(datetime_send)=CURDATE()";
         $result_today = mysql_query($sql);
         $num_today_case = mysql_num_rows($result_today);
 
-        $sql = "select amp.`name` as amp_name,u.off_name as hos_sender,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,pt.* ,rp.pcu_receive,rp.off_name as off_name_receive
- from patient_hos pt
-LEFT JOIN amp amp on pt.send_to_amp = amp.`code`
-LEFT JOIN user u on pt.office_own = u.pcucode
-LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
-as rp on pt.pid = rp.pid
-where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
+        $sql = "select amp_ill.`name` as ill_at,if(rp.off_name is null or rp.off_name='','n','y') as isreceive,
+rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' xxx') as fullname,
+TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+concat('xxx ',' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+pt.date_found,u_off.off_name as send_from,pt.datetime_send
+from patient_hos pt
+LEFT JOIN user u_off on pt.office_own = u_off.pcucode
+LEFT JOIN amp amp_ill on pt.send_to_amp = amp_ill.`code`
+LEFT JOIN (select r.pid,r.pcu_receive,u.pcucode,u.off_name from receive r LEFT JOIN user u on u.pcucode=r.pcu_receive ) rp on rp.pid = pt.pid
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+order by pt.datetime_send DESC";
         $result_all = mysql_query($sql);
         $num_all_case = mysql_num_rows($result_all);
         ?>
@@ -73,7 +79,7 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
                            data-page-size="6">
                         <thead>
                             <tr>
-                                <th>พื้นที่</th>
+                                <th>ป่วยที่</th>
                                 <th >
                                     สถานะ
                                 </th>
@@ -82,7 +88,7 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
                                     ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ
+                                    อายุ(ปี)
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่
@@ -103,21 +109,21 @@ where  pt.is_cut is null ORDER BY pt.datetime_send DESC";
                             while ($row = mysql_fetch_array($result_all)) {
                                 ?>
                                 <tr>
-                                    <td><?= $row[amp_name] ?></td>
+                                    <td><?= $row[ill_at] ?></td>
                                     <td>
                                         <?php
-                                        if (!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active" title="' . $row[off_name_receive] . '">รับแล้ว</span>';
+                                        if ($row[isreceive]=='y') {
+                                            echo '<span class="status-metro status-active" title="' . $row[receiver] . '">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
                                         ?>
                                     </td>                               
-                                    <td><?= $row[prename] . $row[name] . " xxx" ?></td>
+                                    <td><?= $row[fullname]?></td>
                                     <td><?= $row[agey] ?></td>
-                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
-                                    <td><?= $row[hos_sender] ?></td>
+                                    <td><?= $row[send_from] ?></td>
                                     <td><?= $row[datetime_send] ?></td>
                                 </tr>
 

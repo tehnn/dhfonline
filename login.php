@@ -16,13 +16,15 @@ session_destroy();
                     data = $.trim(data);
                     if (data == 'ok') {
                         window.location = 'main_screen.php';
+                    }else{
+                        alert('User or Pass is invalid.');
                     }
 
 
                 }
 
                 function onError(data, status) {
-
+                    alert(data);
                 }
 
                 // event click

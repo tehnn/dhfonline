@@ -1,21 +1,21 @@
 <?php
 session_start();
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['login_user'])) {
     //exit("You don't have permission.Account cause.");
 }
-$user = $_SESSION['user'];
-$off_name = $_SESSION['off_name'];
-$pcucode = $_SESSION['pcucode'];
-$prov_code = $_SESSION['prov_code'];
-$amp_code = $_SESSION['amp_code'];
-$tmb_code = $_SESSION['tmb_code'];
-$level = $_SESSION['level'];
+$login_user = $_SESSION['login_user'];
+$login_off_name = $_SESSION['login_off_name'];
+$login_pcucode = $_SESSION['login_pcucode'];
+$login_prov_code = $_SESSION['login_prov_code'];
+$login_amp_code = $_SESSION['login_amp_code'];
+$login_tmb_code = $_SESSION['login_tmb_code'];
+$login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($level <> 'hos') {
+if ($login_level <> 'hos') {
     // exit("You don't have permission.Level cause.");
 }
-require 'condb.php'
+require 'condb.php';
 ?>
 <!DOCTYPE html> 
 <html>
@@ -200,8 +200,8 @@ require 'condb.php'
                   enctype="multipart/form-data"
                   onsubmit="return validate()">
 
-                <input type="hidden" name="office_own" value="<?= $pcucode ?>">
-                <input type="hidden" name="user_own" value="<?= $user ?>">
+                <input type="hidden" name="office_own" value="<?= $login_pcucode ?>">
+                <input type="hidden" name="user_own" value="<?= $login_user ?>">
 
                 <table width="75%" border="1" cellspacing="0" cellpadding="0">
                     <tr bgcolor="#33CCFF">

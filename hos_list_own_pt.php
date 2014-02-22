@@ -1,18 +1,18 @@
 <?php
 session_start();
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['login_user'])) {
     //exit("You don't have permission.Account cause.");
 }
-$user = $_SESSION['user'];
-$off_name = $_SESSION['off_name'];
-$pcucode = $_SESSION['pcucode'];
-$prov_code = $_SESSION['prov_code'];
-$amp_code = $_SESSION['amp_code'];
-$tmb_code = $_SESSION['tmb_code'];
-$level = $_SESSION['level'];
+$login_user = $_SESSION['login_user'];
+$login_off_name = $_SESSION['login_off_name'];
+$login_pcucode = $_SESSION['login_pcucode'];
+$login_prov_code = $_SESSION['login_prov_code'];
+$login_amp_code = $_SESSION['login_amp_code'];
+$login_tmb_code = $_SESSION['login_tmb_code'];
+$login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($level <> 'hos') {
+if ($login_level <> 'hos') {
     // exit("You don't have permission.Level cause.");
 }
 require 'condb.php';
@@ -38,12 +38,18 @@ require 'condb.php';
     </head> 
     <body>         
         <?php
-        $sql = "select rp.pcu_receive,rp.rp.off_name as off_name_receive,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,amp.name as amp_name 
-from patient_hos pt 
-LEFT JOIN amp amp on pt.send_to_amp = amp.code
-LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
-as rp on pt.pid = rp.pid
-where pt.office_own='$pcucode' order by pt.datetime_send DESC";
+        $sql = "select  if(rcp.receiver is NULL,'n','y') as isreceive,rcp.receiver,pt.pid,
+CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey,
+concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+pt.date_found,toamp.`name` as sendto,pt.datetime_send
+from patient_hos pt
+LEFT JOIN (select rc.pid as ppid,rc.datetime_receive,rc.pcu_receive,u.off_name as receiver from receive rc 
+LEFT JOIN user u on u.pcucode=rc.pcu_receive) rcp on rcp.ppid = pt.pid
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+LEFT JOIN amp toamp on toamp.`code` = pt.send_to_amp
+where pt.office_own='$login_pcucode' order by pt.datetime_send DESC";
         $result = mysql_query($sql);
         $num_all_case = mysql_num_rows($result);
         ?>
@@ -90,10 +96,10 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                                     ผู้รับ
                                 </th>
                                 <th data-toggle="true">
-                                    ชื่อ-นามสกุล,อายุ
+                                    ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ
+                                    อายุ(ปี)
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่ขณะป่วย
@@ -117,21 +123,21 @@ where pt.office_own='$pcucode' order by pt.datetime_send DESC";
                                 <tr>
                                     <td>
                                         <?php
-                                        if (!empty($row[pcu_receive])) {
+                                        if ($row[isreceive]=='y') {
                                             echo '<span class="status-metro status-active" >รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
                                         ?>
                                     </td>
-                                    <td><?= $row[off_name_receive] ?></td>
+                                    <td><?= $row[receiver] ?></td>
                                     <td> 
-                                        <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
+                                        <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[fullname] ?></a>
                                     </td>
                                     <td><?= $row[agey] ?></td>
-                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
-                                    <td><?= $row[amp_name] ?></td>
+                                    <td><?= $row[sendto] ?></td>
                                     <td><?= $row[datetime_send] ?></td>
                                 </tr>
                                 <?php

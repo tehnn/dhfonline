@@ -1,18 +1,18 @@
 <?php
 session_start();
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['login_user'])) {
     //exit("You don't have permission.Account cause.");
 }
-$user = $_SESSION['user'];
-$off_name = $_SESSION['off_name'];
-$pcucode = $_SESSION['pcucode'];
-$prov_code = $_SESSION['prov_code'];
-$amp_code = $_SESSION['amp_code'];
-$tmb_code = $_SESSION['tmb_code'];
-$level = $_SESSION['level'];
+$login_user = $_SESSION['login_user'];
+$login_off_name = $_SESSION['login_off_name'];
+$login_pcucode = $_SESSION['login_pcucode'];
+$login_prov_code = $_SESSION['login_prov_code'];
+$login_amp_code = $_SESSION['login_amp_code'];
+$login_tmb_code = $_SESSION['login_tmb_code'];
+$login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($level <> 'hos') {
+if ($login_level <> 'hos') {
     // exit("You don't have permission.Level cause.");
 }
 require 'condb.php';
@@ -38,14 +38,20 @@ require 'condb.php';
     </head> 
     <body> 
         <?php
-        $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,uu.off_name as hos_sender,pt.*,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+        $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,
+            uu.off_name as hos_sender,pt.*,
+            concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+            TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
 u.pcucode,u.off_name,u.amp from patient_hos pt
 LEFT JOIN user u on pt.send_to_amp = u.amp
 LEFT JOIN user uu on pt.office_own = uu.pcucode
 LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
 as rp on pt.pid = rp.pid
 LEFT JOIN patient_home ph on pt.pid = ph.pid
-where pt.send_to_amp=u.amp and u.pcucode='$pcucode'
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+where pt.send_to_amp=u.amp and u.pcucode='$login_pcucode'
 GROUP BY pt.pid
 order by pt.datetime_send DESC";
         $result_all = mysql_query($sql);
@@ -54,7 +60,7 @@ order by pt.datetime_send DESC";
         $sql = "select pid from patient_hos pt
 LEFT JOIN user u on pt.send_to_amp = u.amp
 where pt.send_to_amp = u.amp
-and u.pcucode = '$pcucode'
+and u.pcucode = '$login_pcucode'
 and date(pt.datetime_send) = CURDATE()";
         $result_today = mysql_query($sql);
         $num_today_case = mysql_num_rows($result_today);
@@ -107,10 +113,10 @@ and date(pt.datetime_send) = CURDATE()";
                                     สอบสวน
                                 </th>
                                 <th data-toggle="true">
-                                    ชื่อ-นามสกุล,อายุ
+                                    ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ
+                                    อายุ(ปี)
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่
@@ -147,7 +153,7 @@ and date(pt.datetime_send) = CURDATE()";
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
                                     </td>
                                     <td><?= $row[agey] ?></td>
-                                    <td><?= $row[addr_ill] ?></td>
+                                    <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
                                     <td><?= $row[hos_sender] ?></td>
                                     <td><?= $row[datetime_send] ?></td>

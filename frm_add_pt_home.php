@@ -1,21 +1,21 @@
 <?php
 session_start();
-if (empty($_SESSION['user'])) {
+if (empty($_SESSION['login_user'])) {
     //exit("You don't have permission.Account cause.");
 }
-$user = $_SESSION['user'];
-$off_name = $_SESSION['off_name'];
-$pcucode = $_SESSION['pcucode'];
-$prov_code = $_SESSION['prov_code'];
-$amp_code = $_SESSION['amp_code'];
-$tmb_code = $_SESSION['tmb_code'];
-$level = $_SESSION['level'];
+$login_user = $_SESSION['login_user'];
+$login_off_name = $_SESSION['login_off_name'];
+$login_pcucode = $_SESSION['login_pcucode'];
+$login_prov_code = $_SESSION['login_prov_code'];
+$login_amp_code = $_SESSION['login_amp_code'];
+$login_tmb_code = $_SESSION['login_tmb_code'];
+$login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($level <> 'hos') {
-    // exit("You don't have permission.Level cause.");
+if ($login_level <> 'hos') {
+    //exit("You don't have permission.Level cause.");
 }
-require 'condb.php'
+require 'condb.php';
 ?>
 <!DOCTYPE html>
 <html>
@@ -46,7 +46,7 @@ require 'condb.php'
             });
 
             function validate() {
-                 var validate_pass = true;
+                var validate_pass = true;
                 var validate_msg = "";
 
                 var pid = $("#pid").val();
@@ -54,14 +54,20 @@ require 'condb.php'
                     validate_pass = false;
                     validate_msg += "pid ว่าง\r\n";
                 }
+                
+                 var r = $("#reporter").val();
+                if (r == '' || r == null) {
+                    validate_pass = false;
+                    validate_msg += "ผู้รายงานว่าง ว่าง\r\n";
+                }
 
-             
+
 
                 if (validate_msg != "") {
                     alert(validate_msg);
                 }
-                //return validate_pass;
-               
+                return validate_pass;
+
             }
         </script>
         <script>
@@ -226,7 +232,26 @@ require 'condb.php'
         </script>
         <title>#PLK DHF Online</title>
     </head>
+    
     <body>
+        <?php
+        $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
+,pt.hn,pt.cid
+,pt.sex,pt.bdate,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey
+,pt.occupat,pt.school_workplace ,
+CONCAT(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' ',moo.`name`,'  ต.',tmb.`name`,'  อ.',amp.`name`) as address
+,pt.date_ill,pt.date_found,pt.datetime_send
+,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct,pt.lab_tt,pt.symtom
+,pt.refer_from,pt.note_text
+from patient_hos pt
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code`=pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+where pt.pid ='$_GET[pid]'";
+
+        $result = mysql_query($sql);
+        $row = mysql_fetch_array($result);
+        ?>
         <div align="center">
             <form action="qry_add_pt_home.php" 
                   id="frm_home" name="frm_home"
@@ -234,18 +259,23 @@ require 'condb.php'
                   enctype="multipart/form-data"
                   onsubmit="return validate()">
 
-                <input type="hidden" name="pid" value="<?= $_GET[pid] ?>">
-                <input type="hidden" name="datetime_do" value="<?=date('Y-m-d H:i:s')?>">
+                <input type="hidden" name="pid" id="pid" value="<?= $_GET[pid] ?>">
+                <input type="hidden" name="datetime_do" value="<?= date('Y-m-d H:i:s') ?>">
 
                 <table width="75%" border="1" cellspacing="0" cellpadding="2">
                     <tr bgcolor="#33CCFF">
-                        <td bgcolor="#66FFFF"> แบบบันทึกการสอบสวนโรคของผู้ป่วย บันทึกวันที่...
-                            <?= date("Y-m-d H:i:s") ?></td>
+                        <td bgcolor="#66FFFF"> 
+                            แบบบันทึกการสอบสวนโรคของผู้ป่วย รหัส<?= $_GET[pid] ?> วันที่:
+                            <?= date("Y-m-d H:i:s")?>
+                        </td>
                     </tr>
                     <tr>
                         <td bgcolor="#66FFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
-                                    <td><?= $_GET[pid] ?>ชื่อ :นายก ไม่ทราบนามสกุล อายุ 33 ปี 25/1 ม.3 ต.วัดพริก อ.เมือง จ.พิษณุโลก</td>
+                                    <td>
+                                        <strong><?= $row[fullname] ?></strong> อายุ <?= $row[agey] ?> ปี 
+                                        <?= $row[address] ?>
+                                    </td>
                                 </tr>
                                 <tr>
                                     <td>: : พิกัดที่ตั้งบ้านผู้ป่วย แลตติจูด..

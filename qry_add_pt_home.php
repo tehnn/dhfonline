@@ -35,9 +35,9 @@ if (!empty($_POST)) {
             '$_POST[num_destroy_home]' , '$_POST[chk_meeting]' , '$_POST[chk_campaign]' , '$_POST[chk_other]' , 
             '$_POST[note_other]' , '$_POST[note_env]' , '$_POST[note_sum]' , '$_POST[reporter]' , '$img_act')";
     
-    echo $sql ;
-    mysql_query($sql) or die(mysql_error());
-    exit;
+    //echo $sql ;
+    //mysql_query($sql) or die(mysql_error());
+    //exit;
 }
 
 if (mysql_query($sql)) {
