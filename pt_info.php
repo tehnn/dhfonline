@@ -137,7 +137,7 @@ where pt.pid ='$_GET[pid]'";
                 if ($row[receiver] == $login_pcucode) {
                     ?>
                     <a href="frm_add_pt_home.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="check" data-role="button">บันทึกสอบสวนโรค</a>
-                    <a href="qry_send_back.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="forward" data-role="button">ส่ง CASE กลับให้ สสจ.</a>
+                    <a href="frm_send_back.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="forward" data-role="button">ส่ง CASE กลับให้ สสจ.</a>
                     <?php
                 }
                 ?>
