@@ -60,7 +60,6 @@ require 'condb.php';
     <body> 
 
         <?php
-        
         $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
 ,pt.sex,pt.bdate,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey
@@ -98,16 +97,16 @@ where pt.pid ='$_GET[pid]'";
                         <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?= $row[occupat] ?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
                         <p>อาชีพ:<?= $row[occupat] . " ที่ " . $row[school_workplace] . " " . $row[tel] ?></a></p>
-                        <p>ที่อยู่ขณะป่วย:<?=$row[address]?></p>    
-                        <p>ส่งจาก:<?=$row[send_from]?>,ป่วย<?=$row[date_ill]?>,พบ<?=$row[date_found]?>,แจ้ง<?=$row[datetime_send]?></p>
-                        <p>รับ:<?=$row[receiver]."-".$row[receiver1]?>,เมื่อ<?=$row[datetime_receive]?></p>
+                        <p>ที่อยู่ขณะป่วย:<?= $row[address] ?></p>    
+                        <p>ส่งจาก:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,แจ้ง<?= $row[datetime_send] ?></p>
+                        <p>รับ:<?= $row[receiver] . "-" . $row[receiver1] ?>,เมื่อ<?= $row[datetime_receive] ?></p>
                         <hr>
-                        <p>รหัสโรค:<?=$row[code506]?>,icd10:<?=$row[icd10]?>
-                            Lab-wbc:<?=$row[lab_wbc]?>,
-                            Lab-plt:<?=$row[lab_plt]?>,
-                            Lab-hct:<?=$row[lab_hct]?>,
-                            Lab-tt:<?=$row[lab_tt]?>
-                        
+                        <p>รหัสโรค:<?= $row[code506] ?>,icd10:<?= $row[icd10] ?>
+                            Lab-wbc:<?= $row[lab_wbc] ?>,
+                            Lab-plt:<?= $row[lab_plt] ?>,
+                            Lab-hct:<?= $row[lab_hct] ?>,
+                            Lab-tt:<?= $row[lab_tt] ?>
+
                         </p>
                         <hr>                        
                         <h4>
@@ -116,7 +115,7 @@ where pt.pid ='$_GET[pid]'";
                             $result_invest = mysql_query("select id,date(datetime_do) as dtd from patient_home where pid='$_GET[pid]'");
                             while ($rw = mysql_fetch_array($result_invest)) {
                                 ?>
-                                <a  href="pt_info_home.php?pid=<?=$_GET[pid]?>&id=<?= $rw[id] ?>" rel="external"><?= $rw[dtd] ?></a>, 
+                                <a  href="pt_info_home.php?pid=<?= $_GET[pid] ?>&id=<?= $rw[id] ?>" rel="external"><?= $rw[dtd] ?></a>, 
                                 <?php
                             }
                             ?>
@@ -125,7 +124,7 @@ where pt.pid ='$_GET[pid]'";
 
                 </ul>
                 <?php
-                if (empty($row[receiver]) and $_GET[hos_own] <> "y" and $login_level<>'amp') {
+                if (empty($row[receiver]) and $_GET[hos_own] <> "y" and $login_level <> 'amp') {
                     ?>
                     <div align="center">
                         <a href="qry_receive_case.php?pid=<?= $row[pid] ?>&pcu_receive=<?= $login_pcucode ?>" rel="external" data-role="button"  data-icon="check" data-inline="true">รับ case</a>
@@ -137,7 +136,8 @@ where pt.pid ='$_GET[pid]'";
                 <?php
                 if ($row[receiver] == $login_pcucode) {
                     ?>
-                    <a href="frm_add_pt_home.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="plus" data-role="button">บันทึกสอบสวนโรค</a>
+                    <a href="frm_add_pt_home.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="check" data-role="button">บันทึกสอบสวนโรค</a>
+                    <a href="qry_send_back.php?pid=<?= $row[pid] ?>" rel="external" data-icon ="forward" data-role="button">ส่ง CASE กลับให้ สสจ.</a>
                     <?php
                 }
                 ?>
