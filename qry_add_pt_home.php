@@ -6,53 +6,38 @@ print_r($_POST);
 echo "</pre>";
 echo "<hr>";
 echo "<pre>";
-print_r($_FILES[img_home]);
+print_r($_FILES[img_act]);
 echo "<pre>";
-echo "<pre>";
-print_r($_FILES[img_activity]);
-echo "<pre>";
+
 
 //exit;
 ?>
 <?php
 if (!empty($_POST)) {
     require 'condb.php';
-    //
-    $pid = $_POST[pid];
-    $office_own = $_POST[office_own];
-    $user_do = $_POST[user_do];
-    $office_do = $_POST[office_do];
-    $datetime_do = $_POST[datetime_do];
-    $amp = $_POST[amp];
-    $tmb = $_POST[tmb];
-    $moo = $_POST[moo];
-    $road = $_POST[road];
-    $addr = $_POST[addr];
-    $house_id = $_POST[house_id];
-    $lat = $_POST[lat];
-    $lng = $_POST[lng];
-    $is_larva = $_POST[is_larva];
-    $note_patient = $_POST[note_patient];
-    $note_home = $_POST[note_home];
-    $note_activity = $_POST[note_activity];
+   
 
-
-    //
-
-    if (!empty($_FILES[img_home][name])) {
-        $img_home = $pid . $_FILES[img_home][name];
+    if (!empty($_FILES[img_act][name])) {
+        $img_act = $pid . $_FILES[img_home][name];
     }
-    if (!empty($_FILES[img_activity][name])) {
-        $img_activity = $pid . $_FILES[img_activity][name];
-    }
-    $reporter = $_POST[reporter];
 
     //
-    echo $sql = "insert into patient_home 
-        (id,pid,office_own,user_do,office_do,datetime_do,house_id,lat,lng,addr,road,moo,tmb,
-        amp,prov,note_patient,note_home,note_activity,is_larva,img_home,img_activity,reporter)
-    values (null,'$pid','$office_own','$user_do','$office_do','$datetime_do','$house_id','$lat','$lng','$addr','$road','$moo','$tmb'
-        ,'$amp','$prov','$note_patient','$note_home','$note_activity','$is_larva','$img_home','$img_activity','$reporter')";
+    $sql="insert into patient_home (id,pid , datetime_do , lat , lng , occupat , school_workplace , 
+            date_ill_diff , travel_to , date_travel , s1 , f1 , ci1 , s2 , f2 , ci2 , s3 , f3 , 
+            ci3 , s4 , f4 , hi , s5 , f5 , ci , bi , chk_spray ,  num_spray_home , 
+            chk_destroy ,  num_destroy_home , chk_meeting ,chk_campaign , chk_other , 
+            note_other , note_env , note_sum , reporter , img_act) values ( 
+            null,'$_POST[pid]' , '$_POST[datetime_do]' , '$_POST[lat]' , '$_POST[lng]' , '$_POST[occupat]' , 
+            '$_POST[school_workplace]' , '$_POST[date_ill_diff]' , '$_POST[travel_to]' , '$_POST[date_travel]' , 
+            '$_POST[s1]' , '$_POST[f1]' , '$_POST[ci1]' , '$_POST[s2]' , '$_POST[f2]' , '$_POST[ci2]' , '$_POST[s3]' , 
+            '$_POST[f3]' , '$_POST[ci3]' , '$_POST[s4]' , '$_POST[f4]' , '$_POST[hi]' , '$_POST[s5]' , '$_POST[f5]' ,
+            '$_POST[ci]' , '$_POST[bi]' , '$_POST[chk_spray]' , '$_POST[num_spray_home]' , '$_POST[chk_destroy]' , 
+            '$_POST[num_destroy_home]' , '$_POST[chk_meeting]' , '$_POST[chk_campaign]' , '$_POST[chk_other]' , 
+            '$_POST[note_other]' , '$_POST[note_env]' , '$_POST[note_sum]' , '$_POST[reporter]' , '$img_act')";
+    
+    echo $sql ;
+    mysql_query($sql) or die(mysql_error());
+    exit;
 }
 
 if (mysql_query($sql)) {

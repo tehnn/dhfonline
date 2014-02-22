@@ -8,7 +8,7 @@
         width: 100%;
 
     }
-   
+
 </style>
 <script src="http://maps.google.com/maps/api/js?sensor=false&libraries=geometry&v=3.7&language=TH"></script>
 <script src="//code.jquery.com/jquery-1.9.1.js"></script>
@@ -30,6 +30,8 @@
         } else {
             //alert("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
             initMap(16.822003, 100.264948, 8)
+            $('#lat').val('16.822003');
+            $('#lng').val('100.264948');
         }
     }// end getGeo
 
@@ -68,18 +70,28 @@
 
 
             map.panTo(marker.getPosition());
-            
-            $("#lat", window.opener.document).val(marker.getPosition().lat());
-            $("#lng", window.opener.document).val(marker.getPosition().lng());
+
 
         });// drag-end
 
     }
 </script>
 <body>
+    <script>
+        function btn_ok_click() {
+            var lt=$("#lat").val();
+            var ln=$('#lng').val()
+            $("#lat", window.opener.document).val(lt);
+            $("#lng", window.opener.document).val(ln);
+
+            window.close();
+        }
+    </script>
     <div id="map-canvas" class="map-div"></div>
     <div align="right">
-        <input type="text" id="lat"> , <input type="text" id="lng">        
-        <button onclick="window.close()">ตกลง</button>
+       
+        <input type="text" id="lat"> , <input type="text" id="lng">  
+        <button onclick="window.close()">ยกเลิก</button>
+        <button onclick="btn_ok_click()">ตกลง</button>
     </div>
 </body>
