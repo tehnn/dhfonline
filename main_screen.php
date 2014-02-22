@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['login_user'])) {
-    //exit("You don't have permission.Account cause.");
+    exit("You don't have permission.Account cause.");
 }
 $login_user = $_SESSION['login_user'];
 $login_off_name = $_SESSION['login_off_name'];

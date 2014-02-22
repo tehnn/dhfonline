@@ -1,6 +1,7 @@
 <meta charset="UTF-8">
 <?php
 // debuging
+/*
 echo "<pre>";
 print_r($_POST);
 echo "</pre>";
@@ -9,7 +10,7 @@ echo "<pre>";
 print_r($_FILES[img_act]);
 echo "<pre>";
 
-
+*/
 //exit;
 ?>
 <?php

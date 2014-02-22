@@ -17,7 +17,7 @@ session_destroy();
                     if (data == 'ok') {
                         window.location = 'main_screen.php';
                     }else{
-                        alert('User or Pass is invalid.');
+                        alert('User or Password is invalid.');
                     }
 
 

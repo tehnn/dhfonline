@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['login_user'])) {
-    //exit("You don't have permission.Account cause.");
+    exit("You don't have permission.Account cause.");
 }
 $login_user = $_SESSION['login_user'];
 $login_off_name = $_SESSION['login_off_name'];
@@ -83,7 +83,7 @@ where pt.pid ='$_GET[pid]'";
         ?>
         <div data-role="page" id="page-1">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-rel="back"  data-icon="back">Back</a>
+                <a href="main_screen.php" rel="external"  data-icon="back">Back</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="#" rel="external" onclick=" window.print();" data-icon="info">Print</a>
             </div>

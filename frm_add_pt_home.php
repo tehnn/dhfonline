@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['login_user'])) {
-    //exit("You don't have permission.Account cause.");
+    exit("You don't have permission.Account cause.");
 }
 $login_user = $_SESSION['login_user'];
 $login_off_name = $_SESSION['login_off_name'];
@@ -12,7 +12,7 @@ $login_tmb_code = $_SESSION['login_tmb_code'];
 $login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($login_level <> 'hos') {
+if ($login_level <> 'hos' and $login_level <> 'pcu') {
     //exit("You don't have permission.Level cause.");
 }
 require 'condb.php';
