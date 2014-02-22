@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50051
 File Encoding         : 65001
 
-Date: 2014-02-20 23:27:40
+Date: 2014-02-22 12:53:26
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -1683,39 +1683,49 @@ DROP TABLE IF EXISTS `patient_home`;
 CREATE TABLE `patient_home` (
   `id` int(11) NOT NULL auto_increment,
   `pid` varchar(255) NOT NULL,
-  `office_own` varchar(255) default NULL,
-  `user_do` varchar(25) NOT NULL,
-  `office_do` varchar(25) NOT NULL default '',
   `datetime_do` datetime NOT NULL default '0000-00-00 00:00:00',
-  `house_id` varchar(11) default NULL COMMENT 'รหัสบ้าน 11 หลัก',
   `lat` varchar(25) default NULL,
   `lng` varchar(25) default NULL,
-  `addr` varchar(255) default NULL,
-  `road` varchar(255) default NULL,
-  `moo` varchar(255) default NULL,
-  `tmb` varchar(255) default NULL,
-  `amp` varchar(255) default NULL,
-  `prov` varchar(255) default NULL,
-  `note_patient` varchar(255) default NULL,
-  `note_home` varchar(255) default NULL,
-  `note_activity` varchar(255) default NULL,
-  `is_larva` varchar(3) default NULL COMMENT 'พบลูกน้ำ',
-  `img_home` varchar(50) default NULL,
-  `img_activity` varchar(50) default NULL,
+  `occupat` varchar(255) default NULL,
+  `school_workplace` varchar(255) default NULL,
+  `date_ill_diff` varchar(11) default NULL,
+  `travel_to` varchar(255) default NULL,
+  `date_travel` date default NULL,
+  `s1` varchar(255) default NULL,
+  `f1` varchar(255) default NULL,
+  `ci1` varchar(255) default NULL,
+  `s2` varchar(255) default NULL,
+  `f2` varchar(255) default NULL,
+  `ci2` varchar(255) default NULL,
+  `s3` varchar(255) default NULL,
+  `f3` varchar(255) default NULL,
+  `ci3` varchar(255) default NULL,
+  `s4` varchar(255) default NULL,
+  `f4` varchar(255) default NULL,
+  `hi` varchar(255) default NULL,
+  `s5` varchar(255) default NULL,
+  `f5` varchar(255) default NULL,
+  `ci` varchar(255) default NULL,
+  `bi` varchar(255) default NULL,
+  `chk_spray` varchar(255) default NULL,
+  `num_spray_home` varchar(255) default NULL,
+  `chk_destroy` varchar(255) default NULL,
+  `num_destroy_home` varchar(255) default NULL,
+  `chk_meeting` varchar(255) default NULL,
+  `chk_campaign` varchar(255) default NULL,
+  `chk_other` varchar(255) default NULL,
+  `note_other` varchar(255) default NULL,
+  `note_env` varchar(255) default NULL,
+  `note_sum` varchar(255) default NULL,
   `reporter` varchar(255) default NULL,
+  `img_act` varchar(255) default NULL,
   PRIMARY KEY  (`id`)
-) ENGINE=MyISAM AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
+) ENGINE=MyISAM AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of patient_home
 -- ----------------------------
-INSERT INTO `patient_home` VALUES ('1', '1125414021600111', null, '', '', '2014-02-16 16:21:30', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `patient_home` VALUES ('2', '1125414021600111', null, '', '', '2014-02-17 16:40:08', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `patient_home` VALUES ('3', '1125114021777888', null, '', '', '2014-02-18 10:32:34', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `patient_home` VALUES ('4', '1125114021777888', null, '', '', '2014-02-18 10:33:01', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `patient_home` VALUES ('5', '11251140216112233', null, '', '', '2014-02-18 11:03:39', null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null);
-INSERT INTO `patient_home` VALUES ('6', '11256140217234', '11256', 'u11251', '11251', '2014-02-18 21:03:45', '11223444455', '', '', '22/3', '', '01', '650301', '6503', '', 'มามามามามามา', 'ไหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหหไ', 'ไไไไไไไไไไไไไไไไไไไไไไไไไไไ\r\nไกกกกกกกกกกกกกกกก\r\nไก\r\nไกไกไกก', 'y', '11256140217234ไอคอน.jpg', '11256140217234ไอคอน.jpg', 'กไกไกไกไกก');
-INSERT INTO `patient_home` VALUES ('7', '11256140217234', '11256', 'u11251', '11251', '2014-02-18 21:12:54', '', '16.8502857', '100.25551949999999', '', '', '', '650304', '6503', '', '', '', '', 'n', '', '', '');
+INSERT INTO `patient_home` VALUES ('8', '', '2014-02-22 12:51:36', '16.849185077559216', '100.2587150010803', '', '', '', '', '2014-02-10', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '', '1', '', '1', '', '1', '1', '1', '', '', 'aa', 'wwww', '');
 
 -- ----------------------------
 -- Table structure for `patient_hos`
@@ -1781,10 +1791,6 @@ CREATE TABLE `receive` (
 -- ----------------------------
 -- Records of receive
 -- ----------------------------
-INSERT INTO `receive` VALUES ('1125114021777888', '07522', '2014-02-17 11:27:04');
-INSERT INTO `receive` VALUES ('1125414021600111', '07522', '2014-02-17 11:28:00');
-INSERT INTO `receive` VALUES ('11256140217234', '11251', '2014-02-17 20:13:54');
-INSERT INTO `receive` VALUES ('11251140216112233', '07478', '2014-02-18 11:03:09');
 
 -- ----------------------------
 -- Table structure for `tmb`
