@@ -112,14 +112,14 @@ order by pt.datetime_send DESC";
                                     <td><?= $row[ill_at] ?></td>
                                     <td>
                                         <?php
-                                        if ($row[isreceive]=='y') {
+                                        if ($row[isreceive] == 'y') {
                                             echo '<span class="status-metro status-active" title="' . $row[receiver] . '">รับแล้ว</span>';
                                         } else {
                                             echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
                                         }
                                         ?>
                                     </td>                               
-                                    <td><?= $row[fullname]?></td>
+                                    <td><?= $row[fullname] ?></td>
                                     <td><?= $row[agey] ?></td>
                                     <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
@@ -180,6 +180,15 @@ order by pt.datetime_send DESC";
                         });
                     });
                 </script>
+                <div align="center">
+                    visit <?php
+                    $data = file("count_guess");
+                    echo intval($data[0]) + 1;
+                    $f = fopen("count_guess", "w");
+                    fputs($f, intval($data[0]) + 1);
+                    fclose($f);
+                    ?> times
+                </div>
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f"  class="ui-bar">
