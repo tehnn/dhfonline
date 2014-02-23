@@ -124,7 +124,7 @@ where pt.pid ='$_GET[pid]'";
 
                 </ul>
                 <?php
-                if (empty($row[receiver]) and $_GET[hos_own] <> "y" and $login_level <> 'amp') {
+                if (empty($row[receiver]) and $_GET[hos_own] <> "y" and $login_level <> 'amp' and $login_level <> 'pro') {
                     ?>
                     <div align="center">
                         <a href="qry_receive_case.php?pid=<?= $row[pid] ?>&pcu_receive=<?= $login_pcucode ?>" rel="external" data-role="button"  data-icon="check" data-inline="true">รับ case</a>

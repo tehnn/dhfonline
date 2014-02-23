@@ -28,7 +28,7 @@ $login_count = $_SESSION['login_count'];
             </div>
             <div data-role="content" data-theme="f">
                 <div> 
-                    ยืนยันการส่งผู้ป่วยกลับให้ สสจ.
+                    <h3>ยืนยันการส่งผู้ป่วยกลับให้ สสจ.(กรณีสอบสวนโรคแล้วพบว่าผู้ป่วยไม่ได้ป่วยในพื้นที่/ไม่มีผู้ป่วยรายนี้ในพื้นที่)</h3>
                 </div>
                 <div class="ui-body ui-body-f" align="center">
                     <a href="qry_send_back.php?pid=<?=$_GET[pid]?>" data-role="button" rel="external" data-icon="check">ตกลง</a>

@@ -12,8 +12,8 @@ $login_tmb_code = $_SESSION['login_tmb_code'];
 $login_level = $_SESSION['login_level'];
 $login_count = $_SESSION['login_count'];
 
-if ($login_level <> 'hos') {
-    // exit("You don't have permission.Level cause.");
+if ($login_level <> 'pro') {
+    exit("You don't have permission.Level cause.");
 }
 require 'condb.php';
 ?>
@@ -38,73 +38,44 @@ require 'condb.php';
     </head> 
     <body> 
         <?php
-        $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,
-            uu.off_name as hos_sender,pt.*,
-            concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
-            TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
-u.pcucode,u.off_name,u.amp from patient_hos pt
-LEFT JOIN user u on pt.send_to_amp = u.amp
-LEFT JOIN user uu on pt.office_own = uu.pcucode
-LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
-as rp on pt.pid = rp.pid
-LEFT JOIN patient_home ph on pt.pid = ph.pid
-LEFT JOIN moo moo on moo.`code` = pt.moo
-LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
-LEFT JOIN amp amp on amp.`code` = pt.amp
-where pt.send_to_amp=u.amp and u.pcucode='$login_pcucode'
-GROUP BY pt.pid
-order by pt.datetime_send DESC";
-
-        if ($login_level == 'pro') {
-            $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,
-            uu.off_name as hos_sender,pt.*,
-            concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
-            TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
-u.pcucode,u.off_name,u.amp from patient_hos pt
-LEFT JOIN user u on pt.send_to_amp = u.amp
-LEFT JOIN user uu on pt.office_own = uu.pcucode
-LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
-as rp on pt.pid = rp.pid
-LEFT JOIN patient_home ph on pt.pid = ph.pid
-LEFT JOIN moo moo on moo.`code` = pt.moo
-LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
-LEFT JOIN amp amp on amp.`code` = pt.amp
-
-GROUP BY pt.pid
-order by pt.datetime_send DESC";
-        }
-        $result_all = mysql_query($sql);
-        $num_all_case = mysql_num_rows($result_all);
-
-        $sql = "select pid from patient_hos pt
-LEFT JOIN user u on pt.send_to_amp = u.amp
-where pt.send_to_amp = u.amp and u.pcucode = '$login_pcucode'
-and date(pt.datetime_send) = CURDATE()";
-
-
-        if ($login_level == 'pro') {
-             $sql = "select pid from patient_hos pt
-LEFT JOIN user u on pt.send_to_amp = u.amp
-
-and date(pt.datetime_send) = CURDATE()";
-        }
+        require 'condb.php';
+        $sql = "select * from patient_hos where date(datetime_send)=CURDATE() and send_to_amp=6500";
         $result_today = mysql_query($sql);
         $num_today_case = mysql_num_rows($result_today);
+
+        $sql = "select amp_ill.`name` as ill_at,if(rp.off_name is null or rp.off_name='','n','y') as isreceive,
+rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,
+TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+pt.date_found,u_off.off_name as send_from,pt.datetime_send,uu.off_name as sendback_by
+from patient_hos pt 
+LEFT JOIN user u_off on pt.office_own = u_off.pcucode
+LEFT JOIN user uu on uu.pcucode = pt.send_back_by
+LEFT JOIN amp amp_ill on pt.send_to_amp = amp_ill.`code`
+LEFT JOIN (select r.pid,r.pcu_receive,u.pcucode,u.off_name from receive r LEFT JOIN user u on u.pcucode=r.pcu_receive ) rp on rp.pid = pt.pid
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+where pt.send_to_amp=6500
+order by pt.datetime_send DESC";
+        $result_all = mysql_query($sql);
+        $num_all_case = mysql_num_rows($result_all);
         ?>
 
         <div data-role="page">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-icon="gear">Setting</a>
+                <a href="main_screen.php" rel="external" data-icon="home">Back</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="login.php" rel='external' data-icon="arrow-r">Sign out</a>
 
             </div><!-- /header -->
             <div data-role="content" data-theme="f">
-                <?php require 'office_title.php'; ?>
+
+
 
                 <div class="ui-body ui-body-f" align="center">
                     <div class="title-text">
-                        ผู้ป่วยรายใหม่ในพื้นที่วันนี้  <?= $num_today_case ?> ราย สะสมทั้งหมด <?= $num_all_case ?> ราย 
+                        รายชื่อผู้ป่วยส่งกลับ
                     </div>  
                 </div>
 
@@ -123,21 +94,17 @@ and date(pt.datetime_send) = CURDATE()";
                         </div>
                     </fieldset>
 
-                    <table class="table demo" 
+                    <table class="table demo metro-green" 
                            data-filter="#filter" 
                            data-filter-text-only="true" 
                            data-page-size="6">
                         <thead>
                             <tr>
+                                <th>รพ.ส่งให้</th>
                                 <th >
-                                    สถานะ
+                                    ส่งกลับโดย
                                 </th>
-                                <th data-hide="phone,tablet">
-                                    ผู้รับ
-                                </th>
-                                <th data-hide="phone,tablet">
-                                    สอบสวน
-                                </th>
+
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล
                                 </th>
@@ -159,41 +126,27 @@ and date(pt.datetime_send) = CURDATE()";
                             </tr>
                         </thead>
                         <tbody>
-
                             <?php
                             while ($row = mysql_fetch_array($result_all)) {
                                 ?>
                                 <tr>
-                                    <td>
-                                        <?php
-                                        if (!empty($row[pcu_receive])) {
-                                            echo '<span class="status-metro status-active">รับแล้ว</span>';
-                                        } else {
-                                            echo '<span class="status-metro status-suspended">ยังไม่รับ</span>';
-                                        }
-                                        ?>
-                                    </td>
-                                    <td><?= $row[off_name_receive] ?></td>
-                                    <td><?= $row[sob] ?></td>
-                                    <td>
-                                        <a href="pt_info.php?pid=<?= $row[pid] ?>" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
-                                    </td>
+                                    <td><?= $row[ill_at] ?></td>
+                                    <td><?=$row[sendback_by]?></td>                               
+                                    <td><a href="#"><?= $row[fullname] ?><a></td>
                                     <td><?= $row[agey] ?></td>
                                     <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
-                                    <td><?= $row[hos_sender] ?></td>
+                                    <td><?= $row[send_from] ?></td>
                                     <td><?= $row[datetime_send] ?></td>
                                 </tr>
 
                                 <?php
                             }
                             ?>
-
-
                         </tbody>
                         <tfoot>
                             <tr>
-                                <td colspan="9">
+                                <td colspan="8">
                                     <div class="pagination"></div>
                                 </td>
                             </tr>
@@ -223,20 +176,36 @@ and date(pt.datetime_send) = CURDATE()";
                             $('table.demo').trigger('footable_filter', {filter: $('#filter').val()});
                         });
 
+                        $('.filter-api').click(function(e) {
+                            e.preventDefault();
 
+                            //get the footable filter object
+                            var footableFilter = $('table').data('footable-filter');
+
+                            alert('about to filter table by "tech"');
+                            //filter by 'tech'
+                            footableFilter.filter('tech');
+
+                            //clear the filter
+                            if (confirm('clear filter now?')) {
+                                footableFilter.clearFilter();
+                            }
+                        });
                     });
                 </script>
+                
 
             </div> <!-- end content -->
             <div data-role="footer" data-position="fixed" data-theme="f"  class="ui-bar">
+
                 <?php
                 require 'menu_foot.php';
                 require 'txt_foot.php';
                 ?>
+
             </div>
         </div>  <!-- end page -->
 
 
     </body>
 </html>
-
