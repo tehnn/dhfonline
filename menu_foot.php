@@ -11,7 +11,7 @@
     echo "<a href='time_rpt.php' rel='external' data-icon='arrow-r'>ความทันเวลา</a>";
     echo "<a href='map_spot.php' rel='external' data-icon='star'>แผนที่</a>";
     echo "<a href='chart_prov.php' rel='external' data-icon='info'>แผนภูมิ</a>";
-    if ($login_level == 'pro') {
+    if ($login_level == 'ppro') {
         echo "<a href='#' rel='external' data-icon='edit'>จัดการผู้ใช้งาน</a>";
     }
     ?>

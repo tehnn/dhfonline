@@ -39,8 +39,8 @@ require 'condb.php';
     <body>         
         <?php
         $sql = "select  if(rcp.receiver is NULL,'n','y') as isreceive,rcp.receiver,pt.pid,
-CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey,
-concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,pt.agey,
+concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
 pt.date_found,toamp.`name` as sendto,pt.datetime_send
 from patient_hos pt
 LEFT JOIN (select rc.pid as ppid,rc.datetime_receive,rc.pcu_receive,u.off_name as receiver from receive rc 

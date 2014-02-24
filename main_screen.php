@@ -40,8 +40,8 @@ require 'condb.php';
         <?php
         $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,
             uu.off_name as hos_sender,pt.*,
-            concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
-            TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+         concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+             pt.agey,
 u.pcucode,u.off_name,u.amp from patient_hos pt
 LEFT JOIN user u on pt.send_to_amp = u.amp
 LEFT JOIN user uu on pt.office_own = uu.pcucode

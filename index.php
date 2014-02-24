@@ -25,9 +25,8 @@
         $num_today_case = mysql_num_rows($result_today);
 
         $sql = "select amp_ill.`name` as ill_at,if(rp.off_name is null or rp.off_name='','n','y') as isreceive,
-rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' xxx') as fullname,
-TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
-concat('xxx ',' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' xxx') as fullname,pt.agey,
+concat('xxx','  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
 pt.date_found,u_off.off_name as send_from,pt.datetime_send
 from patient_hos pt
 LEFT JOIN user u_off on pt.office_own = u_off.pcucode

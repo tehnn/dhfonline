@@ -237,7 +237,7 @@ require 'condb.php';
         <?php
         $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
-,pt.sex,pt.bdate,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey
+,pt.sex,pt.bdate,pt.agey
 ,pt.occupat,pt.school_workplace ,
 CONCAT(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' ',moo.`name`,'  ต.',tmb.`name`,'  อ.',amp.`name`) as address
 ,pt.date_ill,pt.date_found,pt.datetime_send

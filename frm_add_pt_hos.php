@@ -61,8 +61,8 @@ require 'condb.php';
                     showOn: "button",
                     dateFormat: "yy-mm-dd"
                 });
-               
-                
+
+
                 $("#date_refer").datepicker({
                     dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
                     monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
@@ -70,7 +70,7 @@ require 'condb.php';
                     changeYear: true,
                     showOn: "button",
                     dateFormat: "yy-mm-dd"
-            });
+                });
             });
         </script>
 
@@ -115,14 +115,23 @@ require 'condb.php';
                     validate_msg += "นามสกุล ว่าง\r\n";
                     validate_pass = false;
                 }
-                if (bdate == '' || bdate == null) {
-                    validate_msg += "วดป.เกิด ว่าง\r\n";
+                var agey = $("#agey").val();
+                if (agey == '' || agey == null) {
+                    validate_msg += "อายุ ว่าง\r\n";
                     validate_pass = false;
                 }
+
                 if (code506 == '' || code506 == null) {
                     validate_msg += "รหัสโรค ว่าง\r\n";
                     validate_pass = false;
                 }
+
+                var date_dx = $("#date_dx").val();
+                if (date_dx == '' || date_dx == null) {
+                    validate_msg += "วันที่ Dx ว่าง\r\n";
+                    validate_pass = false;
+                }
+
                 if (date_ill == '' || date_ill == null) {
                     validate_msg += "วันเริ่มป่วย ว่าง\r\n";
                     validate_pass = false;
@@ -206,9 +215,9 @@ require 'condb.php';
                 <table width="75%" border="1" cellspacing="0" cellpadding="0">
                     <tr bgcolor="#33CCFF">
                         <td bgcolor="#66FFFF">
-                        <input type="button" value="ย้อนกลับ" onClick="window.location = 'hos_list_own_pt.php'">
+                            <input type="button" value="ย้อนกลับ" onClick="window.location = 'hos_list_own_pt.php'">
                             แบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report
-                            </td>
+                        </td>
                     </tr>
                     <tr>
                         <td bgcolor="#66FFFF">
@@ -236,7 +245,7 @@ require 'condb.php';
                                             <option value="">เลือก...</option>
                                             <option value="ชาย">ชาย</option>
                                             <option value="หญิง">หญิง</option>
-                                  </select></td>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">ชื่อ:</td>
@@ -249,7 +258,10 @@ require 'condb.php';
                                     <td align="right" bgcolor="#66FFFF">เลข13หลัก:</td>
                                     <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid"> 
                                         วดป.เกิด:
-                                        <input type="text" name="bdate" id="bdate"></td>
+                                        <input type="text" name="bdate" id="bdate">
+                                        อายุ..
+                                        <input name="agey" type="text" id="agey" size="5" maxlength="3">
+                                        ปี</td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
@@ -283,7 +295,7 @@ require 'condb.php';
                                             <option value="" selected>เลือก...</option>
                                             <option value="OPD">OPD</option>
                                             <option value="IPD">IPD</option>
-                                  </select></td>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#00FFFF">แพทย์: </td>
@@ -303,7 +315,7 @@ require 'condb.php';
                                             <option value="ตาย">ตาย</option>
                                             <option value="ยังรักษาอยู่" selected>ยังรักษาอยู่</option>
                                             <option value="ไม่ทราบ">ไม่ทราบ</option>
-                                  </select></td>
+                                        </select></td>
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">อาการแสดงสำคัญ:</td>
@@ -339,6 +351,7 @@ require 'condb.php';
                                         <select name="moo" id="moo">
                                             <option value="">เลือก...</option>
                                         </select> 
+                                        <input type="text" name="road" id="road" placeholder="ถนน/ซอย">
                                         เลขที่:
                                         <input type="text" name="addr" id="addr" style="width:50px"></td>
                                 </tr>

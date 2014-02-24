@@ -62,9 +62,9 @@ require 'condb.php';
         <?php
         $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
-,pt.sex,pt.bdate,TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) as agey
+,pt.sex,pt.bdate,pt.agey
 ,pt.occupat,pt.school_workplace ,
-CONCAT(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' ',moo.`name`,'  ต.',tmb.`name`,'  อ.',amp.`name`) as address
+concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address
 ,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.datetime_send
 ,rp.datetime_receive,rp.pcu_receive as receiver,rp.off_name as receiver1
 ,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct,pt.lab_tt,pt.symtom

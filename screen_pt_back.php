@@ -45,7 +45,7 @@ require 'condb.php';
 
         $sql = "select amp_ill.`name` as ill_at,if(rp.off_name is null or rp.off_name='','n','y') as isreceive,
 rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,
-TIMESTAMPDIFF(YEAR,pt.bdate,pt.date_found) AS agey,
+  pt.agey,
 concat(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
 pt.date_found,u_off.off_name as send_from,pt.datetime_send,uu.off_name as sendback_by
 from patient_hos pt 
