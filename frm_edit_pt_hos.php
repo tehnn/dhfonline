@@ -15,7 +15,21 @@ $login_count = $_SESSION['login_count'];
 if ($login_level <> 'hos') {
     //exit("You don't have permission.Level cause.For hospital only");
 }
+if (!empty($_GET[pid])) {
+    $pid = $_GET[pid];
+} else {
+    exit("Can not find PID.");
+}
+
 require 'condb.php';
+
+$sql = "select * from patient_hos where pid='$pid'";
+$res = mysql_query($sql);
+$row = mysql_fetch_array($res);
+if ($login_pcucode <> $row[office_own]) {
+    echo "login = $login_pcucode , patient own=$row[office_own]<br>";
+    exit("This patient not this hospital owner.");
+}
 ?>
 <!DOCTYPE html> 
 <html>
@@ -23,17 +37,18 @@ require 'condb.php';
         <meta charset="UTF-8"/>
 
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
-        <script src="//code.jquery.com/jquery-1.9.1.js"></script>        
+        <script src="//code.jquery.com/jquery-1.9.1.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="jquery.timepicker.js"></script>
-        <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" /> 
-        <script>
-            $(function() {
-                $('#time_dx').timepicker({'timeFormat': 'H:i:s'});
-            });
-        </script>
-
-
+        
+          <script type="text/javascript" src="jquery.timepicker.js"></script>
+  <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" />
+  
+  <script>
+      $(function(){
+          $('#time_dx').timepicker({ 'timeFormat': 'H:i:s' });
+      });
+  </script>
+        
         <script>
             $(function() {
                 $("#date_dx").datepicker({
@@ -85,7 +100,7 @@ require 'condb.php';
 
         <script>
             $(function() {
-                $('#frm_hos').find('input,select').keydown(function(event) {
+                $('#frm_edit_hos').find('input,select').keydown(function(event) {
                     if (event.keyCode == 13) {
                         event.preventDefault();
                     }
@@ -116,6 +131,18 @@ require 'condb.php';
                     validate_pass = false;
                     validate_msg += "hn ว่าง\r\n";
                 }
+                var prename=$("#prename").val();
+                if (prename == '' || prename == null) {
+                    validate_pass = false;
+                    validate_msg += "คำนำหน้า ว่าง\r\n";
+                }
+                   var sex=$("#sex").val();
+                if (sex == '' || sex == null) {
+                    validate_pass = false;
+                    validate_msg += "เพศ ว่าง\r\n";
+                }
+                
+                
                 if (name == '' || name == null) {
                     validate_msg += "ชื่อ ว่าง\r\n";
                     validate_pass = false;
@@ -138,12 +165,6 @@ require 'condb.php';
                 var date_dx = $("#date_dx").val();
                 if (date_dx == '' || date_dx == null) {
                     validate_msg += "วันที่ Dx ว่าง\r\n";
-                    validate_pass = false;
-                }
-
-                var time_dx = $("#time_dx").val();
-                if (time_dx == '' || time_dx == null) {
-                    validate_msg += "เวลา Dx ว่าง\r\n";
                     validate_pass = false;
                 }
 
@@ -190,6 +211,7 @@ require 'condb.php';
                 return validate_pass;
             }
         </script>
+        
         <script>
             $(function() {
                 $("select#amp").change(function() {
@@ -216,22 +238,24 @@ require 'condb.php';
         </script>
         <title>#PLK DHF Online</title>
     </head>
-    <body>
+    <body>        
+
         <div align="center">
-            <form action="qry_add_pt_hos.php" 
-                  id="frm_hos" name="frm_hos"
+            <form action="qry_edit_pt_hos.php" 
+                  id="frm_edit_hos" name="frm_edit_hos"
                   method="post"
                   enctype="multipart/form-data"
                   onsubmit="return validate()">
 
                 <input type="hidden" name="office_own" value="<?= $login_pcucode ?>">
                 <input type="hidden" name="user_own" value="<?= $login_user ?>">
+                <input type="hidden" name="pid" value="<?=$pid?>">
 
                 <table width="75%" border="1" cellspacing="0" cellpadding="0">
                     <tr bgcolor="#33CCFF">
                         <td bgcolor="#66FFFF">
-                            <input type="button" value="ย้อนกลับ" onClick="window.location = 'hos_list_own_pt.php'">
-                            แบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report
+                            <input type="button" value="ย้อนกลับ" onClick="window.location = 'pt_info.php?pid=<?=$pid?>'">
+                            แก้ไขแบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report
                         </td>
                     </tr>
                     <tr>
@@ -244,7 +268,7 @@ require 'condb.php';
                                 <tr>
                                     <td width="16%" align="right" bgcolor="#66FFFF"> HN:</td>
                                     <td width="84%" bgcolor="#66FFFF"> 
-                                        <input type="text" name="hn" id="hn">
+                                        <input type="text" name="hn" id="hn" value="<?=$row[hn]?>">
                                         คำนำหน้า:
                                         <select name="prename" id="prename">
                                             <option value="">เลือก...</option>
@@ -264,31 +288,31 @@ require 'condb.php';
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">ชื่อ:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="name" id="name">
+                                    <td bgcolor="#66FFFF"><input type="text" name="name" id="name" value="<?=$row[name]?>">
                                         นามสกุล:
-                                        <input type="text" name="lname" id="lname">
+                                        <input type="text" name="lname" id="lname" value="<?=$row[lname]?>">
                                     </td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">เลข13หลัก:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid"> 
+                                    <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid" value="<?=$row[cid]?>"> 
                                         วดป.เกิด:
-                                        <input type="text" name="bdate" id="bdate">
+                                        <input type="text" name="bdate" id="bdate" value="<?=$row[bdate]?>">
                                         อายุ..
-                                        <input name="agey" type="text" id="agey" size="5" maxlength="3">
+                                        <input name="agey" type="text" id="agey" size="5" maxlength="3" value="<?=$row[agey]?>">
                                         ปี</td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
+                                    <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel" value="<?=$row[pt_tel]?>">
                                         ชื่อญาติ:
-                                        <input type="text" name="family" id="family"></td>
+                                        <input type="text" name="family" id="family" value="<?=$row[family]?>"></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">อาชีพ:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat"> 
+                                    <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat" value="<?=$row[occupat]?>"> 
                                         สถานที่ทำงาน/โรงเรียน :
-                                        <input type="text" name="school_workplace" id="school_workplace"></td>
+                                        <input type="text" name="school_workplace" id="school_workplace" value="<?=$row[school_workplace]?>"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="left" bgcolor="#3399FF">2.ข้อมูลการป่วย</td>
@@ -304,7 +328,7 @@ require 'condb.php';
 
                                         </select>
                                         รหัส ICD-10-TM: 
-                                        <input type="text" name="icd10" id="icd10">
+                                        <input type="text" name="icd10" id="icd10" value="<?=$row[icd10]?>">
                                         ประเภท:
                                         <select name="pt_type" id="pt_type">
                                             <option value="" selected>เลือก...</option>
@@ -314,17 +338,16 @@ require 'condb.php';
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#00FFFF">แพทย์: </td>
-                                    <td bgcolor="#00FFFF"><input type="text" name="doctor" id="doctor"> 
+                                    <td bgcolor="#00FFFF"><input type="text" name="doctor" id="doctor" value="<?=$row[doctor]?>"> 
                                         วันที่ Dx: 
-                                        <input type="text" name="date_dx" id="date_dx">
-                                        <input type="text" name="time_dx" id="time_dx" placeholder="เวลา Dx">
-                                    </td>
+                                        <input type="text" name="date_dx" id="date_dx" value="<?=$row[date_dx]?>">
+                                        <input type="text" name="time_dx" id="time_dx" placeholder="เวลา Dx" value="<?=$row[time_dx]?>"></td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#00FFFF">วันเริ่มป่วย:</td>
-                                    <td bgcolor="#00FFFF"><input type="text" name="date_ill" id="date_ill"> 
+                                    <td bgcolor="#00FFFF"><input type="text" name="date_ill" id="date_ill" value="<?=$row[date_ill]?>"> 
                                         วันพบผู้ป่วย:
-                                        <input type="text" name="date_found" id="date_found">
+                                        <input type="text" name="date_found" id="date_found" value="<?=$row[date_found]?>">
                                         สภาพผู้ป่วย:
                                         <select name="pt_status" id="pt_status">
                                             <option value="">เลือก...</option>
@@ -336,13 +359,13 @@ require 'condb.php';
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">อาการแสดงสำคัญ:</td>
-                                    <td bgcolor="#00FFFF"><input type="text" name="symtom" id="symtom" style="width:400px"></td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="symtom" id="symtom" style="width:400px" value="<?=$row[symtom]?>"></td>
                                 </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#00FFFF">Refer จาก:</td>
-                                    <td bgcolor="#00FFFF"><input type="text" name="refer_from" id="refer_from">
+                                    <td bgcolor="#00FFFF"><input type="text" name="refer_from" id="refer_from" value="<?=$row[refer_from]?>">
                                         วันที่ Refer :
-                                        <input type="text" name="date_refer" id="date_refer"></td>
+                                        <input type="text" name="date_refer" id="date_refer" value="<?=$row[date_refer]?>"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="left" bgcolor="#3399FF">3.ที่อยู่ขณะป่วย</td>
@@ -353,12 +376,12 @@ require 'condb.php';
                                     <td bgcolor="#00FFFF">
                                         <select name="amp" id="amp">
                                             <option value="">เลือก...</option>
-                                            <?php
-                                            $res_amp = mysql_query("select code,name from amp");
-                                            while ($row_amp = mysql_fetch_array($res_amp)) {
-                                                echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
-                                            }
-                                            ?>
+<?php
+$res_amp = mysql_query("select code,name from amp");
+while ($row_amp = mysql_fetch_array($res_amp)) {
+    echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
+}
+?>
                                         </select> 
                                         ตำบล:
                                         <select name="tmb" id="tmb">
@@ -368,9 +391,9 @@ require 'condb.php';
                                         <select name="moo" id="moo">
                                             <option value="">เลือก...</option>
                                         </select> 
-                                        <input type="text" name="road" id="road" placeholder="ถนน/ซอย">
+                                        <input type="text" name="road" id="road" placeholder="ถนน/ซอย" value="<?=$row[road]?>">
                                         เลขที่:
-                                        <input type="text" name="addr" id="addr" style="width:50px"></td>
+                                        <input type="text" name="addr" id="addr" style="width:50px" value="<?=$row[addr]?>"></td>
                                 </tr>
 
                                 <tr>
@@ -381,18 +404,19 @@ require 'condb.php';
                                             </tr>
                                             <tr>
                                                 <td width="16%" align="right">Wbc.</td>
-                                                <td width="34%"><input type="text" name="lab_wbc" id="lab_wbc">
+                                                <td width="34%"><input type="text" name="lab_wbc" id="lab_wbc" value="<?=$row[lab_wbc]?>">
                                                     cell/mm3</td>
-                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)"></textarea></td>
+                                                <td rowspan="4" align="left" valign="top">
+                                                    <textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)"><?=$row[note_text]?></textarea></td>
                                             </tr>
                                             <tr>
                                                 <td align="right">Platelet.</td>
-                                                <td><input type="text" name="lab_plt" id="lab_plt">
+                                                <td><input type="text" name="lab_plt" id="lab_plt" value="<?=$row[lab_plt]?>">
                                                     cell/mm3</td>
                                             </tr>
                                             <tr>
                                                 <td align="right">Hct.</td>
-                                                <td><input type="text" name="lab_hct" id="lab_hct">
+                                                <td><input type="text" name="lab_hct" id="lab_hct" value="<?=$row[lab_hct]?>">
                                                     %</td>
                                             </tr>
                                             <tr>
@@ -417,14 +441,14 @@ require 'condb.php';
                                     <td bgcolor="#FFCC99">
                                         <select name="send_to_amp" id="send_to_amp">
                                             <option value="" selected>เลือกอำเภอ...</option>
-                                            <?php
-                                            $res_amp = mysql_query("select code,name from amp");
-                                            while ($row_amp = mysql_fetch_array($res_amp)) {
-                                                echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
-                                            }
-                                            ?>
+<?php
+$res_amp = mysql_query("select code,name from amp");
+while ($row_amp = mysql_fetch_array($res_amp)) {
+    echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
+}
+?>
                                         </select>
-                                        ชื่อผู้รายงาน:
+                                        ชื่อผู้แก้ไขรายงาน:
                                         <input type="text" name="sender" id="sender" style="width:180px" placeholder="ชื่อ-สกุล ตำแหน่ง">
                                         <input type="submit" id="button" value="บันทึกข้อมูล">
                                         <input type="reset" value="  ยกเลิก  "></td>

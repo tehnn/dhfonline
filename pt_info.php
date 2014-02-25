@@ -60,12 +60,12 @@ require 'condb.php';
     <body> 
 
         <?php
-        $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
+        $sql = "select pt.pid,pt.office_own,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
 ,pt.sex,pt.bdate,pt.agey
 ,pt.occupat,pt.school_workplace ,
 concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address
-,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.datetime_send
+,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.date_dx,pt.time_dx,pt.datetime_send
 ,rp.datetime_receive,rp.pcu_receive as receiver,rp.off_name as receiver1
 ,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct,pt.lab_tt,pt.symtom
 ,pt.refer_from,pt.note_text
@@ -93,13 +93,21 @@ where pt.pid ='$_GET[pid]'";
                     <li data-role="fieldcontain">
                         <img src="img_pt/nopic.png">
                         <p>pid:<?= $row[pid] ?></p>
-                        <h2><?= $row[fullname] ?></h2>
-                        <p><?= $row[sex] == 1 ? 'ชาย' : 'หญิง' ?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?= $row[occupat] ?></p>
+                        <h2><?= $row[fullname] ?> 
+                            <?php
+                            if ($login_pcucode == $row[office_own]) {
+                                echo "<a href = 'frm_edit_pt_hos.php?pid=$row[pid]' rel = 'external'>[แก้ไข]</a>";
+                            }
+                            ?>
+                        </h2> 
+                        <p><?= $row[sex]?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?= $row[occupat] ?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
                         <p>อาชีพ:<?= $row[occupat] . " ที่ " . $row[school_workplace] . " " . $row[tel] ?></a></p>
                         <p>ที่อยู่ขณะป่วย:<?= $row[address] ?></p>    
-                        <p>ส่งจาก:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,แจ้ง<?= $row[datetime_send] ?></p>
+                        <p>ส่งจาก:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,Dx:<?=$row[date_dx]?>,<?=$row[time_dx]?>,แจ้ง<?= $row[datetime_send] ?></p>
                         <p>รับ:<?= $row[receiver] . "-" . $row[receiver1] ?>,เมื่อ<?= $row[datetime_receive] ?></p>
+                        <hr>
+                        <p><?=$row[symtom]?>,refer จาก:<?=$row[refer_from]?>,วัน refer:<?=$row[date_refer]?></p>
                         <hr>
                         <p>รหัสโรค:<?= $row[code506] ?>,icd10:<?= $row[icd10] ?>
                             Lab-wbc:<?= $row[lab_wbc] ?>,
@@ -108,6 +116,7 @@ where pt.pid ='$_GET[pid]'";
                             Lab-tt:<?= $row[lab_tt] ?>
 
                         </p>
+                        <p><?=$row[note_text]?></p>
                         <hr>                        
                         <h4>
                             วันสอบสวน : 
