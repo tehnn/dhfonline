@@ -354,7 +354,7 @@ require 'condb.php';
                                         <select name="amp" id="amp">
                                             <option value="">เลือก...</option>
                                             <?php
-                                            $res_amp = mysql_query("select code,name from amp");
+                                            $res_amp = mysql_query("select code,name from amp where code<>'6500'");
                                             while ($row_amp = mysql_fetch_array($res_amp)) {
                                                 echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
                                             }

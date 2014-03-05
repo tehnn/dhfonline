@@ -8,7 +8,7 @@ $res = mysql_query("SELECT code,name FROM moo WHERE tmb = '$tmb'");
 while ($row = mysql_fetch_array($res)) {
   $result[] = array(
     'code' => $row['code'],
-    'name' => $row['name'],
+    'name' => substr($row['code'],6,2).'-'.$row['name'],
   );
 }
 echo json_encode($result);

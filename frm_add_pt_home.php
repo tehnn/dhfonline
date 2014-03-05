@@ -283,7 +283,7 @@ where pt.pid ='$_GET[pid]'";
                                         ลองจิจูด..
                                         <input type="text" name="lng" id="lng">
                                         <input type="button" value="พิกัด" onClick=" getGeo();">
-                                        <input type="button" value="แผนที่" onClick="javascript:map_popup('map_pop.php', 'map', 500, 450)" "></td>
+                                        <input type="button" value="แผนที่" onClick="javascript:map_popup('map_pop.php', 'map', 500, 450)" ></td>
                                 </tr>
                                 <tr>
                                     <td><strong>ผลการสอบสวนโรคและกิจกรรมควบคุมโรค</strong></td>

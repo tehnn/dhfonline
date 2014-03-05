@@ -51,7 +51,8 @@ LEFT JOIN patient_home ph on pt.pid = ph.pid
 LEFT JOIN moo moo on moo.`code` = pt.moo
 LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
 LEFT JOIN amp amp on amp.`code` = pt.amp
-where pt.send_to_amp=u.amp and u.pcucode='$login_pcucode'
+#where pt.send_to_amp=u.amp and u.pcucode='$login_pcucode'
+where  u.pcucode='$login_pcucode' and pt.moo in (select pcu_moo.moo from pcu_moo where pcu_moo.pcucode='$login_pcucode')
 GROUP BY pt.pid
 order by pt.datetime_send DESC";
 
@@ -73,6 +74,27 @@ LEFT JOIN amp amp on amp.`code` = pt.amp
 GROUP BY pt.pid
 order by pt.datetime_send DESC";
         }
+        if($login_level == 'amp'){
+            
+             $sql = "select rp.pcu_receive,rp.off_name as off_name_receive,count(ph.pid) as sob,
+            uu.off_name as hos_sender,pt.*,
+         concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
+             pt.agey,
+u.pcucode,u.off_name,u.amp from patient_hos pt
+LEFT JOIN user u on pt.send_to_amp = u.amp
+LEFT JOIN user uu on pt.office_own = uu.pcucode
+LEFT JOIN (select r.pcu_receive,uuu.off_name,r.pid from receive r LEFT JOIN user uuu on r.pcu_receive=uuu.pcucode)
+as rp on pt.pid = rp.pid
+LEFT JOIN patient_home ph on pt.pid = ph.pid
+LEFT JOIN moo moo on moo.`code` = pt.moo
+LEFT JOIN tmb tmb on tmb.`code` = pt.tmb
+LEFT JOIN amp amp on amp.`code` = pt.amp
+where pt.send_to_amp=u.amp and u.pcucode='$login_pcucode'
+GROUP BY pt.pid
+order by pt.datetime_send DESC";
+            
+        }
+        
         $result_all = mysql_query($sql);
         $num_all_case = mysql_num_rows($result_all);
 
@@ -94,7 +116,7 @@ and date(pt.datetime_send) = CURDATE()";
 
         <div data-role="page">
             <div data-role="header" data-position="fixed" data-theme="f">
-                <a href="#" data-icon="gear">Setting</a>
+                <a href="frm_setting.php" rel="external" data-icon="gear">Setting</a>
                 <?php require 'txt_head.php'; ?>
                 <a href="login.php" rel='external' data-icon="arrow-r">Sign out</a>
 
