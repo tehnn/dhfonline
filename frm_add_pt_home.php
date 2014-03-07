@@ -85,14 +85,11 @@ require 'condb.php';
                 $("#f1").keyup(function() {
                     var ci = $("#f1").val() * 100 / $("#s1").val();
                     ci = ci.toFixed(2);
-                    if (ci <= 10) {
-                        $("#ci1").css("background-color", "#1BDA3A");
+                    if (ci = 0) {
+                        $("#ci1").css("background-color", "##0FDB13");
                     }
-                    if (ci > 10 && ci <= 100) {
-                        $("#ci1").css("background-color", "#E04812");
-                    }
-                    if (ci > 100) {
-                        $("#ci1").css("background-color", "#726A68");
+                    if (ci > 0) {
+                        $("#ci1").css("background-color", "##E5560F");
                     }
                     if (isNaN(ci)) {
                         $("#ci1").css("background-color", "#050505");
@@ -106,15 +103,13 @@ require 'condb.php';
                 $("#f2").keyup(function() {
                     var ci = $("#f2").val() * 100 / $("#s2").val();
                     ci = ci.toFixed(2);
-                    if (ci <= 10) {
-                        $("#ci2").css("background-color", "#1BDA3A");
+                     if (ci = 0) {
+                        $("#ci2").css("background-color", "##0FDB13");
                     }
-                    if (ci > 10 && ci <= 100) {
-                        $("#ci2").css("background-color", "#E04812");
+                    if (ci > 0) {
+                        $("#ci2").css("background-color", "##E5560F");
                     }
-                    if (ci > 100) {
-                        $("#ci2").css("background-color", "#726A68");
-                    }
+                    
                     if (isNaN(ci)) {
                         $("#ci2").css("background-color", "#050505");
                     }
@@ -127,15 +122,13 @@ require 'condb.php';
                 $("#f3").keyup(function() {
                     var ci = $("#f3").val() * 100 / $("#s3").val();
                     ci = ci.toFixed(2);
-                    if (ci <= 10) {
-                        $("#ci3").css("background-color", "#1BDA3A");
+                     if (ci = 0) {
+                        $("#ci3").css("background-color", "##0FDB13");
                     }
-                    if (ci > 10 && ci <= 100) {
-                        $("#ci3").css("background-color", "#E04812");
+                    if (ci > 0) {
+                        $("#ci3").css("background-color", "##E5560F");
                     }
-                    if (ci > 100) {
-                        $("#ci3").css("background-color", "#726A68");
-                    }
+                    
                     if (isNaN(ci)) {
                         $("#ci3").css("background-color", "#050505");
                     }
@@ -148,13 +141,13 @@ require 'condb.php';
 
                     var hi = $("#f4").val() * 100 / $("#s4").val();
                     hi = hi.toFixed(2);
-                    if (hi <= 10) {
+                    if (hi <= 0) {
                         $("#hi").css("background-color", "#1BDA3A");
                     }
-                    if (hi > 10 && hi <= 100) {
+                    if (hi > 0 && hi <= 10) {
                         $("#hi").css("background-color", "#E04812");
                     }
-                    if (hi > 100) {
+                    if (hi > 10) {
                         $("#hi").css("background-color", "#726A68");
                     }
                     if (isNaN(hi)) {
@@ -172,13 +165,13 @@ require 'condb.php';
                     var hi = $("#f5").val() * 100 / $("#s5").val();
                     hi = hi.toFixed(2);
 
-                    if (hi <= 10) {
+                    if (hi <= 0) {
                         $("#ci").css("background-color", "#1BDA3A");
                     }
-                    if (hi > 10 && hi <= 100) {
+                    if (hi > 0 && hi <= 10) {
                         $("#ci").css("background-color", "#E04812");
                     }
-                    if (hi > 100) {
+                    if (hi > 10) {
                         $("#ci").css("background-color", "#726A68");
                     }
                     if (isNaN(hi)) {

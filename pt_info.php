@@ -119,7 +119,7 @@ where pt.pid ='$_GET[pid]'";
                         <p><?=$row[note_text]?></p>
                         <hr>                        
                         <h4>
-                            วันสอบสวน : 
+                            วันสอบสวน/ควบคุม : 
                             <?php
                             $result_invest = mysql_query("select id,date(datetime_do) as dtd from patient_home where pid='$_GET[pid]'");
                             while ($rw = mysql_fetch_array($result_invest)) {

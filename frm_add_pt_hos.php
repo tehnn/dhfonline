@@ -28,15 +28,16 @@ require 'condb.php';
         <script src="jquery.timepicker.js"></script>
         <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" /> 
         <script  src="jquery.maskedinput-1.3.1.min_.js"></script>
-        
+
         <script>
             $(function() {
                 $('#time_dx').timepicker({'timeFormat': 'H:i:s'});
                 $("#cid").mask("9-9999-99999-99-9");
-                $("#byear").mask("9999");$("#bmon").mask("99");$("#bdate").mask("99");
+                $("#byear").mask("9999");
+                $("#bmon").mask("99");
+                $("#bdate").mask("99");
             });
         </script>
-
 
         <script>
             $(function() {
@@ -176,15 +177,15 @@ require 'condb.php';
                     validate_msg += "ผู้รายงาน ว่าง\r\n";
                     validate_pass = false;
                 }
-                
-                
+
+
                 if (validate_msg != "") {
                     alert(validate_msg);
                 }
                 return validate_pass;
             }
         </script>
-        
+
         <script>
             $(function() {
                 $("select#amp").change(function() {
@@ -196,7 +197,7 @@ require 'condb.php';
                         }
                         $("select#tmb").html(options);
                     });
-                    
+
                 });
 
                 $("select#tmb").change(function() {
@@ -210,7 +211,7 @@ require 'condb.php';
                 });
             });
         </script>
-        
+
         <title>#PLK DHF Online</title>
     </head>
     <body>
@@ -270,7 +271,7 @@ require 'condb.php';
                                     <td align="right" bgcolor="#66FFFF">เลข13หลัก:</td>
                                     <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid"> 
                                         เกิด:
-                                          <input name="byear" type="text" id="byear" placeholder="พ.ศ." size="4" maxlength="4">
+                                        <input name="byear" type="text" id="byear" placeholder="พ.ศ." size="4" maxlength="4">
                                         -
                                         <input name="bmon" type="text" id="bmon" size="4" maxlength="2" placeholder="เดือน">
                                         -
@@ -285,13 +286,13 @@ require 'condb.php';
                                     <td align="right" bgcolor="#66FFFF">อาชีพ:</td>
                                     <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat"> 
                                         ที่ทำงาน/โรงเรียน :
-                                          <input type="text" name="school_workplace" id="school_workplace"></td>
+                                        <input type="text" name="school_workplace" id="school_workplace"></td>
                                 </tr>
                                 <tr>
-                                  <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
-                                  <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
-                                    ชื่อญาติ:
-                                  <input type="text" name="family" id="family"></td>
+                                    <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
+                                    <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
+                                        ชื่อญาติ:
+                                        <input type="text" name="family" id="family"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="left" bgcolor="#3399FF">2.ข้อมูลการป่วย</td>
@@ -393,7 +394,7 @@ require 'condb.php';
                                                 <td width="16%" align="right">Wbc.</td>
                                                 <td width="34%"><input type="text" name="lab_wbc" id="lab_wbc">
                                                     cell/mm3</td>
-                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)/สถานที่ใกล้เคียง"></textarea></td>
+                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="สถานที่ใกล้เคียง/อื่นๆ(ถ้ามี)"></textarea></td>
                                             </tr>
                                             <tr>
                                                 <td align="right">Platelet.</td>
