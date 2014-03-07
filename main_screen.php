@@ -158,7 +158,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     ผู้รับ
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    สอบสวน
+                                    สอบสวน/ควบคุม
                                 </th>
                                 <th data-toggle="true">
                                     ชื่อ-นามสกุล
