@@ -45,7 +45,7 @@ if (!empty($_POST)) {
              ,'$_POST[doctor]' ,'$_POST[date_dx]','$_POST[time_dx]','$_POST[date_ill]', '$_POST[date_found]' 
              ,'$_POST[pt_status]','$_POST[symtom]', '$_POST[refer_from]', '$_POST[date_refer]','$_POST[amp]', '$_POST[tmb]'
              ,'$_POST[moo]' ,'$_POST[road]','$_POST[addr]', '$_POST[lab_wbc]', '$_POST[note_text]','$_POST[lab_plt]'
-             ,'$_POST[lab_hct]' , '$_POST[lab_tt]', '$_POST[send_to_amp]' ,'$_POST[sender]','$img_pt' )";
+             ,'$_POST[lab_hct]' , '$_POST[lab_tt]', '$_POST[amp]' ,'$_POST[sender]','$img_pt' )";
    
     //echo $sql;
     //mysql_query($sql) or die(mysql_error());

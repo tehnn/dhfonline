@@ -105,7 +105,7 @@ require 'condb.php';
                 tmb = $("#tmb").val();
                 moo = $("#moo").val();
                 addr = $("#addr").val();
-                var send_to_amp = $("#send_to_amp").val();
+                //var send_to_amp = $("#send_to_amp").val();
                 var sender = $("#sender").val();
 
 
@@ -172,15 +172,12 @@ require 'condb.php';
                     validate_pass = false;
                 }
 
-
-                if (send_to_amp == '' || send_to_amp == null) {
-                    validate_msg += "ป่วยในพื้นที่ ว่าง\r\n";
-                    validate_pass = false;
-                }
                 if (sender == '' || sender == null) {
                     validate_msg += "ผู้รายงาน ว่าง\r\n";
                     validate_pass = false;
                 }
+                
+                
                 if (validate_msg != "") {
                     alert(validate_msg);
                 }
@@ -199,6 +196,7 @@ require 'condb.php';
                         }
                         $("select#tmb").html(options);
                     });
+                    
                 });
 
                 $("select#tmb").change(function() {
@@ -284,16 +282,16 @@ require 'condb.php';
                                         เดือน</td>
                                 </tr>
                                 <tr>
-                                    <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
-                                        ชื่อญาติ:
-                                        <input type="text" name="family" id="family"></td>
-                                </tr>
-                                <tr>
                                     <td align="right" bgcolor="#66FFFF">อาชีพ:</td>
                                     <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat"> 
-                                        สถานที่ทำงาน/โรงเรียน :
-                                        <input type="text" name="school_workplace" id="school_workplace"></td>
+                                        ที่ทำงาน/โรงเรียน :
+                                          <input type="text" name="school_workplace" id="school_workplace"></td>
+                                </tr>
+                                <tr>
+                                  <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
+                                  <td bgcolor="#66FFFF"><input type="text" name="pt_tel" id="pt_tel">
+                                    ชื่อญาติ:
+                                  <input type="text" name="family" id="family"></td>
                                 </tr>
                                 <tr>
                                     <td colspan="2" align="left" bgcolor="#3399FF">2.ข้อมูลการป่วย</td>
@@ -395,7 +393,7 @@ require 'condb.php';
                                                 <td width="16%" align="right">Wbc.</td>
                                                 <td width="34%"><input type="text" name="lab_wbc" id="lab_wbc">
                                                     cell/mm3</td>
-                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)"></textarea></td>
+                                                <td rowspan="4" align="left" valign="top"><textarea name="note_text" id="note_text" cols="45" rows="5" placeholder="อื่นๆ(ถ้ามี)/สถานที่ใกล้เคียง"></textarea></td>
                                             </tr>
                                             <tr>
                                                 <td align="right">Platelet.</td>
@@ -417,26 +415,16 @@ require 'condb.php';
                                                     <input type="radio" name="lab_tt" id="tt2" value="ลบ">
                                                     ลบ
                                                     <input name="lab_tt" type="radio" id="tt3" value="ไม่ทราบ" checked>
-                                                    ไม่ทราบ</td>
+                                                    ไม่ได้ทำ</td>
                                             </tr>
                                         </table>
                                     </td>
                                 </tr>
 
                                 <tr>
-                                    <td align="right" valign="top" bgcolor="#FFCC99">เป็นผู้ป่วยในพื้นที่:</td>
-                                    <td bgcolor="#FFCC99">
-                                        <select name="send_to_amp" id="send_to_amp">
-                                            <option value="" selected>เลือกอำเภอ...</option>
-                                            <?php
-                                            $res_amp = mysql_query("select code,name from amp");
-                                            while ($row_amp = mysql_fetch_array($res_amp)) {
-                                                echo "<option value='$row_amp[code]'>$row_amp[name]</option>\r\n";
-                                            }
-                                            ?>
-                                        </select>
-                                        ชื่อผู้รายงาน:
-                                        <input type="text" name="sender" id="sender" style="width:180px" placeholder="ชื่อ-สกุล ตำแหน่ง">
+                                    <td align="right" valign="top" bgcolor="#FFCC99"> ชื่อผู้รายงาน: </td>
+                                    <td bgcolor="#FFCC99"></input>
+                                        <input name="sender" type="text" id="sender" placeholder="ชื่อ-สกุล ตำแหน่ง" style="width:180px">
                                         <input type="submit" id="button" value="บันทึกข้อมูล">
                                         <input type="reset" value="  ยกเลิก  "></td>
                                 </tr>
