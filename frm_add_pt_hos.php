@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['login_user'])) {
-    exit("You don't have permission.Account cause.");
+    //exit("You don't have permission.Account cause.");
 }
 $login_user = $_SESSION['login_user'];
 $login_off_name = $_SESSION['login_off_name'];
@@ -25,11 +25,15 @@ require 'condb.php';
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.9.1.js"></script>        
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
-        <script type="text/javascript" src="jquery.timepicker.js"></script>
+        <script src="jquery.timepicker.js"></script>
         <link rel="stylesheet" type="text/css" href="jquery.timepicker.css" /> 
+        <script  src="jquery.maskedinput-1.3.1.min_.js"></script>
+        
         <script>
             $(function() {
                 $('#time_dx').timepicker({'timeFormat': 'H:i:s'});
+                $("#cid").mask("9-9999-99999-99-9");
+                $("#byear").mask("9999");$("#bmon").mask("99");$("#bdate").mask("99");
             });
         </script>
 
@@ -44,14 +48,7 @@ require 'condb.php';
                     showOn: "button",
                     dateFormat: "yy-mm-dd"
                 });
-                $("#bdate").datepicker({
-                    dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
-                    monthNamesShort: ['มกราคม', 'กุมภาพันธ์', 'มีนาคม', 'เมษายน', 'พฤษภาคม', 'มิถุนายน', 'กรกฎาคม', 'สิงหาคม', 'กันยายน', 'ตุลาคม', 'พฤศจิกายน', 'ธันวาคม'],
-                    changeMonth: true,
-                    changeYear: true,
-                    showOn: "button",
-                    dateFormat: "yy-mm-dd"
-                });
+
 
                 $("#date_ill").datepicker({
                     dayNamesMin: ['อา', 'จ', 'อ', 'พ', 'พฤ', 'ศ', 'ส'],
@@ -190,6 +187,7 @@ require 'condb.php';
                 return validate_pass;
             }
         </script>
+        
         <script>
             $(function() {
                 $("select#amp").change(function() {
@@ -214,6 +212,7 @@ require 'condb.php';
                 });
             });
         </script>
+        
         <title>#PLK DHF Online</title>
     </head>
     <body>
@@ -272,11 +271,17 @@ require 'condb.php';
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">เลข13หลัก:</td>
                                     <td bgcolor="#66FFFF"><input type="text" name="cid" id="cid"> 
-                                        วดป.เกิด:
-                                        <input type="text" name="bdate" id="bdate">
+                                        เกิด:
+                                          <input name="byear" type="text" id="byear" placeholder="พ.ศ." size="4" maxlength="4">
+                                        -
+                                        <input name="bmon" type="text" id="bmon" size="4" maxlength="2" placeholder="เดือน">
+                                        -
+                                        <input name="bdate" type="text" id="bdate" size="4" maxlength="2" placeholder="วัน">
                                         อายุ..
                                         <input name="agey" type="text" id="agey" size="5" maxlength="3">
-                                        ปี</td>
+                                        ปี
+                                        <input name="agey2" type="text" id="agey2" size="5" maxlength="3">
+                                        เดือน</td>
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">เบอร์โทรติดต่อ:</td>
@@ -367,10 +372,17 @@ require 'condb.php';
                                         หมู่:
                                         <select name="moo" id="moo">
                                             <option value="">เลือก...</option>
-                                        </select> 
-                                        <input type="text" name="road" id="road" placeholder="ถนน/ซอย">
-                                        เลขที่:
+                                        </select>
+                                        บ้านเลขที่:
                                         <input type="text" name="addr" id="addr" style="width:50px"></td>
+                                </tr>
+                                <tr>
+                                    <td align="right" bgcolor="#00FFFF">ถนน</td>
+                                    <td bgcolor="#00FFFF"><input type="text" name="road" id="road" placeholder="ถนน">
+
+                                        <input type="text" name="soi" id="soi" placeholder="ซอย">
+
+                                        <input type="text" name="villa" id="villa" placeholder="หมู่บ้านจัดสรร/หอพัก"></td>
                                 </tr>
 
                                 <tr>
@@ -391,9 +403,12 @@ require 'condb.php';
                                                     cell/mm3</td>
                                             </tr>
                                             <tr>
-                                                <td align="right">Hct.</td>
-                                                <td><input type="text" name="lab_hct" id="lab_hct">
-                                                    %</td>
+                                                <td align="right">Hct1.</td>
+                                                <td><input name="lab_hct" type="text" id="lab_hct" size="3">
+                                                    %,&nbsp;Hct2.
+                                                    <input name="lab_hct2" type="text" id="lab_hct2" size="3">
+                                                    %,&nbsp;ผลต่าง
+                                                    <input name="lab_hct3" type="text" id="lab_hct3" size="4"></td>
                                             </tr>
                                             <tr>
                                                 <td align="right">TT.</td>
@@ -408,10 +423,6 @@ require 'condb.php';
                                     </td>
                                 </tr>
 
-                                <tr>
-                                    <td align="right" valign="top" bgcolor="#FFCC99">รูปผู้ป่วย:</td>
-                                    <td bgcolor="#FFCC99"><input type="file" name="img_pt" id="img_pt"></td>
-                                </tr>
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#FFCC99">เป็นผู้ป่วยในพื้นที่:</td>
                                     <td bgcolor="#FFCC99">
