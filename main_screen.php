@@ -164,7 +164,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ(ปี)
+                                    อายุ
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่
@@ -200,7 +200,7 @@ and date(pt.datetime_send) = CURDATE()";
                                     <td>
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>" rel="external"><?= $row[prename] . $row[name] . " " . $row[lname] ?></a>
                                     </td>
-                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[agey] ?>ปี,<?= $row[agem] ?>ด.</td>
                                     <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
                                     <td><?= $row[hos_sender] ?></td>

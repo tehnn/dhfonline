@@ -24,6 +24,7 @@ require 'condb.php';
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.9.1.js"></script>
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
+
         <script>
             $(function() {
                 $("#date_travel").datepicker({
@@ -36,6 +37,7 @@ require 'condb.php';
                 });
             });
         </script>
+
         <script>
             $(function() {
                 $('#frm_home').find('input,select').keydown(function(event) {
@@ -54,8 +56,8 @@ require 'condb.php';
                     validate_pass = false;
                     validate_msg += "pid ว่าง\r\n";
                 }
-                
-                 var r = $("#reporter").val();
+
+                var r = $("#reporter").val();
                 if (r == '' || r == null) {
                     validate_pass = false;
                     validate_msg += "ผู้รายงานว่าง ว่าง\r\n";
@@ -70,6 +72,7 @@ require 'condb.php';
 
             }
         </script>
+
         <script>
             var map_pop;
             function map_popup(url, name, windowWidth, windowHeight) {
@@ -80,60 +83,43 @@ require 'condb.php';
                 map_pop = window.open(url, name, properties);
             }
         </script>
+
         <script>
             $(function() {
                 $("#f1").keyup(function() {
                     var ci = $("#f1").val() * 100 / $("#s1").val();
                     ci = ci.toFixed(2);
-                    if (ci = 0) {
-                        $("#ci1").css("background-color", "##0FDB13");
-                    }
-                    if (ci > 0) {
-                        $("#ci1").css("background-color", "##E5560F");
-                    }
-                    if (isNaN(ci)) {
-                        $("#ci1").css("background-color", "#050505");
-                    }
-
 
                     $("#ci1").val(ci);
+                    $("#ci1").css("background-color", "#2CDE19");
+                    if (ci > 0) {
+                        $("#ci1").css("background-color", "red");
+                    }
+
+
 
                 });
                 //
                 $("#f2").keyup(function() {
                     var ci = $("#f2").val() * 100 / $("#s2").val();
                     ci = ci.toFixed(2);
-                     if (ci = 0) {
-                        $("#ci2").css("background-color", "##0FDB13");
-                    }
-                    if (ci > 0) {
-                        $("#ci2").css("background-color", "##E5560F");
-                    }
-                    
-                    if (isNaN(ci)) {
-                        $("#ci2").css("background-color", "#050505");
-                    }
-
-
                     $("#ci2").val(ci);
+                    $("#ci2").css("background-color", "#2CDE19");
+                    if (ci > 0) {
+                        $("#ci2").css("background-color", "red");
+                    }
 
                 });
                 //
                 $("#f3").keyup(function() {
                     var ci = $("#f3").val() * 100 / $("#s3").val();
                     ci = ci.toFixed(2);
-                     if (ci = 0) {
-                        $("#ci3").css("background-color", "##0FDB13");
-                    }
-                    if (ci > 0) {
-                        $("#ci3").css("background-color", "##E5560F");
-                    }
-                    
-                    if (isNaN(ci)) {
-                        $("#ci3").css("background-color", "#050505");
-                    }
 
                     $("#ci3").val(ci);
+                    $("#ci3").css("background-color", "#2CDE19");
+                    if (ci > 0) {
+                        $("#ci3").css("background-color", "red");
+                    }
 
                 });
                 //
@@ -141,50 +127,50 @@ require 'condb.php';
 
                     var hi = $("#f4").val() * 100 / $("#s4").val();
                     hi = hi.toFixed(2);
-                    if (hi <= 0) {
-                        $("#hi").css("background-color", "#1BDA3A");
-                    }
-                    if (hi > 0 && hi <= 10) {
-                        $("#hi").css("background-color", "#E04812");
-                    }
-                    if (hi > 10) {
-                        $("#hi").css("background-color", "#726A68");
-                    }
+                    $("#hi").val(hi);
+
                     if (isNaN(hi)) {
-                        $("#hi").css("background-color", "#050505");
+                        $("#hi").css("background-color", "black");
                     }
 
-                    $("#hi").val(hi);
+                    if (hi <= 0) {
+                        $("#hi").css("background-color", "#2CDE19");
+                    }
+                    if (hi > 0 && hi <= 10) {
+                        $("#hi").css("background-color", "yellow");
+                    }
+                    if (hi > 10) {
+                        $("#hi").css("background-color", "red");
+                    }
+
+
 
                 });
                 //
                 $("#f5").keyup(function() {
 
+
+                    var ci = $("#f5").val() * 100 / $("#s5").val();
+                    ci = ci.toFixed(2);
+                    $("#ci").val(ci);
+                    $("#ci").css("background-color", "#2CDE19");
+                    if (ci > 0) {
+                        $("#ci").css("background-color", "red");
+                    }
+
                     var bi = $("#f5").val() * 100 / $("#s4").val();
                     bi = bi.toFixed(2);
-                    var hi = $("#f5").val() * 100 / $("#s5").val();
-                    hi = hi.toFixed(2);
-
-                    if (hi <= 0) {
-                        $("#ci").css("background-color", "#1BDA3A");
-                    }
-                    if (hi > 0 && hi <= 10) {
-                        $("#ci").css("background-color", "#E04812");
-                    }
-                    if (hi > 10) {
-                        $("#ci").css("background-color", "#726A68");
-                    }
-                    if (isNaN(hi)) {
-                        $("#ci").css("background-color", "#050505");
-                    }
-
-                    $("#ci").val(hi);
                     $("#bi").val(bi);
+
+
+
+
 
                 });
 
             });
         </script>
+
         <script>
             $(function() {
 
@@ -223,18 +209,37 @@ require 'condb.php';
 
             });
         </script>
+
+        <script>
+            function getGeo() {
+                if (navigator.geolocation) { // ตรวจสอบว่า support geolocation หรือไม่
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        lat = position.coords.latitude;
+                        lng = position.coords.longitude;
+
+                        $('#lat').val(lat);
+                        $('#lng').val(lng);
+                    });
+                } else {
+                    alert("อุปกรณ์นี้ไม่สนับสนุน Geo-Location");
+
+                }
+            }// end getGeo
+        </script>
+
         <title>#PLK DHF Online</title>
     </head>
-    
+
     <body>
         <?php
         $sql = "select pt.pid,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
-,pt.sex,pt.bdate,pt.agey
+,pt.sex,pt.bdate,pt.agey,pt.agem
 ,pt.occupat,pt.school_workplace ,
 CONCAT(pt.addr,' ม.',SUBSTR(pt.moo,7,2),' ',moo.`name`,'  ต.',tmb.`name`,'  อ.',amp.`name`) as address
 ,pt.date_ill,pt.date_found,pt.datetime_send
-,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct,pt.lab_tt,pt.symtom
+,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct1,pt.lab_hct2
+,pt.lab_hct_diff,pt.lab_tt,pt.symtom
 ,pt.refer_from,pt.note_text
 from patient_hos pt
 LEFT JOIN moo moo on moo.`code` = pt.moo
@@ -258,16 +263,16 @@ where pt.pid ='$_GET[pid]'";
                 <table width="75%" border="1" cellspacing="0" cellpadding="2">
                     <tr bgcolor="#33CCFF">
                         <td bgcolor="#66FFFF"> 
-                            แบบบันทึกการสอบสวนโรคของผู้ป่วย รหัส<?= $_GET[pid] ?> วันที่:
-                            <?= date("Y-m-d H:i:s")?>
+                            แบบบันทึกการสอบสวนโรคของผู้ป่วย วันที่:
+                            <?= date("Y-m-d H:i:s") ?>น.
                         </td>
                     </tr>
                     <tr>
                         <td bgcolor="#66FFFF"><table width="100%" border="0" cellspacing="0" cellpadding="0">
                                 <tr>
                                     <td>
-                                        <strong><?= $row[fullname] ?></strong> อายุ <?= $row[agey] ?> ปี 
-                                        <?= $row[address] ?>
+                                        <strong><?= $row[fullname] ?></strong> อายุ <?= $row[agey] ?> ปี <?= $row[agem] ?>ด.
+                                        ทีอยู่ขณะป่วย <?= $row[address] ?>
                                     </td>
                                 </tr>
                                 <tr>
@@ -312,7 +317,7 @@ where pt.pid ='$_GET[pid]'";
                                                     ภาชนะ พบลูกน้ำ..
                                                     <input name="f1" type="text" id="f1" size="5">
                                                     ภาชนะ CI=
-                                                    <input name="ci1" type="text" id="ci1" size="10"></td>
+                                                    <input name="ci1" type="text" id="ci1" size="10" readonly></td>
                                             </tr>
                                             <tr>
                                                 <td align="right" valign="top">ทีทำงาน/โรงเรียน</td>
@@ -322,7 +327,7 @@ where pt.pid ='$_GET[pid]'";
                                                     ภาชนะ พบลูกน้ำ..
                                                     <input name="f2" type="text" id="f2" size="5">
                                                     ภาชนะ CI=
-                                                    <input name="ci2" type="text" id="ci2" size="10"></td>
+                                                    <input name="ci2" type="text" id="ci2" size="10" readonly></td>
                                             </tr>
                                             <tr>
                                                 <td align="right" valign="top">วัด</td>
@@ -332,7 +337,7 @@ where pt.pid ='$_GET[pid]'";
                                                     ภาชนะ พบลูกน้ำ..
                                                     <input name="f3" type="text" id="f3" size="5">
                                                     ภาชนะ CI=
-                                                    <input name="ci3" type="text" id="ci3" size="10"></td>
+                                                    <input name="ci3" type="text" id="ci3" size="10" readonly></td>
                                             </tr>
                                             <tr>
                                                 <td align="right" valign="top">หมู่บ้าน/ชุมชน</td>
@@ -342,7 +347,7 @@ where pt.pid ='$_GET[pid]'";
                                                     หลัง พบลูกน้ำ..
                                                     <input name="f4" type="text" id="f4" size="5">
                                                     หลัง HI=
-                                                    <input name="hi" type="text" id="hi" size="10"></td>
+                                                    <input name="hi" type="text" id="hi" size="10" readonly></td>
                                             </tr>
                                             <tr>
                                                 <td align="right" valign="top">&nbsp;</td>
@@ -352,9 +357,9 @@ where pt.pid ='$_GET[pid]'";
                                                     พบลูกน้ำ..
                                                     <input name="f5" type="text" id="f5" size="5">
                                                     ภาชนะ CI=
-                                                    <input name="ci" type="text" id="ci" size="10">
+                                                    <input name="ci" type="text" id="ci" size="10" readonly>
                                                     BI=
-                                                    <input name="bi" type="text" id="bi" size="10"></td>
+                                                    <input name="bi" type="text" id="bi" size="10" readonly></td>
                                             </tr>
                                         </table></td>
                                 </tr>

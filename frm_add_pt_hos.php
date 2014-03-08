@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (empty($_SESSION['login_user'])) {
-    //exit("You don't have permission.Account cause.");
+    exit("You don't have permission.Account cause.");
 }
 $login_user = $_SESSION['login_user'];
 $login_off_name = $_SESSION['login_off_name'];
@@ -21,7 +21,8 @@ require 'condb.php';
 <html>
     <head>
         <meta charset="UTF-8"/>
-
+        
+       
         <link rel="stylesheet" href="//code.jquery.com/ui/1.10.4/themes/smoothness/jquery-ui.css">
         <script src="//code.jquery.com/jquery-1.9.1.js"></script>        
         <script src="//code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
@@ -139,6 +140,13 @@ require 'condb.php';
                     validate_pass = false;
                 }
 
+                var pt_type = $("#pt_type").val();
+                if (pt_type == '' || pt_type == null) {
+                    validate_msg += "ประเภทผู้ป่วย ว่าง\r\n";
+                    validate_pass = false;
+                }
+
+
                 var time_dx = $("#time_dx").val();
                 if (time_dx == '' || time_dx == null) {
                     validate_msg += "เวลา Dx ว่าง\r\n";
@@ -212,6 +220,60 @@ require 'condb.php';
             });
         </script>
 
+        <script>
+            function monthDiff(d1, d2) {
+                var months;
+                months = (d2.getFullYear() - d1.getFullYear()) * 12;
+                months -= d1.getMonth();
+                months += d2.getMonth();
+                return months <= 0 ? 0 : months;
+            }
+            function calage() {
+                var y = $("#byear").val() - 543;
+                var m = $("#bmon").val();
+                var d = $("#bdate").val();
+
+                var bd = new Date(y, m, d);
+                var today = new Date(<?= date("Y,m,d") ?>);
+                var yy = Math.floor(monthDiff(bd, today) / 12);
+                var mm = monthDiff(bd, today) % 12;
+
+                $("#agey").val(yy);
+                $("#agem").val(mm);
+            }
+
+            $(function() {
+                $("#bdate").blur(function() {
+                    calage();
+                });
+                $("#byear").blur(function() {
+                    calage();
+                });
+                $("#bmon").blur(function() {
+                    calage();
+                });
+            });
+
+        </script>
+
+        <script>
+            function hct_cal() {
+                var hct1 = $("#lab_hct1").val();
+                var hct2 = $("#lab_hct2").val();
+                var hct_diff = (((hct2 - hct1) * 100) / hct1).toFixed(2);
+                $("#lab_hct_diff").val(hct_diff);
+            }
+            $(function() {
+                $("#lab_hct2").keyup(function() {
+                    hct_cal();
+                });
+                $("#lab_hct1").blur(function() {
+                    hct_cal();
+                });
+            });
+        </script>
+
+
         <title>#PLK DHF Online</title>
     </head>
     <body>
@@ -277,9 +339,9 @@ require 'condb.php';
                                         -
                                         <input name="bdate" type="text" id="bdate" size="4" maxlength="2" placeholder="วัน">
                                         อายุ..
-                                        <input name="agey" type="text" id="agey" size="5" maxlength="3">
+                                        <input name="agey" type="text" id="agey" size="5" maxlength="3" readonly style="text-align:center">
                                         ปี
-                                        <input name="agey2" type="text" id="agey2" size="5" maxlength="3">
+                                        <input name="agem" type="text" id="agem" size="5" maxlength="3" readonly style="text-align:center">
                                         เดือน</td>
                                 </tr>
                                 <tr>
@@ -403,11 +465,11 @@ require 'condb.php';
                                             </tr>
                                             <tr>
                                                 <td align="right">Hct1.</td>
-                                                <td><input name="lab_hct" type="text" id="lab_hct" size="3">
+                                                <td><input name="lab_hct1" type="text" id="lab_hct1" size="3">
                                                     %,&nbsp;Hct2.
                                                     <input name="lab_hct2" type="text" id="lab_hct2" size="3">
                                                     %,&nbsp;ผลต่าง
-                                                    <input name="lab_hct3" type="text" id="lab_hct3" size="4"></td>
+                                                    <input name="lab_hct_diff" type="text" id="lab_hct_diff" size="4" readonly></td>
                                             </tr>
                                             <tr>
                                                 <td align="right">TT.</td>
@@ -415,7 +477,7 @@ require 'condb.php';
                                                     บวก
                                                     <input type="radio" name="lab_tt" id="tt2" value="ลบ">
                                                     ลบ
-                                                    <input name="lab_tt" type="radio" id="tt3" value="ไม่ทราบ" checked>
+                                                    <input name="lab_tt" type="radio" id="tt3" value="ไม่ได้ทำ" checked>
                                                     ไม่ได้ทำ</td>
                                             </tr>
                                         </table>
@@ -425,7 +487,7 @@ require 'condb.php';
                                 <tr>
                                     <td align="right" valign="top" bgcolor="#FFCC99"> ชื่อผู้รายงาน: </td>
                                     <td bgcolor="#FFCC99"></input>
-                                        <input name="sender" type="text" id="sender" placeholder="ชื่อ-สกุล ตำแหน่ง" style="width:180px">
+                                        <input name="sender" type="text" id="sender" placeholder="ชื่อ-สกุล / ตำแหน่ง" style="width:280px" size="4">
                                         <input type="submit" id="button" value="บันทึกข้อมูล">
                                         <input type="reset" value="  ยกเลิก  "></td>
                                 </tr>

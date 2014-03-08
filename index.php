@@ -25,7 +25,7 @@
         $num_today_case = mysql_num_rows($result_today);
 
         $sql = "select amp_ill.`name` as ill_at,if(rp.off_name is null or rp.off_name='','n','y') as isreceive,
-rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' xxx') as fullname,pt.agey,
+rp.off_name as receiver,CONCAT(pt.prename,pt.`name`,' xxx') as fullname,pt.agey,pt.agem,
 concat('xxx','  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
 pt.date_found,u_off.off_name as send_from,pt.datetime_send
 from patient_hos pt
@@ -87,7 +87,7 @@ order by pt.datetime_send DESC";
                                     ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ(ปี)
+                                    อายุ
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่
@@ -119,7 +119,7 @@ order by pt.datetime_send DESC";
                                         ?>
                                     </td>                               
                                     <td><?= $row[fullname] ?></td>
-                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[agey] ?>ปี,<?= $row[agem] ?>ด.</td>
                                     <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
                                     <td><?= $row[send_from] ?></td>

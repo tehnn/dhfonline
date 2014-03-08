@@ -254,7 +254,7 @@ if ($login_pcucode <> $row[office_own]) {
                 <table width="75%" border="1" cellspacing="0" cellpadding="0">
                     <tr bgcolor="#33CCFF">
                         <td bgcolor="#66FFFF">
-                            <input type="button" value="ย้อนกลับ" onClick="window.location = 'pt_info.php?pid=<?=$pid?>'">
+                            <input type="button" value="ย้อนกลับ" onClick="window.location = 'pt_info.php?pid=<?=$pid?>&hos_own=y'">
                             แก้ไขแบบสอบสวนโรคไข้เลือดออกในโรงพยาบาล Short Form Report
                         </td>
                     </tr>

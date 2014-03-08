@@ -39,7 +39,7 @@ require 'condb.php';
     <body>         
         <?php
         $sql = "select  if(rcp.receiver is NULL,'n','y') as isreceive,rcp.receiver,pt.pid,
-CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,pt.agey,
+CONCAT(pt.prename,pt.`name`,' ',pt.lname) as fullname,pt.agey,pt.agem,
 concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address,
 pt.date_found,toamp.`name` as sendto,pt.datetime_send
 from patient_hos pt
@@ -99,7 +99,7 @@ where pt.office_own='$login_pcucode' order by pt.datetime_send DESC";
                                     ชื่อ-นามสกุล
                                 </th>
                                 <th data-hide="phone,tablet">
-                                    อายุ(ปี)
+                                    อายุ
                                 </th>
                                 <th data-hide="phone,tablet">
                                     ที่อยู่ขณะป่วย
@@ -134,7 +134,7 @@ where pt.office_own='$login_pcucode' order by pt.datetime_send DESC";
                                     <td> 
                                         <a href="pt_info.php?pid=<?= $row[pid] ?>&hos_own=y" rel="external"><?= $row[fullname] ?></a>
                                     </td>
-                                    <td><?= $row[agey] ?></td>
+                                    <td><?= $row[agey]."ปี".$row[agem]."ด." ?></td>
                                     <td><?= $row[address] ?></td>
                                     <td><?= $row[date_found] ?></td>
                                     <td><?= $row[sendto] ?></td>

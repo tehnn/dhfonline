@@ -62,12 +62,12 @@ require 'condb.php';
         <?php
         $sql = "select pt.pid,pt.office_own,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
-,pt.sex,pt.bdate,pt.agey
+,pt.sex,pt.bdate,pt.agey,pt.agem
 ,pt.occupat,pt.school_workplace ,
 concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address
 ,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.date_dx,pt.time_dx,pt.datetime_send
 ,rp.datetime_receive,rp.pcu_receive as receiver,rp.off_name as receiver1
-,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct,pt.lab_tt,pt.symtom
+,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct1,pt.lab_hct2,pt.lab_hct_diff,pt.lab_tt,pt.symtom
 ,pt.refer_from,pt.note_text
 from patient_hos pt
 LEFT JOIN (select r.*,u.off_name from receive r LEFT JOIN user u on r.pcu_receive = u.pcucode) rp on rp.pid = pt.pid
@@ -100,11 +100,11 @@ where pt.pid ='$_GET[pid]'";
                             }
                             ?>
                         </h2> 
-                        <p><?= $row[sex]?>,เกิด<?= $row[bdate] ?>,อายุ <?= $row[agey] ?>ปี ,อาชีพ <?= $row[occupat] ?></p>
+                        <p><?= $row[sex]?>,อายุ <?= $row[agey] ?>ปี ,<?= $row[agem] ?>เดือน,อาชีพ <?= $row[occupat] ?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
                         <p>อาชีพ:<?= $row[occupat] . " ที่ " . $row[school_workplace] . " " . $row[tel] ?></a></p>
                         <p>ที่อยู่ขณะป่วย:<?= $row[address] ?></p>    
-                        <p>ส่งจาก:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,Dx:<?=$row[date_dx]?>,<?=$row[time_dx]?>,แจ้ง<?= $row[datetime_send] ?></p>
+                        <p>รักษาที่:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,Dx:<?=$row[date_dx]?>,<?=$row[time_dx]?>,แจ้ง<?= $row[datetime_send] ?></p>
                         <p>รับ:<?= $row[receiver] . "-" . $row[receiver1] ?>,เมื่อ<?= $row[datetime_receive] ?></p>
                         <hr>
                         <p><?=$row[symtom]?>,refer จาก:<?=$row[refer_from]?>,วัน refer:<?=$row[date_refer]?></p>
@@ -112,7 +112,7 @@ where pt.pid ='$_GET[pid]'";
                         <p>รหัสโรค:<?= $row[code506] ?>,icd10:<?= $row[icd10] ?>
                             Lab-wbc:<?= $row[lab_wbc] ?>,
                             Lab-plt:<?= $row[lab_plt] ?>,
-                            Lab-hct:<?= $row[lab_hct] ?>,
+                            Lab-hct1:<?= $row[lab_hct1].",Lab-hct2:".$row[lab_hct2].",ผลต่าง Hct:".$row[lab_hct_diff] ?>,
                             Lab-tt:<?= $row[lab_tt] ?>
 
                         </p>
