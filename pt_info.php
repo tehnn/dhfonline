@@ -64,7 +64,7 @@ require 'condb.php';
 ,pt.hn,pt.cid
 ,pt.sex,pt.bdate,pt.agey,pt.agem
 ,pt.occupat,pt.school_workplace ,
-concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`) as address
+concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,' ซ.',pt.soi,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`,' (',pt.villa,')') as address
 ,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.date_dx,pt.time_dx,pt.datetime_send
 ,rp.datetime_receive,rp.pcu_receive as receiver,rp.off_name as receiver1
 ,pt.icd10,pt.code506,pt.lab_wbc,pt.lab_plt,pt.lab_hct1,pt.lab_hct2,pt.lab_hct_diff,pt.lab_tt,pt.symtom

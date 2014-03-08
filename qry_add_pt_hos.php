@@ -36,7 +36,7 @@ if (!empty($_POST)) {
     $sql = "insert into patient_hos (pid,datetime_send,office_own,user_own,hn
         ,prename,sex, name, lname, cid ,bdate ,agey,agem,pt_tel ,family ,occupat 
         ,school_workplace ,code506 ,icd10 ,pt_type,doctor ,date_dx ,time_dx,date_ill ,date_found,pt_status 
-        ,symtom ,refer_from ,date_refer ,amp ,tmb ,moo ,road,addr ,lab_wbc ,note_text ,lab_plt 
+        ,symtom ,refer_from ,date_refer ,amp ,tmb ,moo ,road,addr ,soi,villa,lab_wbc ,note_text ,lab_plt 
         ,lab_hct1,lab_hct2,lab_hct_diff,lab_tt ,send_to_amp ,sender,img_pt )
         values
         ('$pid','$datetime_send','$_POST[office_own]','$_POST[user_own]','$_POST[hn]', '$_POST[prename]', '$_POST[sex]'
@@ -44,7 +44,7 @@ if (!empty($_POST)) {
              ,'$_POST[occupat]' ,'$_POST[school_workplace]' ,'$_POST[code506]' ,'$_POST[icd10]','$_POST[pt_type]'
              ,'$_POST[doctor]' ,'$_POST[date_dx]','$_POST[time_dx]','$_POST[date_ill]', '$_POST[date_found]' 
              ,'$_POST[pt_status]','$_POST[symtom]', '$_POST[refer_from]', '$_POST[date_refer]','$_POST[amp]', '$_POST[tmb]'
-             ,'$_POST[moo]' ,'$_POST[road]','$_POST[addr]', '$_POST[lab_wbc]', '$_POST[note_text]','$_POST[lab_plt]'
+             ,'$_POST[moo]' ,'$_POST[road]','$_POST[addr]','$_POST[soi]','$_POST[villa]', '$_POST[lab_wbc]', '$_POST[note_text]','$_POST[lab_plt]'
              ,'$_POST[lab_hct1]','$_POST[lab_hct2]','$_POST[lab_hct_diff]', '$_POST[lab_tt]', '$_POST[amp]' ,'$_POST[sender]','$img_pt' )";
    
     //echo $sql;
