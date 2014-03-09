@@ -346,7 +346,20 @@ require 'condb.php';
                                 </tr>
                                 <tr>
                                     <td align="right" bgcolor="#66FFFF">อาชีพ:</td>
-                                    <td bgcolor="#66FFFF"><input type="text" name="occupat" id="occupat"> 
+                                    <td bgcolor="#66FFFF">
+                                    <select name="occupat" id="occupat">
+                                     <option value="">เลือกอาชีพ...</option>
+                                     <?php
+                                        $sql_occupat = "select concat(code,'-',name) as occu from occupat";
+                                        $res=mysql_query($sql_occupat);
+                                        while($row_occu=  mysql_fetch_array($res)){
+                                     ?>  
+                                        <option value="<?=$row_occu[0]?>"><?=$row_occu[0]?></option>
+                                     <?php
+                                        }
+                                     ?>
+                                     
+                                     </select>
                                         ที่ทำงาน/โรงเรียน :
                                         <input type="text" name="school_workplace" id="school_workplace"></td>
                                 </tr>
