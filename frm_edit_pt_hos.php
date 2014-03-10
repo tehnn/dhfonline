@@ -239,7 +239,11 @@ if ($login_pcucode <> $row[office_own]) {
         <title>#PLK DHF Online</title>
     </head>
     <body>        
+<?php
 
+    echo "ยังไม่อนุญาตให้แก้ไข CASE ได้";
+    exit;
+?>
         <div align="center">
             <form action="qry_edit_pt_hos.php" 
                   id="frm_edit_hos" name="frm_edit_hos"
