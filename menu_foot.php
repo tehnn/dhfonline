@@ -14,6 +14,8 @@
     if ($login_level == 'ppro') {
         echo "<a href='#' rel='external' data-icon='edit'>จัดการผู้ใช้งาน</a>";
     }
-    ?>
+   
+    echo "<a href='https://www.facebook.com/pages/กลุ่มงานควบคุมโรค-สสจพล/424753074337785' rel='external' data-icon='star' target='_blank'>Facebook</a>";
+ ?>
+    </div>
 
-</div>
