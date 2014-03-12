@@ -23,7 +23,7 @@ if (!empty($_POST)) {
     //
     $pid = trim($_POST[office_own] . date("ymd") . $_POST[hn]);
     $datetime_send = date("Y-m-d H:i:s");
-
+    $pid=preg_replace('/\s+/', '', $pid);
 
 
     if (!empty($_FILES[img_pt][name])) {

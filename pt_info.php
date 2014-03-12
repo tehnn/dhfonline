@@ -62,7 +62,7 @@ require 'condb.php';
         <?php
         $sql = "select pt.pid,pt.office_own,CONCAT(pt.prename,pt.name,' ',pt.lname) as fullname
 ,pt.hn,pt.cid
-,pt.sex,pt.bdate,pt.agey,pt.agem
+,pt.sex,pt.bdate,pt.agey,pt.agem,pt.pt_tel,pt.family,pt.pt_status
 ,pt.occupat,pt.school_workplace ,
 concat(if(pt.addr is null,'-',pt.addr),'  ถ.',if(pt.road is NULL,'-',pt.road) ,' ซ.',pt.soi,'  ม.',SUBSTR(pt.moo,7,2),' บ.',moo.`name`,' ต.',tmb.`name`,' อ.',amp.`name`,' (',pt.villa,')') as address
 ,off_own.off_name as send_from,pt.date_ill,pt.date_found,pt.date_dx,pt.time_dx,pt.datetime_send
@@ -100,12 +100,14 @@ where pt.pid ='$_GET[pid]'";
                             }
                             ?>
                         </h2> 
-                        <p><?= $row[sex]?>,อายุ <?= $row[agey] ?>ปี ,<?= $row[agem] ?>เดือน,อาชีพ <?= $row[occupat] ?></p>
+                        <p><?= $row[sex]?>,อายุ <?= $row[agey] ?>ปี ,<?= $row[agem] ?>เดือน ,
+                        เบอร์โทร:<?=$row[pt_tel]?>,ญาติ:<?=$row[family]?></p>
                         <p>cid:<?= $row[cid] ?>,hn:<?= $row[hn] ?></p>
-                        <p>อาชีพ:<?= $row[occupat] . " ที่ " . $row[school_workplace] . " " . $row[tel] ?></a></p>
+                        <p>อาชีพ:<?= $row[occupat] . " ที่ " . $row[school_workplace]?></p>
                         <p>ที่อยู่ขณะป่วย:<?= $row[address] ?></p>    
-                        <p>รักษาที่:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,Dx:<?=$row[date_dx]?>,<?=$row[time_dx]?>,แจ้ง<?= $row[datetime_send] ?></p>
-                        <p>รับ:<?= $row[receiver] . "-" . $row[receiver1] ?>,เมื่อ<?= $row[datetime_receive] ?></p>
+                        <p>รักษาที่:<?= $row[send_from] ?>,ป่วย<?= $row[date_ill] ?>,พบ<?= $row[date_found] ?>,Dx:<?=$row[date_dx]?>
+                            ,<?=$row[time_dx]?>,แจ้ง<?= $row[datetime_send] ?>,สถานะ:<?= $row[pt_status] ?></p>
+                        <h3>รับ case โดย:<?= $row[receiver] . "-" . $row[receiver1] ?>,เวลา<?= $row[datetime_receive] ?></h3>
                         <hr>
                         <p><?=$row[symtom]?>,refer จาก:<?=$row[refer_from]?>,วัน refer:<?=$row[date_refer]?></p>
                         <hr>
